@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This file is NOT compatible with Silverlight-->
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+  <Canvas Name="svg5" Width="5.2916665" Height="5.2916245">
+    <Canvas.RenderTransform>
+      <TranslateTransform X="0" Y="0"/>
+    </Canvas.RenderTransform>
+    <Canvas.Resources/>
+    <!--Unknown tag: sodipodi:namedview-->
+    <Canvas Name="layer1">
+      <Canvas.RenderTransform>
+        <TranslateTransform X="-142.45886" Y="-131.73686"/>
+      </Canvas.RenderTransform>
+      <Canvas Name="g31">
+        <Canvas.RenderTransform>
+          <MatrixTransform Matrix="0.26458333 0 0 0.26458333 141.92969 131.20767"/>
+        </Canvas.RenderTransform>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path11" Fill="#FF4387CC">
+          <Path.Data>
+            <PathGeometry Figures="M 19.92816 10.98419 A 7.99026 7.99026 0 0 1 5.296 16.351 L 3.21568 16.77416 A 9.99849 9.99849 0 0 0 22 12 c 0 -0.33923 -0.01776 -0.67432 -0.0509 -1.005 z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path13" Fill="#FF4387CC">
+          <Path.Data>
+            <PathGeometry Figures="M 4.07184 13.01575 A 7.99028 7.99028 0 0 1 18.704 7.64893 l 2.08032 -0.4231 A 9.99849 9.99849 0 0 0 2 12 c 0 0.33923 0.01776 0.67438 0.0509 1.005 z" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+        <Polygon xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Points="16,9 22,3 22,9 " Name="polygon15" FillRule="NonZero" Fill="#FF4C9AE8"/>
+        <Polygon xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Points="8,15 2,21 2,15 " Name="polygon17" FillRule="NonZero" Fill="#FF4C9AE8"/>
+        <Polygon xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Points="16.453,10.871 15.039,9.456 11.336,13.16 9.414,11.238 8,12.653 11.336,16 " Name="polygon19" FillRule="NonZero" Fill="#FF4EBA94"/>
+      </Canvas>
+    </Canvas>
+  </Canvas>
+</Viewbox>

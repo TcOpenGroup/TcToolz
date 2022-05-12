@@ -1,0 +1,19 @@
+﻿<Window x:Class="BackupNow.ShuttingDownWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:backupnow="clr-namespace:BackupNow"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        WindowStyle="ToolWindow"
+        Title="Window1" Height="250" Width="400">
+
+    <ui:SimpleStackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Label Content="Shutting down..." FontSize="25"  HorizontalAlignment="Center"/>
+        <Label Name="CountDownLabel" Content="" FontSize="40"  FontWeight="SemiBold" HorizontalAlignment="Center"/>
+
+        <Button Name="AbortButton" Click="AbortButton_Click" Content="Abort" MinWidth="100" HorizontalAlignment="Center" Margin="0,20,0,0" />
+    </ui:SimpleStackPanel>
+</Window>

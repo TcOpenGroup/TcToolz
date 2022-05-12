@@ -1,0 +1,96 @@
+﻿<Window x:Class="GitMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GitMonitor"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.InputBindings>
+        <KeyBinding Key="F5"
+                    Command="{Binding RefreshCommand}"/>
+        <KeyBinding Key="F1"
+                    Command="{Binding ShowDetailsCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <local:BoolToVisibility x:Key="BoolToVisibility"/>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Margin="5,0,0,5">
+            <Button Content="Details"  Command="{Binding ShowDetailsCommand}" Margin="0,0,5,0">
+                <Button.ToolTip>
+                    <ToolTip Content="F1 | Double Click"/>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="..."  Command="{Binding OpenFolderCommand}" Margin="0,0,5,0">
+                <Button.ToolTip>
+                    <ToolTip Content="Open Folder in File Explorer" />
+                </Button.ToolTip>
+            </Button>
+            
+            <Button Content="Exclude"  Command="{Binding AddToIgnoreListCommand}" Margin="0,0,5,0"/>
+
+            <Button Content="Commit"  Command="{Binding CommitCommand}" Margin="0,0,5,0"/>
+            <Button Content="Commit All"  Command="{Binding CommitAllCommand}" Margin="0,0,5,0"/>
+
+            <Button Content="Scan"  Command="{Binding RefreshCommand}" Margin="0,0,5,0">
+                <Button.ToolTip>
+                    <ToolTip Content="F5"/>
+                </Button.ToolTip>
+            </Button>
+            <Button Content="Settings"  Command="{Binding SettingsCommand}" Margin="0,0,5,0"/>
+
+        </WrapPanel>
+
+        <DataGrid x:Name="DataGrid"
+                  Grid.Row="1" 
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  ItemsSource="{Binding Items}" 
+                  CanUserAddRows="False"  
+                  SelectedItem="{Binding SelectedItem}"
+                  RowDetailsVisibilityMode="Collapsed"
+                  AutoGenerateColumns="False" 
+                  CanUserReorderColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Directory" Binding="{Binding Dir}" />
+                <DataGridTextColumn IsReadOnly="True" Header="Changes" Binding="{Binding Changes}" />
+                <DataGridTextColumn IsReadOnly="True" Header="Unpushed" Binding="{Binding UnpushedCommits}" />
+                <!--<DataGridCheckBoxColumn Header="Include" Binding="{Binding Include}" />-->
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2" MinHeight="40" Margin="10,0">
+            <TextBlock Text="{Binding Message}" FontWeight="SemiBold" HorizontalAlignment="Left" VerticalAlignment="Center" />
+
+            <StackPanel Visibility="{Binding InProgress, Converter={StaticResource BoolToVisibility}}" 
+                        Width="300" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center">
+                <TextBlock Text="{Binding CurrentDir}" FontSize="12" Margin="0,0,0,5" TextTrimming="CharacterEllipsis"  />
+                <ProgressBar IsIndeterminate="{Binding InProgress}" />
+            </StackPanel>
+
+        </Grid>
+
+        <!--<ListBox ItemsSource="{Binding Items}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Dir}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>-->
+    </Grid>
+</Window>

@@ -1,0 +1,113 @@
+﻿<Window x:Class="QuickConnect.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuickConnect"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        mc:Ignorable="d"
+        Topmost="False"
+        WindowStartupLocation="CenterScreen" 
+        Title="MainWindow" Height="520" Width="350">
+    <Window.InputBindings>
+        <KeyBinding Key="Insert"
+                    Command="{Binding AddCommand}" />
+        <KeyBinding Key="Delete"
+                    Command="{Binding DeleteCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="D"
+                    Command="{Binding DuplicateCommand}"/>
+        <KeyBinding Key="F2"
+                    Command="{Binding EditCommand}" 
+                    CommandParameter="{Binding SelectedItem}"/>
+
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <ui:CommandBar DefaultLabelPosition="Right" Background="Transparent" HorizontalAlignment="Left">
+            <ui:AppBarButton Icon="Add" LabelPosition="Collapsed" ToolTip="Add Item (Insert)" Command="{Binding AddCommand}" />
+            <ui:AppBarButton Icon="Remove" LabelPosition="Collapsed" ToolTip="Delete Item (Delete)" Command="{Binding DeleteCommand}" />
+            <ui:AppBarButton Icon="Copy" LabelPosition="Collapsed" ToolTip="Duplicate Item (Ctrl+D)" Command="{Binding DuplicateCommand}" />
+            <ui:AppBarButton Icon="Setting" LabelPosition="Collapsed" ToolTip="Settings" Command="{Binding SettingsCommand}" />
+
+            <ui:CommandBar.SecondaryCommands>
+                <ui:AppBarButton Label="Export All" Command="{Binding ExportCommand}" />
+                <ui:AppBarButton Label="Import All" Command="{Binding ImportCommand}" />
+                <ui:AppBarButton Label="Delete All" Command="{Binding DeleteAllCommand}" />
+            </ui:CommandBar.SecondaryCommands>
+
+        </ui:CommandBar>
+
+        <!--<DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Item">
+                    <MenuItem Command="{Binding AddCommand}" Header="Add" InputGestureText="Insert"/>
+                    <MenuItem Command="{Binding DeleteCommand}" Header="Delete" InputGestureText="Delete"/>
+                    <MenuItem Command="{Binding DuplicateCommand}" Header="Copy" InputGestureText="Ctrl+D"/>
+                    <Separator/>
+                    <MenuItem Command="{Binding ExportCommand}" Header="Export All"/>
+                    <MenuItem Command="{Binding ImportCommand}" Header="Import All"/>
+                    <MenuItem Command="{Binding DeleteAllCommand}" Header="Delete All"/>
+                </MenuItem>
+                <MenuItem Command="{Binding SettingsCommand}" Header="Settings"/>
+            </Menu>
+        </DockPanel>-->
+
+        <Grid Grid.Row="1" Margin="10,0,10,10">
+            <TextBox Name="TextSearch1" ui:ControlHelper.Header="Search" Text="{Binding TextSearch,UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
+        <ui:ListView 
+                     Grid.Row="2" 
+                     Name="ListBox"
+                     PreviewKeyDown="ListBox_PreviewKeyDown" 
+                     MouseDoubleClick="ListBox_MouseDoubleClick" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                     ScrollViewer.CanContentScroll="False" 
+                     ItemsSource="{Binding View}" 
+                     SelectedItem="{Binding SelectedItem}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Padding" Value="10,5"></Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding ID}" FontFamily="consolas" FontSize="12"/>
+                        </StackPanel>
+
+                        <Viewbox Grid.Column="1" Width="60">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Center">
+                                <ui:AppBarButton LabelPosition="Collapsed" Icon="Edit" ToolTip="Edit (F2)" Command="{Binding ElementName=ListBox, Path=DataContext.EditCommand}" CommandParameter="{Binding}" />
+                            </StackPanel>
+                        </Viewbox>
+                  
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ui:ListView>
+
+        <CheckBox Grid.Row="3" Margin="10,5" Content="Close on submit" 
+                      Click="CheckBox_Click" 
+                      IsChecked="{Binding Settings.CloseOnSubmit, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+
+
+</Window>

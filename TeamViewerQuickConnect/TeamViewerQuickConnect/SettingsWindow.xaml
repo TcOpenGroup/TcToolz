@@ -1,0 +1,43 @@
+﻿<Window x:Class="QuickConnect.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        xmlns:model="clr-namespace:QuickConnect.Model;assembly=QuickConnect.Model" 
+        xmlns:local="clr-namespace:QuickConnect"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        WindowStartupLocation="CenterScreen"
+        Title="Settings" Height="300" Width="300">
+
+    <Window.Resources>
+        <local:AppThemeEnumDescriptionValueConverter x:Key="themeEnumConv" />
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="themeEnumProvider">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:AppTheme"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <ui:SimpleStackPanel Margin="12">
+        <Label Content="TeamViewer FilePath"/>
+        <TextBox Text="{Binding TeamViewerPath,UpdateSourceTrigger=PropertyChanged}" Name="PathTextBox"/>
+
+        <Grid Height="5"/>
+
+        <Label Content="Theme"/>
+        <ComboBox SelectionChanged="ComboBox_SelectionChanged" HorizontalAlignment="Stretch" MinWidth="100" Grid.Column="1" ItemsSource="{Binding Source={StaticResource themeEnumProvider}}" 
+                    SelectedItem="{Binding Theme,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource themeEnumConv}, Mode=OneWay}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <Grid Height="10"/>
+
+    </ui:SimpleStackPanel>
+</Window>

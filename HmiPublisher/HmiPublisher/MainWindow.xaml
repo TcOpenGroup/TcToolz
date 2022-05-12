@@ -1,0 +1,206 @@
+﻿<Window x:Class="HmiPublisher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HmiPublisher"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:model="clr-namespace:HmiPublisher.Model;assembly=HmiPublisher.Model"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="MainWindow" Height="560" Width="650">
+    <Window.InputBindings>
+        <KeyBinding Key="Delete"
+                    Command="{Binding DeleteCommand}" 
+                    CommandParameter="{Binding SelectedItem}" />
+        <KeyBinding Key="F5"
+                    Command="{Binding PublishCommand}" 
+                    CommandParameter="{Binding SelectedItem}" />
+        <KeyBinding Key="F6"
+                    Command="{Binding PublishAllCommand}"  />
+        <KeyBinding Modifiers="Control"
+                    Key="S"
+                    Command="{Binding SaveCommand}"/>
+        <KeyBinding Modifiers="Control"
+                    Key="D"
+                    Command="{Binding CopyCommand}"/>
+        <KeyBinding Key="F7"
+                    Command="{Binding RestartAppCommand}"/>
+        <KeyBinding Key="F8"
+                    Command="{Binding RestartAllAppsCommand}"/>
+        <KeyBinding Key="Insert"
+                    Command="{Binding AddCommand}"/>
+        <KeyBinding Key="F2"
+                    Command="{Binding SwitchViewCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Alt"
+                    Key="S"
+                    Command="{Binding SettingsCommand}"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <DataTemplate x:Key="View_1_Template" DataType="{x:Type local:MainViewModel}">
+            <local:EditView/>
+        </DataTemplate>
+        <DataTemplate x:Key="View_2_Template" DataType="{x:Type local:MainViewModel}">
+            <local:OverviewView/>
+        </DataTemplate>
+
+        <local:IncludeToOpacityConverter x:Key="IncludeToOpacityConverter"/>
+
+        <local:CompressionEnumDescriptionValueConverter x:Key="compresEnumConv" />
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="compresEnumProvider">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:Compression"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ui:CommandBar DefaultLabelPosition="Right" Background="Transparent" HorizontalAlignment="Left">
+            <ui:CommandBar.SecondaryCommands>
+                <ui:AppBarButton Icon="Add" Label="Add" InputGestureText="Insert" Command="{Binding AddCommand}" />
+                <ui:AppBarButton Icon="Remove" Label="Remove" InputGestureText="Delete" Command="{Binding DeleteCommand}" />
+                <ui:AppBarButton Icon="Copy" Label="Copy" InputGestureText="Ctrl+D" Command="{Binding CopyCommand}" />
+                <ui:AppBarSeparator />
+                <ui:AppBarButton Icon="Save" Label="Save All" InputGestureText="Ctrl+S" Command="{Binding SaveCommand}" />
+                <ui:AppBarButton Icon="Delete" Label="Remove All" Command="{Binding DeleteAllCommand}" />
+                <ui:AppBarSeparator />
+                <ui:AppBarButton Icon="Setting" Label="Settings" InputGestureText="Ctrl+Alt+S" Command="{Binding SettingsCommand}" />
+                <ui:AppBarButton Icon="OpenFile" Label="Open Folder in File Explorer" Command="{Binding OpenFolderCommand}" />
+                <ui:AppBarButton Icon="Switch" Label="Edit / Overview" Command="{Binding ShowProgressCommand}" InputGestureText="F2" />
+                <ui:AppBarSeparator />
+                <ui:AppBarButton Icon="Help" Label="About" Click="About_Click" />
+            </ui:CommandBar.SecondaryCommands>
+
+            <ui:AppBarButton Icon="Upload" Label="Publish" ToolTip="F5" Command="{Binding PublishCommand}" />
+            <ui:AppBarButton Icon="Upload" Label="Publish All" ToolTip="F6" Command="{Binding PublishAllCommand}" />
+            <ui:AppBarButton Icon="Refresh" Label="Restart" ToolTip="F7" Command="{Binding RestartAppCommand}" />
+            <ui:AppBarButton Icon="Refresh" Label="Restart All" ToolTip="F8" Command="{Binding RestartAllAppsCommand}" />
+            <ui:AppBarButton Icon="Cancel" Label="Cancel" ToolTip="Esc" Command="{Binding CancelCommand}" />
+        </ui:CommandBar>
+        
+
+
+        <!--<DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Item">
+                    <MenuItem Command="{Binding AddCommand}" Header="Add" InputGestureText="Insert"/>
+
+                    <MenuItem Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItem}" Header="Delete" InputGestureText="Delete"/>
+
+                    <MenuItem Command="{Binding CopyCommand}" CommandParameter="{Binding SelectedItem}" Header="Copy" InputGestureText="Ctrl+D"/>
+
+                    <Separator />
+                    
+                    <MenuItem Command="{Binding SaveCommand}" Header="Save All" InputGestureText="Ctrl+S"/>
+
+                    <MenuItem Command="{Binding DeleteAllCommand}" Header="Remove All"/>
+                    <Separator />
+                    <MenuItem Command="{Binding OpenFolderCommand}" Header="Open Folder in File Explorer"/>
+                </MenuItem>
+                <MenuItem Command="{Binding SettingsCommand}" Header="Settings"/>
+
+                <MenuItem Command="{Binding PublishCommand}" Header="Publish">
+                    <MenuItem.ToolTip>
+                        <ToolTip Content="F5"/>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+
+                <MenuItem Command="{Binding PublishAllCommand}" Header="Publish All" InputGestureText="F6">
+                    <MenuItem.ToolTip>
+                        <ToolTip Content="F6"/>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+
+                <MenuItem Command="{Binding CancelCommand}" Header="Cancel" InputGestureText="F8">
+                    <MenuItem.ToolTip>
+                        <ToolTip Content="Esc"/>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+
+                <MenuItem Command="{Binding RestartAppCommand}" Header="Restart" InputGestureText="Ctrl+R">
+                    <MenuItem.ToolTip>
+                        <ToolTip Content="Start/Restart Application (Ctrl+R)"/>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+                <MenuItem Command="{Binding RestartAllAppsCommand}" Header="Restart All">
+                    <MenuItem.ToolTip>
+                        <ToolTip Content="Start/Restart All Applications"/>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+
+                <MenuItem Click="About_Click" Header="About">
+                    <MenuItem.ToolTip>
+                        <ToolTip Content="Start/Restart All Applications"/>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+            </Menu>
+        </DockPanel>-->
+
+        <!--<ui:CommandBar
+                Background="Transparent"
+                HorizontalAlignment="Right">
+            <ui:AppBarButton Label="{Binding InProgressButtonText}" Command="{Binding ShowProgressCommand}">
+                <ui:AppBarButton.ToolTip>
+                    <ToolTip Content="F2 or DoubleClick on side panel"/>
+                </ui:AppBarButton.ToolTip>
+            </ui:AppBarButton>
+        </ui:CommandBar>-->
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" MinWidth="100" />
+                <ColumnDefinition Width="auto"  />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <ListBox Name="ListBox1" ScrollViewer.CanContentScroll="False" 
+                         Grid.Row="1" ItemsSource="{Binding Items}" 
+                         SelectedItem="{Binding SelectedItem}" 
+                         SelectedIndex="{Binding SelectedIndex}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <!--<Image Source="/Resources/xl4__87801.1501529561 - Copy.jpg" Width="20" Height="20" Margin="0,0,5,0"/>-->
+                                <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Path=Name}" Opacity="{Binding Path=Include, Converter={StaticResource IncludeToOpacityConverter}}"/>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <GridSplitter Grid.Row="1" Grid.Column="1" Width="5" Background="Transparent" HorizontalAlignment="Stretch" />
+
+            <ContentControl Grid.Row="1" Grid.Column="2" Content="{Binding }">
+                <ContentControl.Style>
+                    <Style TargetType="{x:Type ContentControl}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentView}" Value="1">
+                                <Setter Property="ContentTemplate" Value="{DynamicResource View_1_Template}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding CurrentView}" Value="2">
+                                <Setter Property="ContentTemplate" Value="{DynamicResource View_2_Template}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </Grid>
+    </Grid>
+</Window>

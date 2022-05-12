@@ -1,0 +1,1 @@
+netsh advfirewall firewall add rule name="HMIPublisherServer" dir=in action=allow program="C:\HmiPublisherTcpServer.exe" enable=yes profile=public,private

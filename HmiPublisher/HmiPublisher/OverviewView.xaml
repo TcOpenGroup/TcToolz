@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="HmiPublisher.OverviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HmiPublisher"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <local:IncludeToOpacityConverter x:Key="IncludeToOpacityConverter"/>
+        <local:ProgressMessageColorConverter x:Key="ProgressMessageColorConverter"/>
+        <local:ProgressBarColorConverter x:Key="ProgressBarColorConverter"/>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <ui:ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 Background="Transparent"
+                 Name="ListBox" ScrollViewer.CanContentScroll="False"
+                 Grid.Row="1" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" 
+                 SelectedIndex="{Binding SelectedIndex}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Padding" Value="10"></Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <StackPanel Opacity="{Binding Path=Include, Converter={StaticResource IncludeToOpacityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding Name}" FontSize="16" FontWeight="Bold" />
+                                <Label Content="{Binding IpAddress}" FontSize="11" Foreground="Gray" Margin="5,0,0,2" VerticalAlignment="Bottom" FontWeight="SemiBold"/>
+                            </StackPanel>
+
+                        <Label Content="{Binding ProgressMessage,UpdateSourceTrigger=PropertyChanged}" FontWeight="SemiBold" Padding="0,0,0,5" FontSize="14" 
+                                  />
+
+                        <ProgressBar 
+                                    Foreground="{Binding Compressing, Converter={StaticResource ProgressBarColorConverter}}"
+                                    IsIndeterminate="{Binding Path=IndeterminateProgressBar}" 
+                                    Value="{Binding Path=ProgressPercentage}" 
+                                    />
+
+                        </StackPanel>
+                        <CheckBox MinWidth="5" IsChecked="{Binding Include}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ui:ListView>
+    </Grid>
+</UserControl>

@@ -1,0 +1,31 @@
+﻿<Window x:Class="Updater.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        Title="Update"
+        Height="358" 
+        Topmost="True"
+        Width="450" 
+        WindowState="Normal" 
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="CanMinimize">
+    <Grid Margin="12">
+        <Label Content="New updates are available"
+                FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+        <StackPanel VerticalAlignment="Center" Orientation="Vertical" MaxWidth="350">
+            <Label Content="{Binding ProgressMessage}"
+                   FontSize="16"/>
+
+            <Label Content="{Binding PercentageMessage}" 
+                   FontSize="19"/>
+            <ProgressBar Value="{Binding ProgressPercentage, UpdateSourceTrigger=PropertyChanged}" Margin="0,10,0,0" />
+        </StackPanel>
+
+
+    </Grid>
+</Window>

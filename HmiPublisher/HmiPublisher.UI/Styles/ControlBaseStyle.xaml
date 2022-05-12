@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="clr-namespace:HmiPublisher.UI.Behaviors">
+  <Style TargetType="Control" x:Key="ControlBaseStyle">
+    <Setter Property="Validation.ErrorTemplate" Value="{StaticResource DefaultErrorTemplate}"/>
+    <Setter Property="behaviors:ChangeBehavior.IsActive" Value="True"/>
+    <Style.Triggers>
+      <Trigger Property="behaviors:ChangeBehavior.IsChanged" Value="True">
+        <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}"/>
+        <Setter Property="ToolTip" 
+                Value="{Binding RelativeSource={RelativeSource Self},
+                        Path=(behaviors:ChangeBehavior.OriginalValue)}"/>
+      </Trigger>
+      <Trigger Property="Validation.HasError" Value="True">
+        <Setter Property="Background" Value="{StaticResource HasErrorBackgroundBrush}"/>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style TargetType="TextBlock" x:Key="TextBlockBaseStyle">
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="behaviors:ChangeBehavior.IsActive" Value="True"/>
+    <Style.Triggers>
+      <Trigger Property="behaviors:ChangeBehavior.IsChanged" Value="True">
+        <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}"/>
+        <Setter Property="ToolTip" 
+                Value="{Binding RelativeSource={RelativeSource Self},
+                        Path=(behaviors:ChangeBehavior.OriginalValue)}"/>
+      </Trigger>
+      <Trigger Property="Validation.HasError" Value="True">
+        <Setter Property="Background" Value="{StaticResource HasErrorBackgroundBrush}"/>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+</ResourceDictionary>
