@@ -1,0 +1,42 @@
+﻿<Window x:Class="IPCONFIG.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IPCONFIG"
+        mc:Ignorable="d"
+        Background="#f8f8f8"
+        WindowStartupLocation="CenterScreen"
+        Title="EditWindow" Height="300" Width="300">
+
+    <Window.Resources>
+        <local:OkIconVisibility x:Key="OkIconVisibility"/>
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="MinWidth" Value="30"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+        <Style TargetType="{x:Type RichTextBox}">
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Name:"/>
+            <TextBox Text="{Binding Name}" Name="Name"/>
+            <TextBlock Text="IP Address:"/>
+            <TextBox Text="{Binding IP}" Name="IP"/>
+            <TextBlock Text="Subnet Mask:"/>
+            <TextBox Text="{Binding SubnetMask}" Name="Subnet"/>
+            <!--<TextBlock Text="Notes:"/>
+            <RichTextBox Height="50" Margin="0,0,0,5"  local:RichTextBoxHelper.DocumentXaml="{Binding Notes}" Name="Notes"/>-->
+            <Button Margin="0,5,0,0"  Content="Save" Click="Button_Click" IsDefault="True"/>
+        </StackPanel>
+
+    </Grid>
+</Window>
