@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32407.337
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcOTools", "src\TcOTools.csproj", "{5CE4ED47-6A68-4F09-B0EE-501CACAA3EBD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcOpen.VisualStudio.Tools", "src\TcOpen.VisualStudio.Tools.csproj", "{5CE4ED47-6A68-4F09-B0EE-501CACAA3EBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

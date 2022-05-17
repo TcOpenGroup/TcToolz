@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 
-namespace TcOTools
+namespace TcOpen.VisualStudio.Tools
 {
     public class Utils
     {
@@ -26,7 +28,7 @@ namespace TcOTools
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -55,6 +57,22 @@ namespace TcOTools
             STAThread.Join();
 
             return ReturnValue;
+        }
+
+        public static void RunExternalProgram(string workingDirectory, string program, string arg)
+        {
+            if (File.Exists(program))
+            {
+                var startInfo = new ProcessStartInfo();
+                startInfo.WorkingDirectory = workingDirectory;
+                startInfo.FileName = program;
+                startInfo.Arguments = arg;
+                var proc = System.Diagnostics.Process.Start(startInfo);
+            }
+            else
+            {
+                MessageBox.Show("The program doesn't exist", "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
     }

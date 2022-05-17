@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "HmiPublisherTcpServer"
-#define MyAppVersion "2.0"
+#define MyAppVersion "1.0"
 #define MyAppPublisher "MTS spol. s.r.o."
 #define MyAppURL "https://www.mts.sk/"
 #define MyAppExeName "HmiPublisherTcpServer.exe"
@@ -13,7 +13,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{AE7BA0B9-3374-4B83-AFED-32AA759D9CF1}
+AppId={{BDFC8F7B-C7E5-4C6A-9CAF-A8E30696CD91}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -21,7 +21,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={autopf}\MTS spol s.r.o\{#MyAppName}
+DefaultDirName={autopf}\MTS spol. s.r.o.\{#MyAppName}
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)

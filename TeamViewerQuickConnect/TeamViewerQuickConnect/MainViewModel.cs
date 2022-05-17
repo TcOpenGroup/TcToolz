@@ -89,13 +89,13 @@ namespace QuickConnect
         {
             Instance = this;
 
-            UpdaterInterface.Instance.Run(new UpdaterData
-            {
-                VersionFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/version.txt",
-                SourceFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/TeamViewerQuickConnect_SETUP.exe",
-                TmpFilePath = Path.GetTempPath() + @"TeamViewerQuickConnect\TeamViewerQuickConnect_SETUP.exe",
-                CurrentVersion = Utils.GetVersion(),
-            });
+            //UpdaterInterface.Instance.Run(new UpdaterData
+            //{
+            //    VersionFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/version.txt",
+            //    SourceFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/TeamViewerQuickConnect_SETUP.exe",
+            //    TmpFilePath = Path.GetTempPath() + @"TeamViewerQuickConnect\TeamViewerQuickConnect_SETUP.exe",
+            //    CurrentVersion = Utils.GetVersion(),
+            //});
 
             _dataService = new FileDataService();
             _items = new ObservableCollection<ItemWrapper>();

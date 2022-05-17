@@ -7,7 +7,7 @@
     <ProjectGuid>{E25C55B3-BE84-4050-B465-11ED0C361F6C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>HmiPublisher</RootNamespace>
-    <AssemblyName>HmiPublisher.UI</AssemblyName>
+    <AssemblyName>HmiPublisher</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

@@ -20,12 +20,6 @@ namespace HmiPublisher
             set => SetValue(value);
         }
 
-        //public BuildAction BuildAction
-        //{
-        //    get => GetValue<BuildAction>();
-        //    set => SetValue(value);
-        //}
-
         public AppTheme Theme
         {
             get => GetValue<AppTheme>();
