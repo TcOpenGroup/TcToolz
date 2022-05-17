@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="AsyncToolWindowSample.f175a99e-7aa0-461b-a858-3924af93468a" Version="1.0" Language="en-US" Publisher="Mads Kristensen" />
-        <DisplayName>Async Tool Window Sample</DisplayName>
+        <Identity Id="TcOpen.VisualStudio.Tools.cf55f0f4-250b-4116-b0e4-fc7a9eea6913" Version="1.0" Language="en-US" Publisher="TcOpen" />
+        <DisplayName>TcOpen.VisualStudio.Tools</DisplayName>
         <Description xml:space="preserve">Shows how to use an Async Tool Window in Visual Studio 15.6+</Description>
-        <MoreInfo>https://github.com/madskristensen/AsyncToolWindowSample</MoreInfo>
         <License>Resources\LICENSE</License>
         <Icon>Resources\Icon128x128.png</Icon>
         <PreviewImage>Resources\Icon128x128.png</PreviewImage>

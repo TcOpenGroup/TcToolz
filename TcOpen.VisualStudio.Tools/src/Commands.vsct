@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<Extern href="stdidcmd.h" />
+	<Extern href="vsshlids.h"/>
+	<Include href="KnownImageIds.vsct"/>
+
+	<Commands package="guidToolsCmdPkg">
+		<Menus>
+			<Menu guid="guidToolsCmdSet" id="TOOLS_TOOLBAR" priority="0x0001" type="Toolbar">
+				<CommandFlag>DynamicVisibility</CommandFlag>
+				<Strings>
+					<ButtonText>TcOpen Tools</ButtonText>
+				</Strings>
+			</Menu>
+		</Menus>
+
+		<Groups>
+			<Group guid="guidToolsCmdSet" id="MAIN_TOOLBAR_GROUP" priority="0x100">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_TOOL_STANDARD"/>
+			</Group>
+
+			<Group guid="guidToolsCmdSet" id="TOOLS_MENU_GROUP" priority="0x200">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+			</Group>
+
+			<Group guid="guidToolsCmdSet" id="TOOLS_TOOLBAR_GROUP" priority="0x300">
+				<Parent guid="guidToolsCmdSet" id="TOOLS_TOOLBAR"/>
+			</Group>
+		</Groups>
+
+		<Buttons>
+			<Button guid="guidToolsCmdSet" id="openHmiPublisherId" priority="0x0100" type="Button">
+				<Parent guid="guidToolsCmdSet" id="TOOLS_MENU_GROUP"/>
+				<Icon guid="guidHmiPublisherIcon" id="HmiPublisherIcon"/>
+				<CommandFlag>DynamicVisibility</CommandFlag>
+				<CommandFlag>DefaultInvisible</CommandFlag>
+				<Strings>
+					<ButtonText>HMI Publisher</ButtonText>
+				</Strings>
+			</Button>
+
+			<Button guid="guidToolsCmdSet" id="openQuickConnectId" priority="0x0200" type="Button">
+				<Parent guid="guidToolsCmdSet" id="TOOLS_MENU_GROUP"/>
+				<Icon guid="guidTeamViewerIcon" id="TeamViewerIcon"/>
+				<CommandFlag>DynamicVisibility</CommandFlag>
+				<CommandFlag>DefaultInvisible</CommandFlag>
+				<Strings>
+					<ButtonText>TeamViewer QuickConnect</ButtonText>
+				</Strings>
+			</Button>
+
+			<Button guid="guidToolsCmdSet" id="openSnippetsId" priority="0x0300" type="Button">
+				<Parent guid="guidToolsCmdSet" id="TOOLS_MENU_GROUP"/>
+				<Icon guid="guidSnippetsIcon" id="SnippetsIcon"/>
+				<CommandFlag>DynamicVisibility</CommandFlag>
+				<CommandFlag>DefaultInvisible</CommandFlag>
+				<Strings>
+					<ButtonText>Snippets</ButtonText>
+				</Strings>
+			</Button>
+		</Buttons>
+
+		<Bitmaps>
+			<Bitmap guid="guidHmiPublisherIcon" href="Resources\HmiPublisher.png" usedList="HmiPublisherIcon" />
+			<Bitmap guid="guidTeamViewerIcon" href="Resources\tv1.png" usedList="TeamViewerIcon" />
+			<Bitmap guid="guidSnippetsIcon" href="Resources\snippets.png" usedList="SnippetsIcon" />
+		</Bitmaps>
+	</Commands>
+
+	<CommandPlacements>
+		<CommandPlacement guid="guidToolsCmdSet" id="openHmiPublisherId" priority="0x0100">
+			<Parent guid="guidToolsCmdSet" id="TOOLS_TOOLBAR_GROUP"/>
+		</CommandPlacement>
+
+		<CommandPlacement guid="guidToolsCmdSet" id="openQuickConnectId" priority="0x0200">
+			<Parent guid="guidToolsCmdSet" id="TOOLS_TOOLBAR_GROUP"/>
+		</CommandPlacement>
+
+		<CommandPlacement guid="guidToolsCmdSet" id="openSnippetsId" priority="0x0300">
+			<Parent guid="guidToolsCmdSet" id="TOOLS_TOOLBAR_GROUP"/>
+		</CommandPlacement>
+	</CommandPlacements>
+
+	<Symbols>
+		<GuidSymbol name="guidToolsCmdPkg" value="{F9946079-F715-4F4B-81B8-9CC773EDE92E}" />
+
+		<GuidSymbol name="guidToolsCmdSet" value="{961F40D1-143D-4CF8-9BA0-3F54BA445AAA}">
+			<IDSymbol name="TOOLS_TOOLBAR" value="0x1000" />
+			<IDSymbol name="MAIN_TOOLBAR_GROUP" value="0x1001" />
+			<IDSymbol name="TOOLS_MENU_GROUP" value="0x1002" />
+			<IDSymbol name="TOOLS_TOOLBAR_GROUP" value="0x1003" />
+
+			<IDSymbol name="openHmiPublisherId" value="0x5000" />
+			<IDSymbol name="openQuickConnectId" value="0x5010" />
+			<IDSymbol name="openSnippetsId" value="0x5020" />
+
+		</GuidSymbol>
+
+		<GuidSymbol name="guidHmiPublisherIcon" value="{405e2996-9666-4f2f-8973-56674cdb251b}" >
+			<IDSymbol name="HmiPublisherIcon" value="1" />
+		</GuidSymbol>
+
+		<GuidSymbol name="guidTeamViewerIcon" value="{3e99b938-d893-49a4-b372-6d3672391446}" >
+			<IDSymbol name="TeamViewerIcon" value="1" />
+		</GuidSymbol>
+
+		<GuidSymbol name="guidSnippetsIcon" value="{03270678-c221-4d2a-b393-9b1af843f346}" >
+			<IDSymbol name="SnippetsIcon" value="1" />
+		</GuidSymbol>
+
+	</Symbols>
+</CommandTable>
