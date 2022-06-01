@@ -1,0 +1,26 @@
+# TcOpen Visual Studio Tools 2019
+
+
+
+### Introduction
+
+TcOpen Visual Studio Tools is a Visual Studio extention for the easy access of TcTools features from within VS. TcOpen Visual Studio Tools is an open source project written in C# under the [MIT](https://tldrlegal.com/license/mit-license) license.
+
+
+
+### Features
+* HMI Publisher button
+* Team Viever Quick Connect button
+* Snippets button
+
+### Prerequisites
+* Windows 10+
+* Visual Studio 2019
+* .Net Framework 4.6.1+
+
+### Installation
+1. Clone from Git `git clone https://github.com/TcOpenGroup/TcToolz.git`
+2. Compile source with Visual Studio in release mode.
+3. Close all instances of Visual Studio.
+4. Run *TcOpen.VisualStudio.Tools.vsix* from *\TcOpen.VisualStudio.Tools2019\src\bin\Release*
+
