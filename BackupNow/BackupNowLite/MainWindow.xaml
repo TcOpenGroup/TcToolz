@@ -1,0 +1,90 @@
+﻿<Window x:Class="BackupNow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BackupNow"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <local:BoolToVisibility x:Key="BoolToVisibility"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <ui:SimpleStackPanel Margin="5,0,0,5" Spacing="5" Orientation="Horizontal">
+            <Button Content="..." MinWidth="50" Command="{Binding OpenFolderCommand}">
+                <Button.ToolTip>
+                    <ToolTip Content="Open Folder in File Explorer" />
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="Scan"  MinWidth="50" Command="{Binding RefreshCommand}">
+                <Button.ToolTip>
+                    <ToolTip Content="F5"/>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="Cancel"  MinWidth="50" Command="{Binding CancelCommand}">
+                <Button.ToolTip>
+                    <ToolTip Content="Esc"/>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="Settings"  MinWidth="50" Command="{Binding SettingsCommand}"/>
+            <Button Content="About"  MinWidth="50" Click="About_Click"/>
+
+        </ui:SimpleStackPanel>
+
+        <DataGrid x:Name="DataGrid"
+                  Grid.Row="1" 
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  ItemsSource="{Binding Items}" 
+                  CanUserAddRows="False"  
+                  CanUserDeleteRows="False"
+                  SelectedItem="{Binding SelectedItem}"
+                  RowDetailsVisibilityMode="Collapsed"
+                  AutoGenerateColumns="False" 
+                  CanUserSortColumns="False"
+                  CanUserReorderColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding FileName}" />
+                <DataGridTemplateColumn Header="Progress" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ProgressBar Value="{Binding Progress}" Minimum="0" Maximum="100" Margin="10,0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="%" Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Progress}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="2" MinHeight="35" Margin="10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Padding="0,0,15,0" VerticalAlignment="Center" FontSize="13" Text="{Binding ProgressMessage}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis"  />
+            <ProgressBar Grid.Column="1" Width="50" IsIndeterminate="{Binding InProgress}" Visibility="{Binding InProgress, Converter={StaticResource BoolToVisibility}}"  />
+        </Grid>
+    </Grid>
+</Window>

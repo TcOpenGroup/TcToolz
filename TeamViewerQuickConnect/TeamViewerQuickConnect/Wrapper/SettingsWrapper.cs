@@ -1,5 +1,5 @@
 ﻿
-using QuickConnect.Model;
+using QuickConnect.Data;
 
 namespace QuickConnect
 {
@@ -24,6 +24,12 @@ namespace QuickConnect
         public AppTheme Theme
         {
             get => GetValue<AppTheme>();
+            set => SetValue(value);
+        }
+
+        public string LastQuery
+        {
+            get => GetValue<string>();
             set => SetValue(value);
         }
     }

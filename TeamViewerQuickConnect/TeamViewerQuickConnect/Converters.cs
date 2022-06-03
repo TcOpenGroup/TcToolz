@@ -1,4 +1,4 @@
-﻿using QuickConnect.Model;
+﻿using QuickConnect.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

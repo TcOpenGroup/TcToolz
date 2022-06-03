@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
-using QuickConnect.DataAccess;
-using QuickConnect.Model;
+using QuickConnect.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,6 +62,17 @@ namespace QuickConnect
             }
         }
 
+        private bool _loading;
+        public bool Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                OnPropertyChanged(nameof(Loading));
+            }
+        }
+
         private bool _closeOnSubmit;
         public bool CloseOnSubmit
         {
@@ -83,155 +93,179 @@ namespace QuickConnect
         public ICommand EditCommand { get; private set; }
         public ICommand ExportCommand { get; private set; }
         public ICommand ImportCommand { get; private set; }
+        public ICommand ExportAllCommand { get; private set; }
+        public ICommand ImportAllCommand { get; private set; }
         public ICommand SettingsCommand { get; private set; }
 
         void Initialize()
         {
             Instance = this;
 
-            //UpdaterInterface.Instance.Run(new UpdaterData
-            //{
-            //    VersionFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/version.txt",
-            //    SourceFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/TeamViewerQuickConnect_SETUP.exe",
-            //    TmpFilePath = Path.GetTempPath() + @"TeamViewerQuickConnect\TeamViewerQuickConnect_SETUP.exe",
-            //    CurrentVersion = Utils.GetVersion(),
-            //});
+            UpdaterInterface.Instance.Run(new UpdaterData
+            {
+                VersionFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/version.txt",
+                SourceFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/TeamViewerQuickConnect_SETUP.exe",
+                TmpFilePath = Path.GetTempPath() + @"TeamViewerQuickConnect\TeamViewerQuickConnect_SETUP.exe",
+                CurrentVersion = Utils.GetVersion(),
+            });
 
             _dataService = new FileDataService();
             _items = new ObservableCollection<ItemWrapper>();
             _view = new ListCollectionView(_items);
 
 
+            //var dummyItems = new List<Item>();
+            //for (int i = 1; i < 100000; i++)
+            //{
+            //    dummyItems.Add(new Item() { Name = "Item" + i.ToString(), TeamViewerID = "1.0.0.0", Password = "123" });
+            //}
+            //_dataService.AddRange(dummyItems);
+
+
             Settings = new SettingsWrapper(new Settings());
 
-            Task.Run(() =>
+            try
             {
-                try
+                Settings = new SettingsWrapper(_dataService.GetSettings());
+            }
+            catch (TeamViewerNotFoundException ex)
+            {
+                MessageBox.Show("TeamViewer is not installed on your computer", Application.ResourceAssembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+            catch (Exception ex)
+            {
+            }
+
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                ChangeTheme();
+            });
+
+            Loading = true;
+
+            Task.Factory.StartNew(() =>
+            {
+                _dataService.EnsureDbPathExists();
+
+                using (var client = new DataContext())
                 {
-                    Settings = new SettingsWrapper(_dataService.GetSettings());
+                    client.Database.EnsureCreated();
                 }
-                catch (TeamViewerNotFoundException ex)
-                {
-                    MessageBox.Show("TeamViewer is not installed on your computer", Application.ResourceAssembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                }
-                catch (Exception ex)
-                {
-                }
+
+                _dataService.MigrateFromXml();
+
+                var items = GetAllItemsParallel();
+
+
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    ChangeTheme();
-                });
-
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    GetAllItems();
+                    foreach (var item in items)
+                    {
+                        Items.Add(item);
+                    }
 
                     if (_items.Count < 1)
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            _items.Add(new ItemWrapper(new Item
-                            {
-                                Name = "2100735 OP01",
-                                ID = "10.0.225.10",
-                                Password = "MTSservis2100735",
-                            }));
 
-                            GenId();
-                        });
+                        _items.Add(new ItemWrapper(new Item
+                        {
+                            Name = "2100735 OP01",
+                            TeamViewerID = "10.0.225.10",
+                            Password = "Password",
+                        }));
                     }
 
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Loading = false;
+
+                    if (!string.IsNullOrEmpty(Settings.LastQuery))
                     {
-                        Sort();
-                    });
+                        TextSearch = Settings.LastQuery;
+                    }
                 });
             });
         }
 
+        System.Timers.Timer _delayTimer = new System.Timers.Timer();
         public MainViewModel()
         {
             Initialize();
 
+            _delayTimer.Interval = 5000;
+
             AddCommand = new DelegateCommand((obj) =>
             {
-                try
+                Utils.RunWithErrorHandling(() =>
                 {
                     var d = new AddWindow();
                     d.ShowDialog();
                     if (d.Save)
                     {
-                        _items.Add(d.Item);
-                        SaveAll();
-                        SelectedItem = d.Item;
+                        _dataService.Add(d.Item.Model);
+                        GetAllItems();
                     }
-                }
-                catch (Exception ex)
-                {
-                }
+                });
             });
 
             DeleteCommand = new DelegateCommand((obj) =>
             {
-                try
+                Utils.RunWithErrorHandling(() =>
                 {
-                    if (SelectedItem == null)
+                    var selected = MainWindow.Instance.ListBox.SelectedItems.Cast<ItemWrapper>().ToList();
+                    if (selected == null || selected.Count == 0)
                     {
                         return;
                     }
-                    var res = MessageBox.Show("Delete " + SelectedItem.Name + " ?", Application.ResourceAssembly.GetName().Name, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                    if (res != MessageBoxResult.Yes)
+
+                    var items = new List<Item>();
+
+                    foreach (var item in selected)
                     {
-                        return;
+                        items.Add(item.Model);
                     }
-                    _items.Remove(SelectedItem);
-                    SaveAll();
-                }
-                catch (Exception ex)
-                {
-                }
+
+                    _dataService.RemoveRange(items);
+                    GetAllItems();
+                });
+
             }, (val) => SelectedItem != null);
 
             DeleteAllCommand = new DelegateCommand((obj) =>
             {
-                try
+                Utils.RunWithErrorHandling(() =>
                 {
                     var res = MessageBox.Show("Delete All?", Application.ResourceAssembly.GetName().Name, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                     if (res != MessageBoxResult.Yes)
                     {
                         return;
                     }
-                    _items.Clear();
-                    SaveAll();
-                }
-                catch (Exception ex)
-                {
-                }
+                    _dataService.RemoveAll();
+                    GetAllItems();
+                });
             });
 
             DuplicateCommand = new DelegateCommand((obj) =>
             {
-                try
+                Utils.RunWithErrorHandling(() =>
                 {
                     if (SelectedItem == null)
                     {
                         return;
                     }
                     var newitem = Utils.Clone(SelectedItem);
-                    _items.Add(newitem);
 
-                    SaveAll();
+                    _dataService.Add(newitem.Model);
+
+                    GetAllItems();
+
                     SelectedItem = newitem;
-                }
-                catch (Exception ex)
-                {
-                }
+                });
             }, (val) => SelectedItem != null);
 
             EditCommand = new DelegateCommand((obj) =>
              {
-                 try
+                 Utils.RunWithErrorHandling(() =>
                  {
                      if (obj == null)
                      {
@@ -242,7 +276,16 @@ namespace QuickConnect
 
                      var d = new EditWindow(Utils.Clone(obj as ItemWrapper));
                      d.ShowDialog();
-                     ItemWrapper item1 = null;
+
+                     if (d.Item == null)
+                     {
+                         return;
+                     }
+
+                     _dataService.Update(d.Item.Model);
+
+                     GetAllItems();
+
                      if (d.Item != null)
                      {
                          foreach (var item in _items)
@@ -251,120 +294,153 @@ namespace QuickConnect
                              {
                                  var y = _items.Where(x => x.Id == d.Item.Id).SingleOrDefault();
                                  _items[_items.IndexOf(y)] = d.Item;
-                                 item1 = d.Item;
 
-                                 SaveAll();
-                                 SelectedItem = item1;
+                                 SelectedItem = _items[_items.IndexOf(y)];
                                  break;
                              }
                          }
                      }
-                 }
-                 catch (Exception ex)
-                 {
-
-                 }
+                 });
              });
 
             ExportCommand = new DelegateCommand((obj) =>
             {
-                try
+
+                Utils.RunWithErrorHandling(() =>
                 {
+                    var selected = MainWindow.Instance.ListBox.SelectedItems.Cast<ItemWrapper>().ToList();
+                    if (selected == null || selected.Count == 0)
+                    {
+                        return;
+                    }
+
+                    var items = new List<Item>();
+                    foreach (var item in selected)
+                    {
+                        items.Add(item.Model);
+                    }
+
                     Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
                     dlg.FileName = "QuickConnect";
-                    dlg.DefaultExt = ".json";
-                    dlg.Filter = "JSON Files (.json)|*.json";
+                    dlg.DefaultExt = ".xml";
+                    dlg.Filter = "XML Files (.xml)|*.xml";
                     var result = dlg.ShowDialog();
 
                     if (result == true)
                     {
-                        File.Copy(_dataService.FilePath(), dlg.FileName, true);
+                        _dataService.ExportToXML(dlg.FileName, items);
                     }
-                }
-                catch (Exception ex)
-                {
-
-                }
+                });
             });
 
             ImportCommand = new DelegateCommand((obj) =>
             {
-                try
+                Utils.RunWithErrorHandling(() =>
                 {
                     Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
-                    openFileDlg.DefaultExt = ".json";
-                    openFileDlg.Filter = "JSON Files (.json)|*.json";
+                    openFileDlg.DefaultExt = ".xml";
+                    openFileDlg.Filter = "XML Files (.xml)|*.xml";
 
                     Nullable<bool> result = openFileDlg.ShowDialog();
                     if (result == true)
                     {
-                        File.Copy(openFileDlg.FileName, _dataService.FilePath(), true);
+                        _dataService.ImportFromXML(openFileDlg.FileName);
                         GetAllItems();
-                        Sort();
                     }
-                }
-                catch (Exception ex)
-                {
+                });
+            });
 
-                }
+            ExportAllCommand = new DelegateCommand((obj) =>
+            {
+                Utils.RunWithErrorHandling(() =>
+                {
+                    Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                    dlg.FileName = "QuickConnect";
+                    dlg.DefaultExt = ".db";
+                    dlg.Filter = "SQL Files (.db)|*.db";
+                    var result = dlg.ShowDialog();
+
+                    if (result == true)
+                    {
+                        File.Copy(_dataService.GetItemsFilePath(), dlg.FileName, true);
+                    }
+                });
+            });
+
+            ImportAllCommand = new DelegateCommand((obj) =>
+            {
+                Utils.RunWithErrorHandling(() =>
+                {
+                    Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
+                    openFileDlg.DefaultExt = ".db";
+                    openFileDlg.Filter = "SQL Files (.db)|*.db";
+
+                    Nullable<bool> result = openFileDlg.ShowDialog();
+                    if (result == true)
+                    {
+                        File.Copy(openFileDlg.FileName, _dataService.GetItemsFilePath(), true);
+                        GetAllItems();
+                    }
+                });
             });
 
             SettingsCommand = new DelegateCommand((obj) =>
             {
-                try
+                Utils.RunWithErrorHandling(() =>
                 {
                     var d = new SettingsWindow(Settings);
                     d.ShowDialog();
                     Settings = Utils.Clone(d.DataContext as SettingsWrapper);
                     SaveSettings();
-                }
-                catch (Exception ex)
-                {
-
-                }
+                });
             });
         }
 
-        public static ObservableCollection<ItemWrapper> ReorderItems(ObservableCollection<ItemWrapper> orderThoseGroups)
-        {
-            try
-            {
-                ObservableCollection<ItemWrapper> temp;
-                temp = new ObservableCollection<ItemWrapper>(orderThoseGroups.OrderBy(p => p.Name));
-                orderThoseGroups.Clear();
-                foreach (ItemWrapper j in temp)
-                {
-                    orderThoseGroups.Add(j);
-                }
-            }
-            catch (Exception)
-            {
-            }
-            return orderThoseGroups;
-        }
 
         private void GetAllItems()
         {
-            try
+            Utils.RunWithErrorHandling(() =>
             {
                 Items.Clear();
-                var items = _dataService.GetItems();
+
+                IEnumerable<Item> items = null;
+                if (string.IsNullOrEmpty(TextSearch))
+                {
+                    items = _dataService.GetItems();
+                }
+                else
+                {
+                    items = _dataService.FindByName(TextSearch);
+                }
+
                 foreach (var item in items)
                 {
                     Items.Add(new ItemWrapper(item));
                 }
-
-
-            }
-            catch (Exception)
-            {
-
-            }
+            });
         }
 
-        private void Sort()
+        private ObservableCollection<ItemWrapper> GetAllItemsParallel()
         {
-            _items = ReorderItems(_items);
+            var result = new ObservableCollection<ItemWrapper>();
+            Utils.RunWithErrorHandling(() =>
+            {
+                IEnumerable<Item> items = null;
+                if (string.IsNullOrEmpty(Settings.LastQuery))
+                {
+                    items = _dataService.GetItems();
+                }
+                else
+                {
+                    items = _dataService.FindByName(Settings.LastQuery);
+                }
+                foreach (var item in items)
+                {
+                    result.Add(new ItemWrapper(item));
+                }
+            });
+
+            return result;
         }
 
         private ListCollectionView _view;
@@ -386,13 +462,16 @@ namespace QuickConnect
                 if (String.IsNullOrEmpty(value))
                 {
                     View.Filter = null;
+                    Items.Clear();
+                    GetAllItems();
                 }
                 else
                 {
                     try
                     {
+                        GetAllItems();
                         View.Filter = new Predicate<object>(o =>
-                        ((ItemWrapper)o).Name.ToLower().Contains(value.ToLower()));
+                        ((ItemWrapper)o).Name.ToLower().Contains(TextSearch.ToLower()));
                     }
                     catch (Exception ex)
                     {
@@ -402,6 +481,7 @@ namespace QuickConnect
             }
         }
 
+
         public void Run()
         {
             if (SelectedItem == null)
@@ -409,21 +489,17 @@ namespace QuickConnect
                 return;
             }
 
-            Console.WriteLine(SelectedItem.Name);
+            Debug.WriteLine(SelectedItem.Name);
+            //return;
 
             ProcessStartInfo processInfo;
             Process process;
             processInfo = new ProcessStartInfo("cmd.exe");
-            processInfo.Arguments = "/c " + Quote + Settings.TeamViewerPath + Quote + " -i " + SelectedItem.ID + " -p " + SelectedItem.Password;
+            processInfo.Arguments = "/c " + Quote + Settings.TeamViewerPath + Quote + " -i " + SelectedItem.TeamViewerID + " -p " + SelectedItem.Password;
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
             process = Process.Start(processInfo);
             process.Close();
-
-            if (Settings.CloseOnSubmit)
-            {
-                System.Windows.Application.Current.Shutdown();
-            }
         }
 
         public void RunFitered()
@@ -443,6 +519,7 @@ namespace QuickConnect
 
         public void SaveSettings()
         {
+            Settings.Model.LastQuery = TextSearch;
             _dataService.SaveSettings(Settings.Model);
             ChangeTheme();
         }
@@ -460,24 +537,6 @@ namespace QuickConnect
             else
             {
                 ModernWpf.ThemeManager.Current.ApplicationTheme = null;
-            }
-        }
-
-        private void SaveAll()
-        {
-            GenId();
-            Sort();
-            var items = Items.Select(x => x.Model).ToList();
-            _dataService.SaveItems(items);
-        }
-
-        private void GenId()
-        {
-            var i = 1;
-            foreach (var item in _items)
-            {
-                item.Id = i;
-                i++;
             }
         }
 

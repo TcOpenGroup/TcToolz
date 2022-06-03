@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickConnect.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -25,7 +26,7 @@ namespace QuickConnect
         public AddWindow()
         {
             InitializeComponent();
-            Item = new ItemWrapper(new Model.Item());
+            Item = new ItemWrapper(new Item());
             DataContext = Item;
 
             PreviewKeyDown += new KeyEventHandler(HandleEsc);

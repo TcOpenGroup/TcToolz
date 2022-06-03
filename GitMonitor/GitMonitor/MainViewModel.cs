@@ -157,16 +157,7 @@ namespace GitMonitor
                             Message = "Checking availability of remote server";
                         });
 
-                        var res = CheckRemoteAvailability();
-                        if (!res)
-                        {
 
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                Message = "https://gitlab.mts.sk cannot be reached";
-                            });
-                            return;
-                        }
 
                         if (!SelectedItem.Include)
                         {
@@ -214,16 +205,6 @@ namespace GitMonitor
                          {
                              Message = "Checking availability of remote server";
                          });
-
-                         var res = CheckRemoteAvailability();
-                         if (!res)
-                         {
-                             Application.Current.Dispatcher.Invoke(() =>
-                             {
-                                 Message = "https://gitlab.mts.sk cannot be reached";
-                             });
-                             return;
-                         }
 
                          var items = new List<Item>();
                          foreach (var item in Items)
@@ -469,61 +450,6 @@ namespace GitMonitor
                     TreeScan(d);
                 }
             }
-        }
-
-        bool CheckRemoteAvailability()
-        {
-            var available = Utils.PingHost("gitlab.mts.sk");
-            if (!available)
-            {
-                return false;
-            }
-
-            //var previous = "";
-            //foreach (var item in Items)
-            //{
-            //    var remote = Utils.RunCommand(item.Dir, "git remote -v", true);
-            //    var ip = Utils.GetIpAddressFromString("https://gitlab.mts.sk/");
-            //    var available = Utils.PingHost("https://gitlab.mts.sk/");
-            //    var x = Utils.RunCommand(item.Dir, "git remote show origin", true);
-            //    if (previous == remote)
-            //    {
-            //        continue;
-            //    }
-
-            //    previous = remote;
-
-            //    if (!available)
-            //    {
-            //        return false;
-            //    }
-            //    if (string.IsNullOrEmpty(x) || x[0] != '*')
-            //    {
-            //        return false;
-            //    }
-            //}
-
-            return true;
-        }
-
-
-        int GetFirstNum(string inp)
-        {
-            string final = "0"; //if there's nothing, it'll return 0
-            foreach (char c in inp) //loop the string
-            {
-                try
-                {
-                    Convert.ToInt32(c.ToString()); //if it can convert
-                    final += c.ToString(); //add to final string
-                }
-                catch (FormatException ex) //if NaN
-                {
-                    break; //break out of loop
-                }
-            }
-
-            return Convert.ToInt32(final); //return the int
         }
 
 

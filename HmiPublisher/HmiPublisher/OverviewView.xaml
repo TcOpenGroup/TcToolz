@@ -16,7 +16,8 @@
     </UserControl.Resources>
 
     <Grid>
-        <ui:ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+        <ui:ListView
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  Background="Transparent"
                  Name="ListBox" ScrollViewer.CanContentScroll="False"
                  Grid.Row="1" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" 

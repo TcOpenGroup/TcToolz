@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickConnect.Model
+namespace QuickConnect.Data
 {
     public enum AppTheme
     {
@@ -20,6 +20,7 @@ namespace QuickConnect.Model
     public class Settings
     {
         public string TeamViewerPath { get; set; } = "";
+        public string LastQuery { get; set; } = "";
         public bool CloseOnSubmit { get; set; } = false;
         public AppTheme Theme { get; set; } = AppTheme.System;
     }

@@ -1,13 +1,15 @@
-﻿using QuickConnect.Model;
+﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace QuickConnect.DataAccess
+namespace QuickConnect.Data
 {
     public class FileDataService : IDataService
     {
@@ -15,70 +17,91 @@ namespace QuickConnect.DataAccess
         private string _itemsFilePath;
         public FileDataService()
         {
-            try
-            {
-                if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect"))
-                {
-                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect");
-                    if (Directory.Exists(Path.GetTempPath() + @"\TeamViewerQuickConnect"))
-                    {
-                        if (File.Exists(Path.GetTempPath() + @"\TeamViewerQuickConnect\Settings.json"))
-                        {
-                            File.Copy(Path.GetTempPath() + @"\TeamViewerQuickConnect\Settings.json", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Settings.json", true);
-                        }
-                        if (File.Exists(Path.GetTempPath() + @"\TeamViewerQuickConnect\Items.json"))
-                        {
-                            File.Copy(Path.GetTempPath() + @"\TeamViewerQuickConnect\Items.json", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Items.json", true);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-
             _settingsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Settings.json";
+            _itemsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\QuickConnect.db";
+        }
 
-            var p = GetCommandLineArgs();
-            if (string.IsNullOrEmpty(p))
+        public void Add(Item item)
+        {
+            using (var db = new DataContext())
             {
-                _itemsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Items.json";
-            }
-            else
-            {
-                _itemsFilePath = p + @"\QuickConnect.json";
+                item.Id = 0;
+                db.Items.Add(item);
+                db.SaveChanges();
             }
         }
 
-        private string GetCommandLineArgs()
+        public void AddRange(List<Item> item)
         {
-            string[] args = Environment.GetCommandLineArgs();
-            if (args != null)
+            using (var db = new DataContext())
             {
-                int i = args.Length;
-                if (i == 2)
-                {
-                    return args[1];
-                }
+                db.Items.AddRange(item);
+                db.SaveChanges();
             }
-            return "";
+        }
+
+        public void Update(Item item)
+        {
+            using (var db = new DataContext())
+            {
+                db.Items.Update(item);
+                db.SaveChanges();
+            }
+        }
+
+        public void Remove(Item item)
+        {
+            using (var db = new DataContext())
+            {
+                db.Items.Remove(item);
+                db.SaveChanges();
+            }
+        }
+
+        public void RemoveAll()
+        {
+            using (var db = new DataContext())
+            {
+                db.Items.RemoveRange(db.Items);
+                db.SaveChanges();
+            }
+        }
+
+        public void RemoveRange(IEnumerable<Item> items)
+        {
+            using (var db = new DataContext())
+            {
+                db.Items.RemoveRange(items);
+                db.SaveChanges();
+            }
         }
 
         public IEnumerable<Item> GetItems()
         {
-            if (!File.Exists(_itemsFilePath))
+            var data = new List<Item>();
+
+            using (var db = new DataContext())
             {
-                return new List<Item>();
+                data = db.Items
+                    .OrderBy(b => b.Name)
+                    .Take(30)
+                    .ToList();
             }
 
-            string json = File.ReadAllText(_itemsFilePath);
+            return data;
+        }
 
-            var data = JsonConvert.DeserializeObject<List<Item>>(json);
+        public IEnumerable<Item> FindByName(string name)
+        {
+            var data = new List<Item>();
 
-            if (data == null)
+            using (var db = new DataContext())
             {
-                data = new List<Item>();
+                data = db.Items
+                    .Where(b => b.Name.ToLower().Contains(name.ToLower()))
+                    .OrderBy(b => b.Name)
+                    .Take(30)
+                    .ToList();
             }
 
             return data;
@@ -86,22 +109,14 @@ namespace QuickConnect.DataAccess
 
         public void SaveItems(IEnumerable<Item> items)
         {
-            if (!Directory.Exists(Path.GetDirectoryName(_itemsFilePath)))
+            using (var db = new DataContext())
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(_itemsFilePath));
+                db.AddRange(items);
+                db.SaveChanges();
             }
-
-            var i = 1;
-            foreach (var item in items)
-            {
-                item.Id = i;
-                i++;
-            }
-            string json = JsonConvert.SerializeObject(items, Formatting.Indented);
-            File.WriteAllText(_itemsFilePath, json);
         }
 
-        public string FilePath()
+        public string GetItemsFilePath()
         {
             return _itemsFilePath;
         }
@@ -155,6 +170,90 @@ namespace QuickConnect.DataAccess
             string json = JsonConvert.SerializeObject(item, Formatting.Indented);
             File.WriteAllText(_settingsFilePath, json);
         }
+
+        public void MigrateFromXml()
+        {
+            try
+            {
+                EnsureDbPathExists();
+
+                if (File.Exists(Path.GetTempPath() + @"\TeamViewerQuickConnect\Settings.json") && !File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Settings.json"))
+                {
+                    File.Copy(Path.GetTempPath() + @"\TeamViewerQuickConnect\Settings.json", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Settings.json", true);
+                }
+
+                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Items.json"))
+                {
+                    string json = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Items.json");
+
+                    var data = JsonConvert.DeserializeObject<List<ItemObsolete>>(json);
+
+                    if (data == null)
+                    {
+                        data = new List<ItemObsolete>();
+                    }
+
+                    foreach (var item in data)
+                    {
+                        Add(new Item() { Id = 0, Name = item.Name, TeamViewerID = item.ID, Password = item.Password });
+                    }
+                    File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\Items.json");
+                    File.Delete(Path.GetTempPath() + @"\TeamViewerQuickConnect\Items.json");
+                }
+                else if (File.Exists(Path.GetTempPath() + @"\TeamViewerQuickConnect\Items.json"))
+                {
+                    string json = File.ReadAllText(Path.GetTempPath() + @"\TeamViewerQuickConnect\Items.json");
+
+                    var data = JsonConvert.DeserializeObject<List<ItemObsolete>>(json);
+
+                    if (data == null)
+                    {
+                        data = new List<ItemObsolete>();
+                    }
+
+                    foreach (var item in data)
+                    {
+                        Add(new Item() { Id = 0, Name = item.Name, TeamViewerID = item.ID, Password = item.Password });
+                    }
+                    File.Delete(Path.GetTempPath() + @"\TeamViewerQuickConnect\Items.json");
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public void EnsureDbPathExists()
+        {
+            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect"))
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect");
+            }
+        }
+
+        public void ExportToXML(string filepath, IEnumerable<Item> items)
+        {
+            string json = JsonConvert.SerializeObject(items, Formatting.Indented);
+            File.WriteAllText(filepath, json);
+
+        }
+
+        public IEnumerable<Item> ImportFromXML(string filepath)
+        {
+            string json = File.ReadAllText(filepath);
+            var data = JsonConvert.DeserializeObject<List<Item>>(json);
+
+            foreach (var item in data)
+            {
+                item.Id = 0;
+            }
+
+            AddRange(data);
+
+            return data;
+        }
+
+
     }
 
     public class TeamViewerNotFoundException : ApplicationException

@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32407.337
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnect", "TeamViewerQuickConnect\QuickConnect.csproj", "{97B7E708-4AD0-4B5D-9D0C-1468857A1C01}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{A9AA7335-4030-40DC-B2B8-3EA813D9C566}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnect.Model", "TeamViewerQuickConnect.Model\QuickConnect.Model.csproj", "{59EA16F6-4844-4DE2-B2D0-C0C50D238748}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickConnect", "TeamViewerQuickConnect\QuickConnect.csproj", "{6B00FA0F-BBBB-4BE9-ADDE-29691A9849EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnect.DataAccess", "TeamViewerQuickConnect.DataAccess\QuickConnect.DataAccess.csproj", "{6E2AB689-A2E8-4466-8A2D-71F7FBBE249B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickConnect.Data", "TeamViewerQuickConnect.DataAccess\QuickConnect.Data.csproj", "{D7780519-7C61-4D6F-B1A2-8E901224884A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{97B7E708-4AD0-4B5D-9D0C-1468857A1C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97B7E708-4AD0-4B5D-9D0C-1468857A1C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97B7E708-4AD0-4B5D-9D0C-1468857A1C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97B7E708-4AD0-4B5D-9D0C-1468857A1C01}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9AA7335-4030-40DC-B2B8-3EA813D9C566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9AA7335-4030-40DC-B2B8-3EA813D9C566}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9AA7335-4030-40DC-B2B8-3EA813D9C566}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9AA7335-4030-40DC-B2B8-3EA813D9C566}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59EA16F6-4844-4DE2-B2D0-C0C50D238748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59EA16F6-4844-4DE2-B2D0-C0C50D238748}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59EA16F6-4844-4DE2-B2D0-C0C50D238748}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59EA16F6-4844-4DE2-B2D0-C0C50D238748}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E2AB689-A2E8-4466-8A2D-71F7FBBE249B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E2AB689-A2E8-4466-8A2D-71F7FBBE249B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E2AB689-A2E8-4466-8A2D-71F7FBBE249B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E2AB689-A2E8-4466-8A2D-71F7FBBE249B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B00FA0F-BBBB-4BE9-ADDE-29691A9849EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B00FA0F-BBBB-4BE9-ADDE-29691A9849EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B00FA0F-BBBB-4BE9-ADDE-29691A9849EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B00FA0F-BBBB-4BE9-ADDE-29691A9849EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7780519-7C61-4D6F-B1A2-8E901224884A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7780519-7C61-4D6F-B1A2-8E901224884A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7780519-7C61-4D6F-B1A2-8E901224884A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7780519-7C61-4D6F-B1A2-8E901224884A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

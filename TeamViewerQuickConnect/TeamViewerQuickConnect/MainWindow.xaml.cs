@@ -22,22 +22,33 @@ namespace QuickConnect
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MainWindow Instance { get; private set; }
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MainViewModel();
             _context = DataContext as MainViewModel;
 
-            var ver = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+            var ver = new Version(Utils.GetVersion());
 
             Title = Application.ResourceAssembly.GetName().Name + " " + ver.Major + "." + ver.Minor;
 
             PreviewKeyDown += new KeyEventHandler(HandleEsc);
 
-            TextSearch1.PreviewKeyDown += TextSearch1_PreviewKeyDown;
+            Closing += MainWindow_Closing;
 
+            TextSearch1.PreviewKeyDown += TextSearch1_PreviewKeyDown;
             TextSearch1.Focus();
 
+
+            Instance = this;
+
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _context.SaveSettings();
         }
 
         private void TextSearch1_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -54,17 +65,17 @@ namespace QuickConnect
                     ListBox.Focus();
                 }
             }
-            else
-            {
-                if (!_context.View.IsEmpty)
-                {
-                    _context.SelectedItem = _context.Items[0];
-                }
-                else
-                {
-                    _context.SelectedItem = null;
-                }
-            }
+            //else
+            //{
+            //    if (_context.Items.Count > 0)
+            //    {
+            //        _context.SelectedItem = _context.Items[0];
+            //    }
+            //    else
+            //    {
+            //        _context.SelectedItem = null;
+            //    }
+            //}
         }
 
 
@@ -109,7 +120,7 @@ namespace QuickConnect
             }
             else if (e.Key == Key.Up)
             {
-                var filteredItems = _context.View.Cast<ItemWrapper>();
+                var filteredItems = _context.Items.Cast<ItemWrapper>();
                 if (ReferenceEquals(_context.SelectedItem, filteredItems.FirstOrDefault()))
                 {
                     TextSearch1.Focus();
@@ -122,6 +133,5 @@ namespace QuickConnect
             TextSearch1.Clear();
             TextSearch1.Focus();
         }
-
     }
 }

@@ -1,0 +1,17 @@
+[
+  {
+    "Id": 1,
+    "Name": "PLC",
+    "TargetUserName": "Administrator",
+    "TargetPass": "1",
+    "SourcePath": "src\\hmi\\OperatorPanel\\bin\\Debug\\net48",
+    "DestinationPath": "\\\\192.168.2.178\\hmi\\",
+    "SourcePathDocumentation": null,
+    "DestinationPathDocumentation": null,
+    "ExecutableFilePath": "C:\\HMI\\ProjectTemplate.exe",
+    "ClearSharedFolder": false,
+    "Exclude": false,
+    "Include": true,
+    "Compression": 8
+  }
+]

@@ -1,0 +1,3 @@
+
+verify connection
+git remote show origin

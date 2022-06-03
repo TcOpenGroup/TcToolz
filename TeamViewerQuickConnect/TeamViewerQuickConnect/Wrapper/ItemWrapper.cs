@@ -1,5 +1,5 @@
 ﻿
-using QuickConnect.Model;
+using QuickConnect.Data;
 
 namespace QuickConnect
 {
@@ -14,13 +14,14 @@ namespace QuickConnect
             get => GetValue<int>();
             set => SetValue(value);
         }
+
         public string Name
         {
             get => GetValue<string>();
             set => SetValue(value);
         }
 
-        public string ID
+        public string TeamViewerID
         {
             get => GetValue<string>();
             set => SetValue(value);

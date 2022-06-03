@@ -1,0 +1,26 @@
+﻿<Window x:Class="BackupNow.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019" xmlns:backupnow="clr-namespace:BackupNow"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        WindowStyle="ToolWindow"
+        Title="Window1" Height="200" Width="400">
+
+    <Grid>
+        <ui:SimpleStackPanel Margin="12,5" Orientation="Horizontal" VerticalAlignment="Top">
+            <backupnow:Logo Padding="5" Height="100"/>
+            <ui:SimpleStackPanel Margin="20,0,0,0">
+                <Label Content="Backup Now" FontSize="25"  FontWeight="SemiBold" Margin="0,0,0,3"/>
+                <Label Name="VersionLabel" Content="Version 1.0"/>
+                <Label Name="CopyrightLabel" Content="© 2022 MTS. spol.s.r.o."/>
+            </ui:SimpleStackPanel>
+
+        </ui:SimpleStackPanel>
+
+        <Button Name="SubmitButton" Margin="12" Content="Cancel" IsDefault="True" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+    </Grid>
+
+</Window>

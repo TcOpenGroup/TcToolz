@@ -1,16 +1,16 @@
-﻿using System;
+﻿using EnvDTE;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using System;
+using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Task = System.Threading.Tasks.Task;
-using EnvDTE;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using Microsoft.VisualStudio;
-using System.IO;
 using System.Windows;
+using Task = System.Threading.Tasks.Task;
 
 namespace TcOpen.VisualStudio.Tools
 {
@@ -45,7 +45,6 @@ namespace TcOpen.VisualStudio.Tools
             }
 
             Utils.AddCommand(GuidList.guidToolsCmdSet, 0x5000, OpenHmiPublisher, commandService);
-            Utils.AddCommand(GuidList.guidToolsCmdSet, 0x5010, OpenQuickConnect, commandService);
             Utils.AddCommand(GuidList.guidToolsCmdSet, 0x5020, OpenSnippets, commandService);
 
         }
@@ -57,22 +56,9 @@ namespace TcOpen.VisualStudio.Tools
                 _dte.ExecuteCommand(Command.SaveAll);
 
                 var solutionPath = _dte.GetSolutionPath();
-                var exePath = @"C:\Program Files (x86)\MTS spol. s.r.o\HmiPublisher\HmiPublisher.exe";
+                var exePath = @"C:\Program Files (x86)\MTS spol s.r.o\HmiPublisherV3\HmiPublisher.UI.exe";
 
                 Utils.RunExternalProgram(Path.GetDirectoryName(exePath), exePath, "\"" + solutionPath + "\"");
-            });
-        }
-
-        private void OpenQuickConnect()
-        {
-            Utils.RunWithErrorHandling(() =>
-            {
-                _dte.ExecuteCommand(Command.SaveAll);
-
-                var projectPath = _dte.GetSolutionPath();
-                var exePath = @"C:\Program Files (x86)\MTS spol. s.r.o\QuickConnect\QuickConnect.exe";
-
-                Utils.RunExternalProgram(Path.GetDirectoryName(exePath), exePath, "\"" + projectPath + "\"");
             });
         }
 

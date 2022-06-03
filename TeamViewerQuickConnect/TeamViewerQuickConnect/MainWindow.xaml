@@ -29,7 +29,6 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <ui:CommandBar DefaultLabelPosition="Right" Background="Transparent" HorizontalAlignment="Left">
@@ -39,33 +38,22 @@
             <ui:AppBarButton Icon="Setting" LabelPosition="Collapsed" ToolTip="Settings" Command="{Binding SettingsCommand}" />
 
             <ui:CommandBar.SecondaryCommands>
-                <ui:AppBarButton Label="Export All" Command="{Binding ExportCommand}" />
-                <ui:AppBarButton Label="Import All" Command="{Binding ImportCommand}" />
+                <ui:AppBarButton Label="Export to XML" Command="{Binding ExportCommand}" />
+                <ui:AppBarButton Label="Import from XML" Command="{Binding ImportCommand}" />
+                <ui:AppBarSeparator />
+                <ui:AppBarButton Label="Export All" Command="{Binding ExportAllCommand}" />
+                <ui:AppBarButton Label="Import All" Command="{Binding ImportAllCommand}" />
                 <ui:AppBarButton Label="Delete All" Command="{Binding DeleteAllCommand}" />
             </ui:CommandBar.SecondaryCommands>
 
         </ui:CommandBar>
-
-        <!--<DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="Item">
-                    <MenuItem Command="{Binding AddCommand}" Header="Add" InputGestureText="Insert"/>
-                    <MenuItem Command="{Binding DeleteCommand}" Header="Delete" InputGestureText="Delete"/>
-                    <MenuItem Command="{Binding DuplicateCommand}" Header="Copy" InputGestureText="Ctrl+D"/>
-                    <Separator/>
-                    <MenuItem Command="{Binding ExportCommand}" Header="Export All"/>
-                    <MenuItem Command="{Binding ImportCommand}" Header="Import All"/>
-                    <MenuItem Command="{Binding DeleteAllCommand}" Header="Delete All"/>
-                </MenuItem>
-                <MenuItem Command="{Binding SettingsCommand}" Header="Settings"/>
-            </Menu>
-        </DockPanel>-->
 
         <Grid Grid.Row="1" Margin="10,0,10,10">
             <TextBox Name="TextSearch1" ui:ControlHelper.Header="Search" Text="{Binding TextSearch,UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <ui:ListView 
+            SelectionMode="Extended"
                      Grid.Row="2" 
                      Name="ListBox"
                      PreviewKeyDown="ListBox_PreviewKeyDown" 
@@ -90,7 +78,7 @@
                         
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
-                            <TextBlock Text="{Binding ID}" FontFamily="consolas" FontSize="12"/>
+                            <TextBlock Text="{Binding TeamViewerID}" FontFamily="consolas" FontSize="12"/>
                         </StackPanel>
 
                         <Viewbox Grid.Column="1" Width="60">
@@ -98,16 +86,12 @@
                                 <ui:AppBarButton LabelPosition="Collapsed" Icon="Edit" ToolTip="Edit (F2)" Command="{Binding ElementName=ListBox, Path=DataContext.EditCommand}" CommandParameter="{Binding}" />
                             </StackPanel>
                         </Viewbox>
-                  
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ui:ListView>
 
-        <CheckBox Grid.Row="3" Margin="10,5" Content="Close on submit" 
-                      Click="CheckBox_Click" 
-                      IsChecked="{Binding Settings.CloseOnSubmit, UpdateSourceTrigger=PropertyChanged}"/>
+        <ui:ProgressRing IsActive="{Binding Loading}" Height="50" Width="50" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
     </Grid>
-
-
 </Window>
