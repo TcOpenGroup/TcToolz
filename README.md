@@ -4,7 +4,7 @@
 
 ### Introduction
 
-TcTools is a collection of handy tools for [TcOpen](https://github.com/TcOpenGroup/TcOpen) written by @mgvora. TcTools is an open source project written in C# under the [MIT](https://tldrlegal.com/license/mit-license) license. For further information please check each individual tool below or the  [TcOpen](https://github.com/TcOpenGroup/TcOpen) poject.
+TcTools is a collection of handy tools for [TcOpen](https://github.com/TcOpenGroup/TcOpen) written by Marke Gvora (@mgvora). TcTools is an open source project written in C# under the [MIT](https://tldrlegal.com/license/mit-license) license. For further information please check each individual tool below or the  [TcOpen](https://github.com/TcOpenGroup/TcOpen) poject.
 
 ### Tools in the package
 * [BackupNow](BackupNow/README.md) - Standalone tool for simple back up solution.
