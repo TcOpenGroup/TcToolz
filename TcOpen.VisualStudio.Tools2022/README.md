@@ -10,7 +10,6 @@ TcOpen Visual Studio Tools is a Visual Studio extention for the easy access of T
 
 ### Features
 * HMI Publisher button
-* Team Viever Quick Connect button
 * Snippets button
 
 ### Prerequisites

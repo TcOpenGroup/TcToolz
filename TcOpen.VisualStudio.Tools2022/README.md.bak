@@ -1,4 +1,4 @@
-# TcOpen Visual Studio Tools 2019
+# TcOpen Visual Studio Tools 2022
 
 
 
@@ -10,16 +10,17 @@ TcOpen Visual Studio Tools is a Visual Studio extention for the easy access of T
 
 ### Features
 * HMI Publisher button
+* Team Viever Quick Connect button
 * Snippets button
 
 ### Prerequisites
 * Windows 10+
-* Visual Studio 2019
-* .Net Framework 4.6.1+
+* Visual Studio 2022
+* .Net Framework 4.8+
 
 ### Installation
 1. Clone from Git `git clone https://github.com/TcOpenGroup/TcToolz.git`
 2. Compile source with Visual Studio in release mode.
 3. Close all instances of Visual Studio.
-4. Run *TcOpen.VisualStudio.Tools.vsix* from *\TcOpen.VisualStudio.Tools2019\src\bin\Release*
+4. Run *TcOpen.VisualStudio.Tools.vsix* from *\TcOpen.VisualStudio.Tools2022\src\bin\Release*
 
