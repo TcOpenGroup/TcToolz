@@ -26,3 +26,16 @@ Backup Now is a standalone tool for Windows for backing up data to a remote loca
 3. Compile the .iss file via Inno Setup to generate the setup executable. Inno Setup is open source and is available at https://jrsoftware.org/isinfo.php
 4. Run the generated *BackupNow.exe*
 
+### How to use
+1. Use the *Initialize with Backup Now* context menu in windows.
+
+![Initialize](Instruction.jpg)
+
+</BR>
+</BR>
+</BR>
+
+
+2. Open *Backup Now* to scan and back up. 
+
+![Scan and back up](Instruction_2.jpg)
