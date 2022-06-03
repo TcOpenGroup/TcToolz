@@ -9,7 +9,7 @@ TcTools is a collection of handy tools for [TcOpen](https://github.com/TcOpenGro
 ### Tools in the package
 * [BackupNow](BackupNow/README.md) - Standalone tool for simple back up solution.
 * [Git Monitor](GitMonitor/README.md) - Scans folders for git changes via the *right click* context menu in Windows.
-* [HMI Publisher](HmiPublisher/README.md) - Tool to push HMI to remote PLC. (Uses TcOpoen Visual Studio Tools)
+* [HMI Publisher](HmiPublisher/README.md) - Tool to push HMI to remote PLC. (Uses TcOpoen Visual Studio Tools).
 * [IP Config](IPCONFIG/README.md) - Standalone tool to quickly set up and swap between Ethernet interface settings.
 * [Team Viewer Quick Connect](TeamViewerQuickConnect/README.md) - Tool to store remote Team Viewer host settings and connect to remote host.*(Standalone or via TcOpen VS Tools)*
 * [TcOpen Visual Studio Tools 2019](TcOpen.VisualStudio.Tools2019/README.md) - VS 2019 extention for HMI Publisher and TV Quick connect.
@@ -27,5 +27,8 @@ TcTools is a collection of handy tools for [TcOpen](https://github.com/TcOpenGro
 
 
 ### Contributions
-If you wish to contribute please check the guidance [here](https://github.com/TcOpenGroup/TcOpen/blob/dev/CONTRIBUTING.md)
+If you wish to contribute please check the guidance [here](https://github.com/TcOpenGroup/TcOpen/blob/dev/CONTRIBUTING.md).
 
+### Attributions
+
+Please find information on the third party libraries used [here](notices.md).
