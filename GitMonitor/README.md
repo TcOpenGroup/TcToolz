@@ -4,7 +4,7 @@
 
 ### Introduction
 
-Git Monitor is a tool to make quick commits and easily check if any changes occured to a folder. Git Monitor is an open source project written in C# under the [MIT](https://tldrlegal.com/license/mit-license) license.
+Git Monitor is a tool to make quick commits and easily check if any changes occurred to a folder. Git Monitor is an open source project written in C# under the [MIT](https://tldrlegal.com/license/mit-license) license.
 
 
 

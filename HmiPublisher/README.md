@@ -21,7 +21,7 @@ HMI Publisher is a handy tool to install and manage multiple Human Machine Inter
 * .Net Framework 4.8+
 * Shared folder on remote host to install HMI files to.  
 * HMI Publisher Server needs to be installed and running on the host machine.  
-* Firewall port (default 13700) on host needs to be accesible from HMI Publisher.  
+* Firewall port (default 13700) on host needs to be accessible from HMI Publisher.  
 * Visual Studio extension. (Installed Manually)
 
 ### Installation
@@ -32,6 +32,6 @@ HMI Publisher is a handy tool to install and manage multiple Human Machine Inter
 5. The generated *HmiPublisherServer.exe* will need to be run on the server side. (PLC)
 6. Set up shared folder server side and ensure it is reachable from client side from Explorer.
 7. Make sure that the listening port is open for HmiPublisherServer.exe, default port is 13700 and it can be changed in *HmiPublisherServer.cs*
-8. Install the Visual Studio Extention see instructions to install from source [here](../TcOpen.VisualStudio.Tools2019/README.md) 
+8. Install the Visual Studio Extension see instructions to install from source [here](../TcOpen.VisualStudio.Tools2019/README.md) 
 
 
