@@ -4,7 +4,7 @@
 
 ### Introduction
 
-TcOpen Visual Studio Tools is a Visual Studio extention for the easy access of TcTools features from within VS. TcOpen Visual Studio Tools is an open source project written in C# under the [MIT](https://tldrlegal.com/license/mit-license) license.
+TcOpen Visual Studio Tools is a Visual Studio extension for the easy access of TcTools features from within VS. TcOpen Visual Studio Tools is an open source project written in C# under the [MIT](https://tldrlegal.com/license/mit-license) license.
 
 
 
