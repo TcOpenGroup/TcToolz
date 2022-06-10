@@ -197,6 +197,8 @@ namespace BackupNow
                         Message1 = "Scanning ...";
                     });
 
+                    var a = new List<ItemToDelete>();
+                    var b = new List<string>();
 
                     foreach (var backupitem in settings.BackupItems)
                     {
@@ -209,6 +211,10 @@ namespace BackupNow
                         foreach (string f in Directory.EnumerateFiles(backupitem.Destination, "*.zip", SearchOption.TopDirectoryOnly))
                         {
                             existingZipFiles.Add(Path.GetFileNameWithoutExtension(f));
+                            if (!a.Exists(x => x.FileName == Path.GetFileNameWithoutExtension(f)))
+                            {
+                                a.Add(new ItemToDelete { FileName = Path.GetFileNameWithoutExtension(f), FullPath = f });
+                            }
                         }
 
                         foreach (string f in Directory.EnumerateFiles(backupitem.Source, "*.backupnow", SearchOption.AllDirectories))
@@ -225,6 +231,8 @@ namespace BackupNow
                             }
 
                             var zipFileName = Path.GetFileNameWithoutExtension(f);
+                            b.Add(zipFileName);
+
                             var destZipFilePath = backupitem.Destination + @"\" + zipFileName + ".zip";
 
                             string[] lines = File.ReadAllLines(f);
@@ -259,6 +267,27 @@ namespace BackupNow
                             });
                         }
                     }
+
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Message1 = "Cleaning untracked zip files ...";
+                    });
+
+                    foreach (var item in a)
+                    {
+                        if (!b.Any(x => x == item.FileName))
+                        {
+                            try
+                            {
+                                File.Delete(item.FullPath);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+
 
 
                     foreach (var item in Items)
@@ -394,5 +423,10 @@ namespace BackupNow
                 ((DelegateCommand)CancelCommand).RaiseCanExecuteChanged();
             });
         }
+    }
+    public class ItemToDelete
+    {
+        public string FileName { get; set; }
+        public string FullPath { get; set; }
     }
 }
