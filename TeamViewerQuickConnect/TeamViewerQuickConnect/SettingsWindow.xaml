@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
-        xmlns:model="clr-namespace:QuickConnect.Data;assembly=QuickConnectSQL.Data" 
+        xmlns:model="clr-namespace:QuickConnect.Data;assembly=QuickConnect.Data" 
         xmlns:local="clr-namespace:QuickConnect"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         WindowStartupLocation="CenterScreen"

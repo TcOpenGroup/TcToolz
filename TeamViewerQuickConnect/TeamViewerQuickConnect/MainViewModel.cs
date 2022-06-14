@@ -182,6 +182,7 @@ namespace QuickConnect
                     if (!string.IsNullOrEmpty(Settings.LastQuery))
                     {
                         TextSearch = Settings.LastQuery;
+                        MainWindow.Instance.TextSearch1.SelectAll();
                     }
                 });
             });
@@ -295,7 +296,9 @@ namespace QuickConnect
                                  var y = _items.Where(x => x.Id == d.Item.Id).SingleOrDefault();
                                  _items[_items.IndexOf(y)] = d.Item;
 
-                                 SelectedItem = _items[_items.IndexOf(y)];
+                                 var filteredItems = View.Cast<ItemWrapper>();
+                                 SelectedItem = filteredItems.Where(x => x.Id == item.Id).FirstOrDefault();
+
                                  break;
                              }
                          }
@@ -322,8 +325,8 @@ namespace QuickConnect
 
                     Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
                     dlg.FileName = "QuickConnect";
-                    dlg.DefaultExt = ".xml";
-                    dlg.Filter = "XML Files (.xml)|*.xml";
+                    dlg.DefaultExt = ".json";
+                    dlg.Filter = "JSON Files (.json)|*.json";
                     var result = dlg.ShowDialog();
 
                     if (result == true)
@@ -338,8 +341,8 @@ namespace QuickConnect
                 Utils.RunWithErrorHandling(() =>
                 {
                     Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
-                    openFileDlg.DefaultExt = ".xml";
-                    openFileDlg.Filter = "XML Files (.xml)|*.xml";
+                    openFileDlg.DefaultExt = ".json";
+                    openFileDlg.Filter = "JSON Files (.json)|*.json";
 
                     Nullable<bool> result = openFileDlg.ShowDialog();
                     if (result == true)

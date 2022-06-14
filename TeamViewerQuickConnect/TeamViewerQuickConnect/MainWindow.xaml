@@ -38,8 +38,8 @@
             <ui:AppBarButton Icon="Setting" LabelPosition="Collapsed" ToolTip="Settings" Command="{Binding SettingsCommand}" />
 
             <ui:CommandBar.SecondaryCommands>
-                <ui:AppBarButton Label="Export to XML" Command="{Binding ExportCommand}" />
-                <ui:AppBarButton Label="Import from XML" Command="{Binding ImportCommand}" />
+                <ui:AppBarButton Label="Export selected to JSON" Command="{Binding ExportCommand}" />
+                <ui:AppBarButton Label="Import selected from JSON" Command="{Binding ImportCommand}" />
                 <ui:AppBarSeparator />
                 <ui:AppBarButton Label="Export All" Command="{Binding ExportAllCommand}" />
                 <ui:AppBarButton Label="Import All" Command="{Binding ImportAllCommand}" />
