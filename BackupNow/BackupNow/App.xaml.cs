@@ -27,7 +27,7 @@ namespace BackupNow
 
         public static string GetVersion()
         {
-            var ver = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            var ver = new Version(Utils.GetVersion());
             return ver.Major + "." + ver.Minor;
         }
 
@@ -40,7 +40,7 @@ namespace BackupNow
                 VersionFileUrl = "http://192.168.0.14:5551/BackupNow/version.txt",
                 SourceFileUrl = "http://192.168.0.14:5551/BackupNow/BackupNow_SETUP.exe",
                 TmpFilePath = Path.GetTempPath() + @"BackupNow\BackupNow_SETUP.exe",
-                CurrentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                CurrentVersion = Utils.GetVersion(),
             });
 
             new Bootstrapper();

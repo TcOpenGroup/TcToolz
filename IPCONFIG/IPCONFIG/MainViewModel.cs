@@ -238,12 +238,7 @@ namespace IPCONFIG
                     IP = "10.0.225.199",
                     SubnetMask = "255.255.255.0",
                 }));
-                _items.Add(new ItemWrapper(new Item
-                {
-                    Name = "Varroc 2100735 Festo",
-                    IP = "192.168.0.199",
-                    SubnetMask = "255.255.255.0",
-                }));
+
                 GenId();
             }
 

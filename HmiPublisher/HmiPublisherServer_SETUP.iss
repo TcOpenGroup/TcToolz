@@ -40,8 +40,8 @@ WizardStyle=modern
 ;Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "HmiPublisherTcpServer\bin\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "HmiPublisherTcpServer\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "HmiPublisherTcpServer\bin\Release\net48\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "HmiPublisherTcpServer\bin\Release\net48\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]

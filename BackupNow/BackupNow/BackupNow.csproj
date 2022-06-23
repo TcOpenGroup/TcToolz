@@ -1,215 +1,42 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A6796911-9426-4FFB-AF33-C244F6D54143}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>BackupNow</RootNamespace>
-    <AssemblyName>BackupNow</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>3167509_sync_complete_icon_Xe3_icon.ico</ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="netstandard" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="ControlPages\ScanViewModel.cs" />
-    <Compile Include="Converters.cs" />
-    <Compile Include="DelegateCommand.cs" />
-    <Compile Include="Events\Events.cs" />
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ControlPages\AboutPage.xaml.cs">
-      <DependentUpon>AboutPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ControlPages\SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ControlPages\ScanPage.xaml.cs">
-      <DependentUpon>ScanPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DispatcherHelper.cs" />
-    <Compile Include="InitWindow.xaml.cs">
-      <DependentUpon>InitWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Logo.xaml.cs">
-      <DependentUpon>Logo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Observable.cs" />
-    <Compile Include="RootFrame.cs" />
-    <Compile Include="MainViewModel.cs" />
-    <Compile Include="ShuttingDownWindow.xaml.cs">
-      <DependentUpon>ShuttingDownWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Utils.cs" />
-    <Compile Include="Wrapper\AppSettingsWrapper.cs" />
-    <Compile Include="Wrapper\Base\ModelWrapper.cs" />
-    <Compile Include="Wrapper\ItemWrapper.cs" />
-    <Page Include="ControlPages\AboutPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ControlPages\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ControlPages\ScanPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="InitWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Logo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="NavigationRootPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ShuttingDownWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="NavigationRootPage.xaml.cs">
-      <DependentUpon>NavigationRootPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Autofac">
-      <Version>6.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="DotNetZip">
-      <Version>1.16.0</Version>
-    </PackageReference>
-    <PackageReference Include="MaterialDesignThemes">
-      <Version>4.5.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts">
-      <Version>10.0.18362.2005</Version>
-    </PackageReference>
-    <PackageReference Include="ModernWpfUI">
-      <Version>0.9.4</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>6.0.8</Version>
-    </PackageReference>
-    <PackageReference Include="Prism.Core">
-      <Version>8.1.97</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.WindowsRuntime">
-      <Version>4.6.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml">
-      <Version>4.6.0</Version>
-    </PackageReference>
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.5.0</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="3167509_sync_complete_icon_Xe3_icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BackupNow.DataAccess\BackupNow.DataAccess.csproj">
-      <Project>{68aa3daf-5e4b-4338-abe8-78b7f74bac4f}</Project>
-      <Name>BackupNow.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BackupNow.Model\BackupNow.Model.csproj">
-      <Project>{75F90568-758D-4779-BDAB-ED1C3E3E9161}</Project>
-      <Name>BackupNow.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Updater\Updater.csproj">
-      <Project>{a9aa7335-4030-40dc-b2b8-3ea813d9c566}</Project>
-      <Name>Updater</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net48</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<PackageId>$(AssemblyName)</PackageId>
+		<Product>$(AssemblyName)</Product>
+		<AssemblyName>BackupNow</AssemblyName>
+		<ApplicationIcon>3167509_sync_complete_icon_Xe3_icon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="VERSION" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="3167509_sync_complete_icon_Xe3_icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="VERSION" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Autofac" Version="6.4.0" />
+	  <PackageReference Include="DotNetZip" Version="1.16.0" />
+	  <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
+	  <PackageReference Include="ModernWpfUI" Version="0.9.5" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <PackageReference Include="Prism.Core" Version="8.1.97" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BackupNow.DataAccess\BackupNow.DataAccess.csproj" />
+	  <ProjectReference Include="..\BackupNow.Model\BackupNow.Model.csproj" />
+	  <ProjectReference Include="..\Updater\Updater.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -7,15 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisher.Model", "HmiPu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisher.DataAccess", "HmiPublisher.DataAccess\HmiPublisher.DataAccess.csproj", "{68AA3DAF-5E4B-4338-ABE8-78B7F74BAC4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisher.UITests", "HmiPublisher.UITests\HmiPublisher.UITests.csproj", "{873D62BF-35EC-4873-9B63-04D12A4C48FC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisherServer", "HmiPublisherServer\HmiPublisherServer.csproj", "{55CA42A0-3536-40DF-94DE-3DB23D95AF25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisherTcpServer", "HmiPublisherTcpServer\HmiPublisherTcpServer.csproj", "{9908198A-2EDC-40FA-8732-0AAF5FBBF7E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisher", "HmiPublisher\HmiPublisher.csproj", "{E25C55B3-BE84-4050-B465-11ED0C361F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{A9AA7335-4030-40DC-B2B8-3EA813D9C566}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Updater", "Updater\Updater.csproj", "{AFA83613-8762-4CDD-B753-D77E37F2688F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{68AA3DAF-5E4B-4338-ABE8-78B7F74BAC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68AA3DAF-5E4B-4338-ABE8-78B7F74BAC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68AA3DAF-5E4B-4338-ABE8-78B7F74BAC4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{873D62BF-35EC-4873-9B63-04D12A4C48FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{873D62BF-35EC-4873-9B63-04D12A4C48FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{873D62BF-35EC-4873-9B63-04D12A4C48FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{873D62BF-35EC-4873-9B63-04D12A4C48FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55CA42A0-3536-40DF-94DE-3DB23D95AF25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55CA42A0-3536-40DF-94DE-3DB23D95AF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55CA42A0-3536-40DF-94DE-3DB23D95AF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +41,10 @@ Global
 		{E25C55B3-BE84-4050-B465-11ED0C361F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E25C55B3-BE84-4050-B465-11ED0C361F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E25C55B3-BE84-4050-B465-11ED0C361F6C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9AA7335-4030-40DC-B2B8-3EA813D9C566}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9AA7335-4030-40DC-B2B8-3EA813D9C566}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9AA7335-4030-40DC-B2B8-3EA813D9C566}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9AA7335-4030-40DC-B2B8-3EA813D9C566}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFA83613-8762-4CDD-B753-D77E37F2688F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA83613-8762-4CDD-B753-D77E37F2688F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA83613-8762-4CDD-B753-D77E37F2688F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA83613-8762-4CDD-B753-D77E37F2688F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

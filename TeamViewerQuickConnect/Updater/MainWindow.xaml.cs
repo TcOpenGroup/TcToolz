@@ -7,9 +7,13 @@ namespace Updater
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(MainViewModel model)
+        public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public void Init(MainViewModel model)
+        {
             this.DataContext = model;
         }
     }

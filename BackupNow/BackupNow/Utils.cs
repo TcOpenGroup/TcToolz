@@ -72,7 +72,18 @@ namespace BackupNow
 
         public static string GetVersion()
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            var result = "";
+
+            var assembly = Assembly.GetExecutingAssembly();
+            string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith("VERSION"));
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                result = reader.ReadToEnd();
+            }
+
+            return result;
         }
         public static string GetCommandLineArgs()
         {

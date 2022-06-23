@@ -33,7 +33,9 @@ namespace Updater
                         {
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                new MainWindow(new MainViewModel(data)).ShowDialog();
+                                var w = new MainWindow();
+                                w.Init(new MainViewModel(data));
+                                w.ShowDialog();
                             });
                         }
                     }

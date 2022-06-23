@@ -23,7 +23,7 @@ namespace HmiPublisher
 
         public static string GetVersion()
         {
-            var ver = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            var ver = new Version(Utils.GetVersion());
             return ver.Major + "." + ver.Minor;
         }
 

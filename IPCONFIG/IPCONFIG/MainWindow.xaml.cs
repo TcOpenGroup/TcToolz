@@ -28,7 +28,7 @@ namespace IPCONFIG
             DataContext = new MainViewModel();
             _context = DataContext as MainViewModel;
 
-            var ver = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            var ver = new Version(Utils.GetVersion());
 
             Title = Application.ResourceAssembly.GetName().Name + " " + ver.Major + "." + ver.Minor;
 
