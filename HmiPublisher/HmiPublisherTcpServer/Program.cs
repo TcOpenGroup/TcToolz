@@ -1,5 +1,4 @@
-﻿using HmiPublisherServer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +14,8 @@ namespace HmiPublisherTcpServer
         [STAThread]
         static void Main()
         {
+            //Utils.ExitIfAlreadyRunning();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

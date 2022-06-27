@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisher.Model", "HmiPublisher.Model\HmiPublisher.Model.csproj", "{75F90568-758D-4779-BDAB-ED1C3E3E9161}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HmiPublisher.Model", "HmiPublisher.Model\HmiPublisher.Model.csproj", "{75F90568-758D-4779-BDAB-ED1C3E3E9161}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisher.DataAccess", "HmiPublisher.DataAccess\HmiPublisher.DataAccess.csproj", "{68AA3DAF-5E4B-4338-ABE8-78B7F74BAC4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HmiPublisher.DataAccess", "HmiPublisher.DataAccess\HmiPublisher.DataAccess.csproj", "{68AA3DAF-5E4B-4338-ABE8-78B7F74BAC4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisherServer", "HmiPublisherServer\HmiPublisherServer.csproj", "{55CA42A0-3536-40DF-94DE-3DB23D95AF25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HmiPublisherServer", "HmiPublisherServer\HmiPublisherServer.csproj", "{55CA42A0-3536-40DF-94DE-3DB23D95AF25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisherTcpServer", "HmiPublisherTcpServer\HmiPublisherTcpServer.csproj", "{9908198A-2EDC-40FA-8732-0AAF5FBBF7E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HmiPublisherTcpServer", "HmiPublisherTcpServer\HmiPublisherTcpServer.csproj", "{9908198A-2EDC-40FA-8732-0AAF5FBBF7E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HmiPublisher", "HmiPublisher\HmiPublisher.csproj", "{E25C55B3-BE84-4050-B465-11ED0C361F6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HmiPublisher", "HmiPublisher\HmiPublisher.csproj", "{E25C55B3-BE84-4050-B465-11ED0C361F6C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Updater", "Updater\Updater.csproj", "{AFA83613-8762-4CDD-B753-D77E37F2688F}"
 EndProject

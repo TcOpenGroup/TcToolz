@@ -9,7 +9,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="VERSION" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Content Include="1585364_browser_launch_publish_software_startup_icon_pGa_icon.ico" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="VERSION" />
+	</ItemGroup>
+
+
 
 </Project>

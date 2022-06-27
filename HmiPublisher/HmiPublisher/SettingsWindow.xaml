@@ -64,6 +64,9 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
+            <Grid Height="5"/>
+
+
             <Label Content="Theme"/>
             <ComboBox SelectionChanged="ComboBox_SelectionChanged" HorizontalAlignment="Stretch" MinWidth="100" Grid.Column="1" ItemsSource="{Binding Source={StaticResource themeEnumProvider}}" 
                     SelectedItem="{Binding Theme,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">

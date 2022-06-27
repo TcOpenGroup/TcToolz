@@ -21,7 +21,7 @@
         
         </ui:SimpleStackPanel>
         
-        <Button Name="SubmitButton" Margin="12" Content="Cancel" IsDefault="True" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <Button Name="SubmitButton" Margin="15" Content="Cancel" IsDefault="True" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
     </Grid>
 
 </Window>

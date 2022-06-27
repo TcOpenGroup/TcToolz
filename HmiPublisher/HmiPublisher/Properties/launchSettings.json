@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HmiPublisher": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\mts\\20xx\\2100735_Varroc_TeslaY_OP011\\sw - Copy\""
+    }
+  }
+}

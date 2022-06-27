@@ -65,10 +65,17 @@
         </Grid.RowDefinitions>
 
         <ui:CommandBar DefaultLabelPosition="Right" Background="Transparent" HorizontalAlignment="Left">
-            <ui:CommandBar.SecondaryCommands>
+
+            <ui:AppBarButton Icon="Upload" Label="Publish" ToolTip="F5" Command="{Binding PublishCommand}" />
+            <ui:AppBarButton Icon="Upload" Label="Publish All" ToolTip="F6" Command="{Binding PublishAllCommand}" />
+            <ui:AppBarButton Icon="Refresh" Label="Restart" ToolTip="F7" Command="{Binding RestartAppCommand}" />
+            <ui:AppBarButton Icon="Refresh" Label="Restart All" ToolTip="F8" Command="{Binding RestartAllAppsCommand}" />
+            <ui:AppBarButton Icon="Cancel" Label="Cancel" ToolTip="Esc" Command="{Binding CancelCommand}" />
+            
+            <!--<ui:CommandBar.SecondaryCommands>-->
                 <ui:AppBarButton Icon="Add" Label="Add" InputGestureText="Insert" Command="{Binding AddCommand}" />
                 <ui:AppBarButton Icon="Remove" Label="Remove" InputGestureText="Delete" Command="{Binding DeleteCommand}" />
-                <ui:AppBarButton Icon="Copy" Label="Copy" InputGestureText="Ctrl+D" Command="{Binding CopyCommand}" />
+                <ui:AppBarButton Icon="Copy" Label="Duplicate" InputGestureText="Ctrl+D" Command="{Binding CopyCommand}" />
                 <ui:AppBarSeparator />
                 <ui:AppBarButton Icon="Save" Label="Save All" InputGestureText="Ctrl+S" Command="{Binding SaveCommand}" />
                 <ui:AppBarButton Icon="Delete" Label="Remove All" Command="{Binding DeleteAllCommand}" />
@@ -78,13 +85,9 @@
                 <ui:AppBarButton Icon="Switch" Label="Edit / Overview" Command="{Binding ShowProgressCommand}" InputGestureText="F2" />
                 <ui:AppBarSeparator />
                 <ui:AppBarButton Icon="Help" Label="About" Click="About_Click" />
-            </ui:CommandBar.SecondaryCommands>
+            <!--</ui:CommandBar.SecondaryCommands>-->
 
-            <ui:AppBarButton Icon="Upload" Label="Publish" ToolTip="F5" Command="{Binding PublishCommand}" />
-            <ui:AppBarButton Icon="Upload" Label="Publish All" ToolTip="F6" Command="{Binding PublishAllCommand}" />
-            <ui:AppBarButton Icon="Refresh" Label="Restart" ToolTip="F7" Command="{Binding RestartAppCommand}" />
-            <ui:AppBarButton Icon="Refresh" Label="Restart All" ToolTip="F8" Command="{Binding RestartAllAppsCommand}" />
-            <ui:AppBarButton Icon="Cancel" Label="Cancel" ToolTip="Esc" Command="{Binding CancelCommand}" />
+    
         </ui:CommandBar>
         
 

@@ -6,51 +6,59 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HmiPublisherServer
+namespace HmiPublisherTcpServer
 {
     public partial class Form1 : Form
     {
-        private readonly ControlInterface _controlInterface;
+        const int Port = 13700;
 
         private TcpListener _server;
 
+        int GetTaskBarHeight()
+        {
+            int PSH = GetScreen().Height;
+            int PSBH = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+            double ratio = PSH / PSBH;
+            int TaskBarHeight = PSBH - System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+            TaskBarHeight *= (int)ratio;
+            return TaskBarHeight;
+        }
+
+
         public Form1()
         {
+
+
             InitializeComponent();
 
-            _controlInterface = new ControlInterface();
+
 
             TopMost = true;
 
             richTextBox1.ReadOnly = true;
 
-            richTextBox1.AppendText("Listening ...\n");
+            var ver = new Version(Utils.GetVersion());
+            var version = ver.Major + "." + ver.Minor;
 
-            _server = new TcpListener(IPAddress.Parse("0.0.0.0"), 13700);
+            richTextBox1.Text = ("HmiPublisher Server [Version " + version + "]\n");
 
-            //try
-            //{
-            //    SetStartup();
-            //}
-            //catch (Exception ex)
-            //{
-            //    richTextBox1.AppendText(ex.Message + "\n");
 
-            //}
+            _server = new TcpListener(IPAddress.Parse("0.0.0.0"), Port);
         }
 
-        private void SetStartup()
-        {
-            RegistryKey rk = Registry.LocalMachine.OpenSubKey
-                ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
-            rk.SetValue("HmiPublisherServer", Application.ExecutablePath, RegistryValueKind.String);
-        }
 
         private void OnCommandReceived(string key, string[] args)
         {
+
+            BeginInvoke(new MethodInvoker(delegate
+            {
+                panel1.BackColor = Color.Green;
+            }));
+
             if (args.Length > 0)
             {
                 AppendText(key + ";" + args[0]);
@@ -60,17 +68,29 @@ namespace HmiPublisherServer
                 AppendText(key);
             }
 
-            switch (key)
+            try
             {
-                case "system":
-                    _controlInterface.StartCmd(args[0]);
-                    break;
-                case "poweroff":
-                    _controlInterface.StartCmd("shutdown -s -t 0");
-                    break;
-                case "reboot":
-                    _controlInterface.StartCmd("shutdown -r -t 0");
-                    break;
+                switch (key)
+                {
+                    case "system":
+                        Utils.StartCmd(args[0]);
+                        break;
+                    case "poweroff":
+                        Utils.StartCmd("shutdown -s -t 0");
+                        break;
+                    case "reboot":
+                        Utils.StartCmd("shutdown -r -t 0");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendText(ex.Message);
+                BeginInvoke(new MethodInvoker(delegate
+                {
+                    panel1.BackColor = Color.Red;
+                    ShowBottomRight();
+                }));
             }
         }
 
@@ -133,27 +153,85 @@ namespace HmiPublisherServer
                 catch (Exception ex)
                 {
                     AppendText(ex.Message);
+                    BeginInvoke(new MethodInvoker(delegate
+                    {
+                        panel1.BackColor = Color.Red;
+                        ShowBottomRight();
+                    }));
                 }
             }
 
         }
 
+        bool IsPortOpen(string host, int port)
+        {
+            try
+            {
+                using (var client = new TcpClient())
+                {
+                    var result = client.BeginConnect(host, port, null, null);
+                    var success = result.AsyncWaitHandle.WaitOne();
+                    client.EndConnect(result);
+                    return success;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            _server.Start();
-            backgroundWorker1.RunWorkerAsync();
-
             BeginInvoke(new MethodInvoker(delegate
             {
                 Hide();
             }));
+
+            try
+            {
+                _server.Start();
+
+                AppendText($"Listening on port {Port}");
+
+                backgroundWorker1.RunWorkerAsync();
+
+            }
+            catch (Exception ex)
+            {
+                AppendText(ex.Message);
+                BeginInvoke(new MethodInvoker(delegate
+                {
+                    panel1.BackColor = Color.Red;
+                    ShowBottomRight();
+                }));
+            }
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
-            Show();
+            if (Visible)
+            {
+                Hide();
+            }
+            else
+            {
+                ShowBottomRight();
+            }
+        }
 
-            this.Location = new Point(GetScreen().Width - this.Size.Width - 5, GetScreen().Height - this.Size.Height - 30 - 5);
+        private void ShowBottomRight()
+        {
+            BeginInvoke(new MethodInvoker(delegate
+            {
+                Show();
+            }));
+            this.Location = new Point(GetScreen().Width - this.Size.Width - 5, GetScreen().Height - GetTaskBarHeight() - this.Size.Height - 5);
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
         }
 
         public Rectangle GetScreen()
@@ -200,9 +278,6 @@ namespace HmiPublisherServer
             richTextBox1.Clear();
         }
 
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
 
-        }
     }
 }
