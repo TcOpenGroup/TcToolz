@@ -32,5 +32,41 @@ namespace QuickConnect
             get => GetValue<string>();
             set => SetValue(value);
         }
+
+        public double SizeW
+        {
+            get => GetValue<double>();
+            set => SetValue(value);
+        }
+
+        public double SizeH
+        {
+            get => GetValue<double>();
+            set => SetValue(value);
+        }
+
+        public double LocationX
+        {
+            get => GetValue<double>();
+            set => SetValue(value);
+        }
+
+        public double LocationY
+        {
+            get => GetValue<double>();
+            set => SetValue(value);
+        }
+
+        public bool RememberSize
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
+
+        public bool RememberLocation
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
     }
 }

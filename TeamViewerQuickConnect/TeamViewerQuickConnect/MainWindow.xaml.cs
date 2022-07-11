@@ -41,6 +41,25 @@ namespace QuickConnect
             TextSearch1.PreviewKeyDown += TextSearch1_PreviewKeyDown;
             TextSearch1.Focus();
 
+            if (_context.Settings.Model.SizeW > 0)
+            {
+                //if (_context.Settings.Model.RememberLocation)
+                //{
+                //    Left = _context.Settings.Model.LocationX;
+                //    Top = _context.Settings.Model.LocationY;
+                //}
+
+                if (_context.Settings.Model.RememberSize)
+                {
+                    Width = _context.Settings.Model.SizeW;
+                    Height = _context.Settings.Model.SizeH;
+                }
+            }
+
+            //if (!_context.Settings.Model.RememberLocation)
+            //{
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //}
 
             Instance = this;
 
@@ -48,6 +67,12 @@ namespace QuickConnect
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            _context.Settings.Model.SizeW = Width;
+            _context.Settings.Model.SizeH = Height;
+
+            _context.Settings.Model.LocationX = Left;
+            _context.Settings.Model.LocationY = Top;
+
             _context.SaveSettings();
         }
 
@@ -65,17 +90,6 @@ namespace QuickConnect
                     ListBox.Focus();
                 }
             }
-            //else
-            //{
-            //    if (_context.Items.Count > 0)
-            //    {
-            //        _context.SelectedItem = _context.Items[0];
-            //    }
-            //    else
-            //    {
-            //        _context.SelectedItem = null;
-            //    }
-            //}
         }
 
 

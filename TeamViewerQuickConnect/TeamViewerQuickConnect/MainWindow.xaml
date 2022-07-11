@@ -8,7 +8,6 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d"
         Topmost="False"
-        WindowStartupLocation="CenterScreen" 
         Title="MainWindow" Height="520" Width="350">
     <Window.InputBindings>
         <KeyBinding Key="Insert"
