@@ -96,6 +96,7 @@ namespace QuickConnect
         public ICommand ExportAllCommand { get; private set; }
         public ICommand ImportAllCommand { get; private set; }
         public ICommand SettingsCommand { get; private set; }
+        public ICommand KillCommand { get; private set; }
 
         void Initialize()
         {
@@ -395,6 +396,17 @@ namespace QuickConnect
                     d.ShowDialog();
                     Settings = Utils.Clone(d.DataContext as SettingsWrapper);
                     SaveSettings();
+                });
+            });
+
+            KillCommand = new DelegateCommand((obj) =>
+            {
+                Utils.RunWithErrorHandling(() =>
+                {
+                    foreach (var process in Process.GetProcessesByName("teamviewer"))
+                    {
+                        process.Kill();
+                    }
                 });
             });
         }

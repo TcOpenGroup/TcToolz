@@ -43,6 +43,8 @@
                 <ui:AppBarButton Label="Export All" Command="{Binding ExportAllCommand}" />
                 <ui:AppBarButton Label="Import All" Command="{Binding ImportAllCommand}" />
                 <ui:AppBarButton Label="Delete All" Command="{Binding DeleteAllCommand}" />
+                <ui:AppBarSeparator />
+                <ui:AppBarButton Label="Kill TeamViewer" Command="{Binding KillCommand}" />
             </ui:CommandBar.SecondaryCommands>
 
         </ui:CommandBar>
