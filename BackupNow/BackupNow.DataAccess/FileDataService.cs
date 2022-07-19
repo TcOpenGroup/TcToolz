@@ -12,7 +12,15 @@ namespace BackupNow.DataAccess
         private string _appSettingsFilePath = "";
         public FileDataService()
         {
-            _appSettingsFilePath = System.IO.Path.GetTempPath() + @"BackupNow\Settings.json";
+            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\Settings.json") && File.Exists(System.IO.Path.GetTempPath() + @"BackupNow\Settings.json"))
+            {
+                if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow"))
+                {
+                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow");
+                }
+                File.Copy(System.IO.Path.GetTempPath() + @"BackupNow\Settings.json", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\Settings.json");
+            }
+            _appSettingsFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\Settings.json";
         }
 
         private string GetCommandLineArgs()

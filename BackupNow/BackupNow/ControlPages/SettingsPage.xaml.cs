@@ -32,7 +32,7 @@ namespace BackupNow
         {
             Utils.RunWithErrorHandling(() =>
             {
-                Process.Start("explorer", System.IO.Path.GetDirectoryName(System.IO.Path.GetTempPath() + @"\BackupNow\Settings.json"));
+                Process.Start("explorer", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\Settings.json");
             });
         }
 
