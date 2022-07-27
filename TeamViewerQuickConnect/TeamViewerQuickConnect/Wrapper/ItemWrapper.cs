@@ -31,5 +31,17 @@ namespace QuickConnect
             get => GetValue<string>();
             set => SetValue(value);
         }
+
+
+        private bool _online;
+        public bool Online
+        {
+            get { return _online; }
+            set
+            {
+                _online = value;
+                OnPropertyChanged(nameof(Online));
+            }
+        }
     }
 }

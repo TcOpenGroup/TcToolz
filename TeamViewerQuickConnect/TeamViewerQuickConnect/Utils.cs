@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -62,6 +63,46 @@ namespace QuickConnect
             catch (Exception)
             {
 
+            }
+        }
+
+        public static bool PingHost(string nameOrAddress)
+        {
+            bool pingable = false;
+            Ping pinger = null;
+
+            try
+            {
+                pinger = new Ping();
+                PingReply reply = pinger.Send(nameOrAddress, timeout: 50);
+                pingable = reply.Status == IPStatus.Success;
+            }
+            catch (PingException)
+            {
+                // Discard PingExceptions and return false;
+            }
+            finally
+            {
+                if (pinger != null)
+                {
+                    pinger.Dispose();
+                }
+            }
+
+            return pingable;
+        }
+
+        public static async Task<bool> PingAsync(string nameOrAddress)
+        {
+            var pinger = new Ping();
+            var res = await pinger.SendPingAsync(nameOrAddress, 200);
+            if (res.Status == IPStatus.Success)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

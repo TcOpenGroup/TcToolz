@@ -9,6 +9,12 @@
         mc:Ignorable="d"
         Topmost="False"
         Title="MainWindow" Height="520" Width="350">
+
+    <Window.Resources>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <local:OnlineToColorConverter x:Key="OnlineToColorConverter"/>
+    </Window.Resources>
+    
     <Window.InputBindings>
         <KeyBinding Key="Insert"
                     Command="{Binding AddCommand}" />
@@ -59,6 +65,7 @@
                      Name="ListBox"
                      PreviewKeyDown="ListBox_PreviewKeyDown" 
                      MouseDoubleClick="ListBox_MouseDoubleClick" 
+            SelectionChanged="ListBox_ItemClick"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                      ScrollViewer.CanContentScroll="False" 
                      ItemsSource="{Binding View}" 
@@ -76,10 +83,19 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
-                            <TextBlock Text="{Binding TeamViewerID}" FontFamily="consolas" FontSize="12"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding TeamViewerID}" FontFamily="consolas" FontSize="12"/>
+                                <Ellipse 
+                                    Visibility="{Binding Online, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Fill="ForestGreen" 
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    Width="8"  
+                                    Height="8" />
+                            </StackPanel>
                         </StackPanel>
 
                         <Viewbox Grid.Column="1" Width="60">

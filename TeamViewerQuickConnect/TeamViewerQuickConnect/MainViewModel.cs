@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Updater;
 
 namespace QuickConnect
@@ -47,6 +48,7 @@ namespace QuickConnect
                 _selectedItem = value;
                 OnPropertyChanged(nameof(SelectedItem));
                 InvalidateCommands();
+
             }
         }
 
@@ -578,6 +580,27 @@ namespace QuickConnect
             else
             {
                 return Visibility.Collapsed;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    public class OnlineToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            if ((bool)value)
+            {
+                return Brushes.ForestGreen;
+            }
+            else
+            {
+                return Brushes.Red;
             }
         }
 

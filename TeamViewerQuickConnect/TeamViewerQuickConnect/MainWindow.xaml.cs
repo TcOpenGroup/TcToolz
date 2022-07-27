@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -28,6 +29,11 @@ namespace QuickConnect
             InitializeComponent();
             DataContext = new MainViewModel();
             _context = DataContext as MainViewModel;
+
+            System.Timers.Timer aTimer = new System.Timers.Timer();
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEventAsync);
+            aTimer.Interval = 5000;
+            aTimer.Enabled = true;
 
 
             var ver = new Version(Utils.GetVersion());
@@ -146,6 +152,30 @@ namespace QuickConnect
         {
             TextSearch1.Clear();
             TextSearch1.Focus();
+        }
+
+        private async void ListBox_ItemClick(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var item in _context.Items)
+            {
+                item.Online = false;
+            }
+            if (_context.SelectedItem != null)
+            {
+                _context.SelectedItem.Online = await Utils.PingAsync(_context.SelectedItem.TeamViewerID);
+            }
+        }
+
+        private async void OnTimedEventAsync(object source, ElapsedEventArgs e)
+        {
+            foreach (var item in _context.Items)
+            {
+                item.Online = false;
+            }
+            if (_context.SelectedItem != null)
+            {
+                _context.SelectedItem.Online = await Utils.PingAsync(_context.SelectedItem.TeamViewerID);
+            }
         }
     }
 }
