@@ -506,6 +506,8 @@ namespace QuickConnect
                 return;
             }
 
+            SaveSettings();
+
             Debug.WriteLine(SelectedItem.Name);
             //return;
 
