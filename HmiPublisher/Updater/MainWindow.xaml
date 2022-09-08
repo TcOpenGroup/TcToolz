@@ -18,7 +18,7 @@
             <Label Content="Updates available"
                 FontSize="22" />
 
-            <Label Content="Press install to install"
+            <Label Content="Press install to continue"
                 FontSize="15" />
 
             <Grid Height="10" />
