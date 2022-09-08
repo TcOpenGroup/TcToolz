@@ -32,12 +32,12 @@ namespace QuickConnect
             SetWindowLong(hwnd, GWL_STYLE, (currentStyle & ~WS_MAXIMIZEBOX & ~WS_MINIMIZEBOX));
         }
 
-        public static string GetVersion()
+        public static string GetEmbeddedTextFile(string filename)
         {
             var result = "";
 
             var assembly = Assembly.GetExecutingAssembly();
-            string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith("VERSION"));
+            string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith(filename));
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
@@ -94,16 +94,25 @@ namespace QuickConnect
 
         public static async Task<bool> PingAsync(string nameOrAddress)
         {
-            var pinger = new Ping();
-            var res = await pinger.SendPingAsync(nameOrAddress, 200);
-            if (res.Status == IPStatus.Success)
+            try
             {
-                return true;
+                var pinger = new Ping();
+                var res = await pinger.SendPingAsync(nameOrAddress, 200);
+                if (res.Status == IPStatus.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
+
                 return false;
             }
+
         }
     }
 }

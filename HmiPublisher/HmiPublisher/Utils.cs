@@ -102,12 +102,12 @@ namespace HmiPublisher
             return JsonConvert.DeserializeObject<T>(serialized);
         }
 
-        public static string GetVersion()
+        public static string GetEmbeddedTextFile(string filename)
         {
             var result = "";
 
             var assembly = Assembly.GetExecutingAssembly();
-            string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith("VERSION"));
+            string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith(filename));
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))

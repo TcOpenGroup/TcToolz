@@ -109,7 +109,8 @@ namespace QuickConnect
                 VersionFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/version.txt",
                 SourceFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/TeamViewerQuickConnect_SETUP.exe",
                 TmpFilePath = Path.GetTempPath() + @"TeamViewerQuickConnect\TeamViewerQuickConnect_SETUP.exe",
-                CurrentVersion = Utils.GetVersion(),
+                CurrentVersion = Utils.GetEmbeddedTextFile("VERSION"),
+                ReleaseNotes = Utils.GetEmbeddedTextFile("RELEASE_NOTES")
             });
 
             _dataService = new FileDataService();

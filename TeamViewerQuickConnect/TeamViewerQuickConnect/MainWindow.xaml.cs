@@ -36,7 +36,7 @@ namespace QuickConnect
             aTimer.Enabled = true;
 
 
-            var ver = new Version(Utils.GetVersion());
+            var ver = new Version(Utils.GetEmbeddedTextFile("VERSION"));
 
             Title = Application.ResourceAssembly.GetName().Name + " " + ver.Major + "." + ver.Minor;
 

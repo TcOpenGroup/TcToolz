@@ -13,6 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="RELEASE_NOTES" />
 	  <None Remove="VERSION" />
 	</ItemGroup>
 
@@ -22,6 +23,7 @@
 
 	<ItemGroup>
 	  <EmbeddedResource Include="VERSION" />
+	  <EmbeddedResource Include="RELEASE_NOTES" />
 	</ItemGroup>
 
 	<ItemGroup>

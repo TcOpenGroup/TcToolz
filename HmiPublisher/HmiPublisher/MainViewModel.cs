@@ -148,7 +148,8 @@ namespace HmiPublisher
                 VersionFileUrl = "http://192.168.0.14:5551/_HmiPublisher_V3/version.txt",
                 SourceFileUrl = "http://192.168.0.14:5551/_HmiPublisher_V3/HmiPublisher_SETUP.exe",
                 TmpFilePath = Path.GetTempPath() + @"HmiPublisherV3\HmiPublisher_SETUP.exe",
-                CurrentVersion = Utils.GetVersion(),
+                CurrentVersion = Utils.GetEmbeddedTextFile("VERSION"),
+                ReleaseNotes = Utils.GetEmbeddedTextFile("RELEASE_NOTES")
             });
 
             _dataService = new FileDataService();

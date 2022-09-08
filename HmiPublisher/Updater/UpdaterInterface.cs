@@ -57,6 +57,7 @@ namespace Updater
         public string SourceFileUrl { get; set; }
         public string TmpFilePath { get; set; }
         public string CurrentVersion { get; set; }
+        public string ReleaseNotes { get; set; }
     }
 
 }
