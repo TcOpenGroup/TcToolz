@@ -146,10 +146,10 @@ namespace HmiPublisher
             UpdaterInterface.Instance.Run(new UpdaterData
             {
                 VersionFileUrl = "http://192.168.0.14:5551/_HmiPublisher_V3/version.txt",
+                ReleaseNotesUrl = "http://192.168.0.14:5551/_HmiPublisher_V3/release_notes.txt",
                 SourceFileUrl = "http://192.168.0.14:5551/_HmiPublisher_V3/HmiPublisher_SETUP.exe",
                 TmpFilePath = Path.GetTempPath() + @"HmiPublisherV3\HmiPublisher_SETUP.exe",
                 CurrentVersion = Utils.GetEmbeddedTextFile("VERSION"),
-                ReleaseNotes = Utils.GetEmbeddedTextFile("RELEASE_NOTES")
             });
 
             _dataService = new FileDataService();

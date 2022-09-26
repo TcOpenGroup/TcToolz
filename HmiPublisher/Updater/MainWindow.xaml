@@ -38,7 +38,7 @@
                    FontSize="19"/>
             <ProgressBar Value="{Binding ProgressPercentage, UpdateSourceTrigger=PropertyChanged}" Margin="0,10,0,0" />
             <Grid  Height="20" />
-            <Button Command="{Binding InstallCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Install" MinWidth="100" />
+            <Button Command="{Binding InstallCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Install" MinWidth="100" Style="{StaticResource AccentButtonStyle}" />
         </StackPanel>
 
     </Grid>
