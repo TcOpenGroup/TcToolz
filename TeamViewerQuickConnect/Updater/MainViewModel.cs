@@ -41,11 +41,11 @@ namespace Updater
         }
 
 
-        public MainViewModel(UpdaterData data)
+        public MainViewModel(UpdaterData data, string relnotes)
         {
             _data = data;
 
-            ReleaseNotes = data.ReleaseNotes;
+            ReleaseNotes = relnotes;
 
             InstallCommand = new DelegateCommand((obj) =>
             {

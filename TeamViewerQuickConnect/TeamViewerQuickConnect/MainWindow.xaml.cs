@@ -47,13 +47,11 @@ namespace QuickConnect
             TextSearch1.PreviewKeyDown += TextSearch1_PreviewKeyDown;
             TextSearch1.Focus();
 
+            Topmost = _context.Settings.Topmost;
+
             if (_context.Settings.Model.SizeW > 0)
             {
-                //if (_context.Settings.Model.RememberLocation)
-                //{
-                //    Left = _context.Settings.Model.LocationX;
-                //    Top = _context.Settings.Model.LocationY;
-                //}
+
 
                 if (_context.Settings.Model.RememberSize)
                 {
@@ -62,10 +60,7 @@ namespace QuickConnect
                 }
             }
 
-            //if (!_context.Settings.Model.RememberLocation)
-            //{
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            //}
 
             Instance = this;
 
@@ -93,7 +88,7 @@ namespace QuickConnect
 
                 if (_context.Items.Count() > 0)
                 {
-                    ListBox.Focus();
+                    ListBox1.Focus();
                 }
             }
         }
@@ -110,7 +105,7 @@ namespace QuickConnect
         }
 
 
-        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void ListBox1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
             {
@@ -131,7 +126,7 @@ namespace QuickConnect
 
         }
 
-        private void ListBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void ListBox1_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             var listbox = sender as ListBox;
             if (e.Key == Key.Enter)
@@ -154,7 +149,7 @@ namespace QuickConnect
             TextSearch1.Focus();
         }
 
-        private async void ListBox_ItemClick(object sender, SelectionChangedEventArgs e)
+        private async void ListBox1_ItemClick(object sender, SelectionChangedEventArgs e)
         {
             foreach (var item in _context.Items)
             {

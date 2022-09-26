@@ -55,17 +55,18 @@
 
         </ui:CommandBar>
 
-        <Grid Grid.Row="1" Margin="10,0,10,10">
-            <TextBox Name="TextSearch1" ui:ControlHelper.Header="Search" Text="{Binding TextSearch,UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Row="1" Margin="10">
+            <TextBox Name="TextSearch1" ui:ControlHelper.PlaceholderText="Search" Text="{Binding TextSearch,UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <ui:ListView 
+            FocusVisualStyle="{x:Null}"
             SelectionMode="Extended"
                      Grid.Row="2" 
-                     Name="ListBox"
-                     PreviewKeyDown="ListBox_PreviewKeyDown" 
-                     MouseDoubleClick="ListBox_MouseDoubleClick" 
-            SelectionChanged="ListBox_ItemClick"
+                     Name="ListBox1"
+                     PreviewKeyDown="ListBox1_PreviewKeyDown" 
+                     MouseDoubleClick="ListBox1_MouseDoubleClick" 
+            SelectionChanged="ListBox1_ItemClick"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                      ScrollViewer.CanContentScroll="False" 
                      ItemsSource="{Binding View}" 
@@ -76,6 +77,8 @@
                     <Setter Property="Padding" Value="10,5"></Setter>
                 </Style>
             </ListBox.ItemContainerStyle>
+
+
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -100,12 +103,14 @@
 
                         <Viewbox Grid.Column="1" Width="60">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Center">
-                                <ui:AppBarButton LabelPosition="Collapsed" Icon="Edit" ToolTip="Edit (F2)" Command="{Binding ElementName=ListBox, Path=DataContext.EditCommand}" CommandParameter="{Binding}" />
+                                <ui:AppBarButton LabelPosition="Collapsed" Icon="Edit" ToolTip="Edit (F2)" Command="{Binding ElementName=ListBox1, Path=DataContext.EditCommand}" CommandParameter="{Binding}" />
                             </StackPanel>
                         </Viewbox>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
+      
         </ui:ListView>
 
         <ui:ProgressRing IsActive="{Binding Loading}" Height="50" Width="50" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" />

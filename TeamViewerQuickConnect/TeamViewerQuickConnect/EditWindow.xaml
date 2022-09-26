@@ -11,7 +11,7 @@
         Title="EditWindow" Height="300" Width="300">
 
     <ui:SimpleStackPanel Margin="12" Spacing="5">
-        <TextBox Text="{Binding Name}" Name="Name" ui:ControlHelper.Header="Name" />
+        <TextBox Text="{Binding Name}" Name="Name" ui:ControlHelper.Header="Name" GotFocus="Name_GotFocus" />
         <TextBox Text="{Binding TeamViewerID}" Name="IP" ui:ControlHelper.Header="IP/ID" />
         <TextBox Text="{Binding Password}" Name="Subnet" ui:ControlHelper.Header="Password" />
         <Button MinWidth="100" Content="Save" Click="Button_Click" Margin="0,5" IsDefault="True" Style="{StaticResource AccentButtonStyle}"/>

@@ -30,6 +30,8 @@ namespace QuickConnect
             PreviewKeyDown += new KeyEventHandler(HandleEsc);
 
             PathTextBox.Focus();
+
+            Topmost = true;
         }
 
 

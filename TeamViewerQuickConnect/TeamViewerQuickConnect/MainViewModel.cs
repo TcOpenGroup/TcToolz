@@ -107,10 +107,10 @@ namespace QuickConnect
             UpdaterInterface.Instance.Run(new UpdaterData
             {
                 VersionFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/version.txt",
+                ReleaseNotesUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/release_notes.txt",
                 SourceFileUrl = "http://192.168.0.14:5551/TeamViewerQuickConnect/TeamViewerQuickConnect_SETUP.exe",
                 TmpFilePath = Path.GetTempPath() + @"TeamViewerQuickConnect\TeamViewerQuickConnect_SETUP.exe",
                 CurrentVersion = Utils.GetEmbeddedTextFile("VERSION"),
-                ReleaseNotes = Utils.GetEmbeddedTextFile("RELEASE_NOTES")
             });
 
             _dataService = new FileDataService();
@@ -217,8 +217,14 @@ namespace QuickConnect
             {
                 Utils.RunWithErrorHandling(() =>
                 {
-                    var selected = MainWindow.Instance.ListBox.SelectedItems.Cast<ItemWrapper>().ToList();
+                    var selected = MainWindow.Instance.ListBox1.SelectedItems.Cast<ItemWrapper>().ToList();
                     if (selected == null || selected.Count == 0)
+                    {
+                        return;
+                    }
+
+                    var res = MessageBox.Show(selected.Count > 1 ? "Delete items?" : "Delete item?", Application.ResourceAssembly.GetName().Name, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                    if (res != MessageBoxResult.Yes)
                     {
                         return;
                     }
@@ -264,7 +270,10 @@ namespace QuickConnect
 
                     GetAllItems();
 
-                    SelectedItem = newitem;
+                    var filteredItems = View.Cast<ItemWrapper>();
+                    SelectedItem = filteredItems.Where(x => x.Id == newitem.Id).FirstOrDefault();
+
+                    EditCommand.Execute(SelectedItem);
                 });
             }, (val) => SelectedItem != null);
 
@@ -315,7 +324,7 @@ namespace QuickConnect
 
                 Utils.RunWithErrorHandling(() =>
                 {
-                    var selected = MainWindow.Instance.ListBox.SelectedItems.Cast<ItemWrapper>().ToList();
+                    var selected = MainWindow.Instance.ListBox1.SelectedItems.Cast<ItemWrapper>().ToList();
                     if (selected == null || selected.Count == 0)
                     {
                         return;
@@ -399,6 +408,8 @@ namespace QuickConnect
                     d.ShowDialog();
                     Settings = Utils.Clone(d.DataContext as SettingsWrapper);
                     SaveSettings();
+
+                    MainWindow.Instance.Topmost = Settings.Topmost;
                 });
             });
 

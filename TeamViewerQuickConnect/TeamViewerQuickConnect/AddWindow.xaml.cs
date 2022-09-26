@@ -32,6 +32,8 @@ namespace QuickConnect
             PreviewKeyDown += new KeyEventHandler(HandleEsc);
 
             Name.Focus();
+
+            Topmost = true;
         }
 
         private void HandleEsc(object sender, KeyEventArgs e)

@@ -39,8 +39,8 @@
         
         <Grid Height="10"/>
 
-        <!--<CheckBox Content="Remember position" IsChecked="{Binding RememberLocation}" />-->
         <CheckBox Content="Remember size" IsChecked="{Binding RememberSize}" />
+        <CheckBox Content="Always on top" IsChecked="{Binding Topmost}" />
 
     </ui:SimpleStackPanel>
 </Window>

@@ -32,6 +32,8 @@ namespace QuickConnect
             PreviewKeyDown += new KeyEventHandler(HandleEsc);
 
             Name.Focus();
+
+            Topmost = true;
         }
 
         private void HandleEsc(object sender, KeyEventArgs e)
@@ -46,6 +48,11 @@ namespace QuickConnect
         {
             Item = DataContext as ItemWrapper;
             Close();
+        }
+
+        private void Name_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
         }
     }
 

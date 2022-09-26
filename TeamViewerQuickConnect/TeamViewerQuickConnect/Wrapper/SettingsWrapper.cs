@@ -68,5 +68,11 @@ namespace QuickConnect
             get => GetValue<bool>();
             set => SetValue(value);
         }
+
+        public bool Topmost
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
     }
 }

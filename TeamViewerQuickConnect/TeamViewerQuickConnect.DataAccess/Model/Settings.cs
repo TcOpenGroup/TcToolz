@@ -30,5 +30,6 @@ namespace QuickConnect.Data
         public double LocationY { get; set; }
         public bool RememberSize { get; set; } = true;
         public bool RememberLocation { get; set; } = true;
+        public bool Topmost { get; set; }
     }
 }
