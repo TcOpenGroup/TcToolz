@@ -135,6 +135,8 @@ namespace HmiPublisher
         public ICommand RestartAllAppsCommand { get; private set; }
         public ICommand SwitchViewCommand { get; private set; }
         public ICommand SettingsCommand { get; private set; }
+        public ICommand OpenSourceCommand { get; private set; }
+        public ICommand OpenDestinationCommand { get; private set; }
 
         public ModernWpf.ApplicationTheme? SystemTheme = ModernWpf.ApplicationTheme.Dark;
 
@@ -176,9 +178,9 @@ namespace HmiPublisher
                 {
                     Name = "PLC",
                     TargetUserName = "Administrator",
-                    TargetPass = "Password",
-                    SourcePath = @"src\hmi\OperatorPanel\bin\Debug\net48",
-                    DestinationPath = @"\\192.168.2.178\hmi\",
+                    TargetPass = "",
+                    SourcePath = @"src\hmi\OperatorPanel\bin\Release\net48",
+                    DestinationPath = @"\\192.168.2.178\hmi",
                     ExecutableFilePath = @"C:\HMI\ProjectTemplate.exe",
                     Compression = Compression.Default,
                     Include = true,
@@ -422,6 +424,42 @@ namespace HmiPublisher
 
                 }
             });
+
+            OpenSourceCommand = new DelegateCommand((obj) =>
+            {
+                try
+                {
+                    var x = _dataService.GetStorageFilePath() + Backslash + SelectedItem.SourcePath;
+                    if (!Directory.Exists(x))
+                    {
+                        MessageBox.Show("Source folder does not exists", Application.ResourceAssembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    Process.Start("explorer.exe", x);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Application.ResourceAssembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            });
+
+            OpenDestinationCommand = new DelegateCommand((obj) =>
+            {
+                try
+                {
+                    var x = SelectedItem.DestinationPath;
+                    if (!Directory.Exists(x))
+                    {
+                        MessageBox.Show("Destination folder does not exists", Application.ResourceAssembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    Process.Start("explorer.exe", SelectedItem.DestinationPath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Application.ResourceAssembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            });
         }
 
         public void ChangeTheme()
@@ -506,13 +544,7 @@ namespace HmiPublisher
                 return false;
 
             }
-            else if (item.SourcePath.Length < 5 && Settings.BuildConfiguration == BuildConfiguration.None)
-            {
-                item.ProgressMessage = "Source is required";
-                item.IsError = true;
-                return false;
-            }
-            else if (!Directory.Exists(item.FullSourcePath) && Settings.BuildConfiguration == BuildConfiguration.None)
+            else if (!Directory.Exists(item.FullSourcePath))
             {
                 item.ProgressMessage = "Source path does not exist";
                 item.IsError = true;

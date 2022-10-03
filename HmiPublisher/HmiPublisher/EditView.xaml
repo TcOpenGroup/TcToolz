@@ -22,14 +22,15 @@
         <ui:SimpleStackPanel Spacing="5" Margin="10,5,10,10">
             <TextBox
                 Text="{Binding SelectedItem.Name,UpdateSourceTrigger=PropertyChanged}"
-                ui:ControlHelper.Header="Name" />
-            
+                ui:ControlHelper.Header="Name"
+                />
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
@@ -39,10 +40,11 @@
                 <TextBox
                     Grid.Row="1"
                     Text="{Binding SelectedItem.TargetUserName,UpdateSourceTrigger=PropertyChanged}"
-                    ui:ControlHelper.Header="Username" />
-                
+                    ui:ControlHelper.Header="Username" 
+                    />
+
                 <Grid Width="10" Grid.Column="1"/>
-                
+
                 <PasswordBox 
                     Grid.Row="1" 
                     Grid.Column="2"
@@ -50,30 +52,46 @@
                     local:PasswordBoxHelper.BindPassword="true" 
                     local:PasswordBoxHelper.BoundPassword="{Binding SelectedItem.TargetPass,  
                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                
+
             </Grid>
 
-
-            <TextBox
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox
                     Text="{Binding SelectedItem.SourcePath,UpdateSourceTrigger=PropertyChanged}"
-                    ui:ControlHelper.Header="Source" />
-            
-            <TextBox
+                    ui:ControlHelper.Header="Source"
+                    ui:ControlHelper.PlaceholderText="src\templates\OP10\bin\Release\net48" 
+                    Margin="0,0,10,0"
+                    />
+                <Button Command="{Binding OpenSourceCommand}" Grid.Column="1" Content="..." MinWidth="40" VerticalAlignment="Bottom" ToolTip="Open Folder in File Explorer" />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox
                     Text="{Binding SelectedItem.DestinationPath,UpdateSourceTrigger=PropertyChanged}" 
-                    ui:ControlHelper.Header="Destination" />
+                    ui:ControlHelper.Header="Destination" 
+                    ui:ControlHelper.PlaceholderText="\\10.0.100.10\HMI" 
+                    Margin="0,0,10,0"
+                />
+                <Button Command="{Binding OpenDestinationCommand}" Grid.Column="1" Content="..." MinWidth="40" VerticalAlignment="Bottom" ToolTip="Open Folder in File Explorer" />
+            </Grid>
             
             <TextBox
                     Text="{Binding SelectedItem.ExecutableFilePath,UpdateSourceTrigger=PropertyChanged}" 
-                    ui:ControlHelper.Header="Executable Path" />
-        
+                    ui:ControlHelper.Header="Executable Path"
+                    ui:ControlHelper.PlaceholderText="C:\HMI\OP10.exe" 
+                />
+
 
             <CheckBox Content="Include" FontSize="14" VerticalContentAlignment="Center" IsChecked="{Binding SelectedItem.Include,UpdateSourceTrigger=PropertyChanged}" />
-
-            <Button Content="Save All" Command="{Binding SaveCommand}" Margin="0,5,0,0" MinWidth="100">
-                <Button.ToolTip>
-                    <ToolTip Content="Ctrl+S"/>
-                </Button.ToolTip>
-            </Button>
+      
 
         </ui:SimpleStackPanel>
     </Grid>

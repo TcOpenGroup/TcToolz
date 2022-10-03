@@ -14,7 +14,7 @@
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <local:OnlineToColorConverter x:Key="OnlineToColorConverter"/>
     </Window.Resources>
-    
+
     <Window.InputBindings>
         <KeyBinding Key="Insert"
                     Command="{Binding AddCommand}" />
@@ -37,10 +37,10 @@
         </Grid.RowDefinitions>
 
         <ui:CommandBar DefaultLabelPosition="Right" Background="Transparent" HorizontalAlignment="Left">
-            <ui:AppBarButton Icon="Add" LabelPosition="Collapsed" ToolTip="Add Item (Insert)" Command="{Binding AddCommand}" />
-            <ui:AppBarButton Icon="Remove" LabelPosition="Collapsed" ToolTip="Delete Item (Delete)" Command="{Binding DeleteCommand}" />
-            <ui:AppBarButton Icon="Copy" LabelPosition="Collapsed" ToolTip="Duplicate Item (Ctrl+D)" Command="{Binding DuplicateCommand}" />
-            <ui:AppBarButton Icon="Setting" LabelPosition="Collapsed" ToolTip="Settings" Command="{Binding SettingsCommand}" />
+            <ui:AppBarButton Icon="Add" Width="50" LabelPosition="Collapsed" ToolTip="Add Item (Insert)" Command="{Binding AddCommand}" />
+            <ui:AppBarButton Icon="Remove" Width="50" LabelPosition="Collapsed" ToolTip="Delete Item (Delete)" Command="{Binding DeleteCommand}" />
+            <ui:AppBarButton Icon="Copy" Width="50" LabelPosition="Collapsed" ToolTip="Duplicate Item (Ctrl+D)" Command="{Binding DuplicateCommand}" />
+            <ui:AppBarButton Icon="Setting" Width="50" LabelPosition="Collapsed" ToolTip="Settings" Command="{Binding SettingsCommand}" />
 
             <ui:CommandBar.SecondaryCommands>
                 <ui:AppBarButton Label="Export selected to JSON" Command="{Binding ExportCommand}" />
@@ -110,7 +110,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
-      
+
         </ui:ListView>
 
         <ui:ProgressRing IsActive="{Binding Loading}" Height="50" Width="50" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" />

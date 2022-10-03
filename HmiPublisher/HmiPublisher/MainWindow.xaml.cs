@@ -70,6 +70,9 @@ namespace HmiPublisher
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+
+            _context.SaveCommand.Execute(null);
+
             if (_context.InProgress)
             {
                 var res = MessageBox.Show("Do you want to close the app?", Title, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);

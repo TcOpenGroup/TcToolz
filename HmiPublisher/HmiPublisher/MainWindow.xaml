@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
-        Title="MainWindow" Height="560" Width="650">
+        Title="MainWindow" Height="560" Width="660">
     <Window.InputBindings>
         <KeyBinding Key="Delete"
                     Command="{Binding DeleteCommand}" 
@@ -62,101 +62,31 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <ui:CommandBar DefaultLabelPosition="Right" Background="Transparent" HorizontalAlignment="Left">
-
             <ui:AppBarButton Icon="Upload" Label="Publish" ToolTip="F5" Command="{Binding PublishCommand}" />
             <ui:AppBarButton Icon="Upload" Label="Publish All" ToolTip="F6" Command="{Binding PublishAllCommand}" />
             <ui:AppBarButton Icon="Refresh" Label="Restart" ToolTip="F7" Command="{Binding RestartAppCommand}" />
             <ui:AppBarButton Icon="Refresh" Label="Restart All" ToolTip="F8" Command="{Binding RestartAllAppsCommand}" />
             <ui:AppBarButton Icon="Cancel" Label="Cancel" ToolTip="Esc" Command="{Binding CancelCommand}" />
-            
+
             <!--<ui:CommandBar.SecondaryCommands>-->
-                <ui:AppBarButton Icon="Add" Label="Add" InputGestureText="Insert" Command="{Binding AddCommand}" />
-                <ui:AppBarButton Icon="Remove" Label="Remove" InputGestureText="Delete" Command="{Binding DeleteCommand}" />
-                <ui:AppBarButton Icon="Copy" Label="Duplicate" InputGestureText="Ctrl+D" Command="{Binding CopyCommand}" />
-                <ui:AppBarSeparator />
-                <ui:AppBarButton Icon="Save" Label="Save All" InputGestureText="Ctrl+S" Command="{Binding SaveCommand}" />
-                <ui:AppBarButton Icon="Delete" Label="Remove All" Command="{Binding DeleteAllCommand}" />
-                <ui:AppBarSeparator />
-                <ui:AppBarButton Icon="Setting" Label="Settings" InputGestureText="Ctrl+Alt+S" Command="{Binding SettingsCommand}" />
-                <ui:AppBarButton Icon="OpenFile" Label="Open Folder in File Explorer" Command="{Binding OpenFolderCommand}" />
-                <ui:AppBarButton Icon="Switch" Label="Edit / Overview" Command="{Binding ShowProgressCommand}" InputGestureText="F2" />
-                <ui:AppBarSeparator />
-                <ui:AppBarButton Icon="Help" Label="About" Click="About_Click" />
+            <ui:AppBarButton Icon="Save" Label="Save" InputGestureText="Ctrl+S" Command="{Binding SaveCommand}" />
+            <ui:AppBarButton Icon="Add" Label="Add" InputGestureText="Insert" Command="{Binding AddCommand}" />
+            <ui:AppBarButton Icon="Remove" Label="Remove" InputGestureText="Delete" Command="{Binding DeleteCommand}" />
+            <ui:AppBarButton Icon="Copy" Label="Duplicate" InputGestureText="Ctrl+D" Command="{Binding CopyCommand}" />
+            <ui:AppBarSeparator />
+            <ui:AppBarButton Icon="Delete" Label="Remove All" Command="{Binding DeleteAllCommand}" />
+            <ui:AppBarSeparator />
+            <ui:AppBarButton Icon="Setting" Label="Settings" InputGestureText="Ctrl+Alt+S" Command="{Binding SettingsCommand}" />
+            <ui:AppBarButton Icon="OpenFile" Label="Open Folder in File Explorer" Command="{Binding OpenFolderCommand}" />
+            <ui:AppBarButton Icon="Switch" Label="Edit / Overview" Command="{Binding ShowProgressCommand}" InputGestureText="F2" />
+            <ui:AppBarSeparator />
+            <ui:AppBarButton Icon="Help" Label="About" Click="About_Click" />
             <!--</ui:CommandBar.SecondaryCommands>-->
-
-    
         </ui:CommandBar>
-        
-
-
-        <!--<DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="Item">
-                    <MenuItem Command="{Binding AddCommand}" Header="Add" InputGestureText="Insert"/>
-
-                    <MenuItem Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItem}" Header="Delete" InputGestureText="Delete"/>
-
-                    <MenuItem Command="{Binding CopyCommand}" CommandParameter="{Binding SelectedItem}" Header="Copy" InputGestureText="Ctrl+D"/>
-
-                    <Separator />
-                    
-                    <MenuItem Command="{Binding SaveCommand}" Header="Save All" InputGestureText="Ctrl+S"/>
-
-                    <MenuItem Command="{Binding DeleteAllCommand}" Header="Remove All"/>
-                    <Separator />
-                    <MenuItem Command="{Binding OpenFolderCommand}" Header="Open Folder in File Explorer"/>
-                </MenuItem>
-                <MenuItem Command="{Binding SettingsCommand}" Header="Settings"/>
-
-                <MenuItem Command="{Binding PublishCommand}" Header="Publish">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="F5"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-
-                <MenuItem Command="{Binding PublishAllCommand}" Header="Publish All" InputGestureText="F6">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="F6"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-
-                <MenuItem Command="{Binding CancelCommand}" Header="Cancel" InputGestureText="F8">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="Esc"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-
-                <MenuItem Command="{Binding RestartAppCommand}" Header="Restart" InputGestureText="Ctrl+R">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="Start/Restart Application (Ctrl+R)"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-                <MenuItem Command="{Binding RestartAllAppsCommand}" Header="Restart All">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="Start/Restart All Applications"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-
-                <MenuItem Click="About_Click" Header="About">
-                    <MenuItem.ToolTip>
-                        <ToolTip Content="Start/Restart All Applications"/>
-                    </MenuItem.ToolTip>
-                </MenuItem>
-            </Menu>
-        </DockPanel>-->
-
-        <!--<ui:CommandBar
-                Background="Transparent"
-                HorizontalAlignment="Right">
-            <ui:AppBarButton Label="{Binding InProgressButtonText}" Command="{Binding ShowProgressCommand}">
-                <ui:AppBarButton.ToolTip>
-                    <ToolTip Content="F2 or DoubleClick on side panel"/>
-                </ui:AppBarButton.ToolTip>
-            </ui:AppBarButton>
-        </ui:CommandBar>-->
 
 
         <Grid Grid.Row="1">
