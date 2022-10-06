@@ -25,6 +25,7 @@ namespace Updater
                     {
                         HttpClient client = new HttpClient();
                         string ver = client.GetStringAsync(data.VersionFileUrl).Result;
+                        string relnotes = client.GetStringAsync(data.ReleaseNotesUrl).Result;
                         string currentVer = data.CurrentVersion;
                         var version = new Version(ver);
                         var currentVersion = new Version(currentVer);
@@ -34,7 +35,7 @@ namespace Updater
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 var w = new MainWindow();
-                                w.Init(new MainViewModel(data));
+                                w.Init(new MainViewModel(data, relnotes));
                                 w.ShowDialog();
                             });
                         }
@@ -42,7 +43,6 @@ namespace Updater
                     catch (Exception)
                     {
                     }
-
                 });
             }
             catch (Exception)
@@ -54,6 +54,7 @@ namespace Updater
     public struct UpdaterData
     {
         public string VersionFileUrl { get; set; }
+        public string ReleaseNotesUrl { get; set; }
         public string SourceFileUrl { get; set; }
         public string TmpFilePath { get; set; }
         public string CurrentVersion { get; set; }

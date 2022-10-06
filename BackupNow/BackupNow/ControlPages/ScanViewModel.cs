@@ -269,25 +269,44 @@ namespace BackupNow
                     }
 
 
+                    //Application.Current.Dispatcher.Invoke(() =>
+                    //{
+                    //    Message1 = "Cleaning untracked zip files ...";
+                    //});
+
+                    //foreach (var item in a)
+                    //{
+                    //    if (!b.Any(x => x == item.FileName))
+                    //    {
+                    //        try
+                    //        {
+                    //            File.Delete(item.FullPath);
+                    //        }
+                    //        catch (Exception)
+                    //        {
+                    //        }
+                    //    }
+                    //}
+
+
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        Message1 = "Cleaning untracked zip files ...";
+                        Message1 = "Copying previous backups ...";
                     });
-
-                    foreach (var item in a)
+                    foreach (var item in Items)
                     {
-                        if (!b.Any(x => x == item.FileName))
+                        ProgressMessage = item.FileName;
+
+                        var fpath = item.DestinationPath + @"\" + item.FileName + ".zip";
+                        if (File.Exists(fpath))
                         {
-                            try
+                            if (!Directory.Exists(Path.GetDirectoryName(fpath) + @"\.prev\"))
                             {
-                                File.Delete(item.FullPath);
+                                Directory.CreateDirectory(Path.GetDirectoryName(fpath) + @"\.prev\");
                             }
-                            catch (Exception)
-                            {
-                            }
+                            File.Copy(fpath, Path.GetDirectoryName(fpath) + @"\.prev\" + item.FileName + ".zip", true);
                         }
                     }
-
 
 
                     foreach (var item in Items)
@@ -304,8 +323,9 @@ namespace BackupNow
                         }
                         var rem = Items.Count - Items.IndexOf(item);
 
-                        ProgressMessage = item.FileName;
                         Message1 = "Compressing ...";
+                        ProgressMessage = item.FileName;
+                        var zipFilePath = "";
                         using (ZipFile zip = new ZipFile())
                         {
                             EventHandler<SaveProgressEventArgs> progressHandler = (o, i) =>
@@ -326,10 +346,12 @@ namespace BackupNow
                             //zip.CompressionLevel = Ionic.Zlib.CompressionLevel.None;
                             zip.AddDirectory(item.SourcePath, item.FileName);
                             zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
-                            zip.Save(item.DestinationPath + @"\" + item.FileName + ".zip");
+                            zipFilePath = item.DestinationPath + @"\" + item.FileName + ".zip";
+                            zip.Save(zipFilePath);
                         }
 
-                        var newZipFileLength = new FileInfo(item.DestinationPath + @"\" + item.FileName + ".zip").Length;
+
+                        var newZipFileLength = new FileInfo(zipFilePath).Length;
 
                         File.WriteAllLines(item.SourceFilePath, new string[] { item.NewSize.ToString(), newZipFileLength.ToString() });
 
@@ -337,6 +359,28 @@ namespace BackupNow
                         {
                             item.Progress = 100;
                         });
+                    }
+
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Message1 = "Verifying backups ...";
+                    });
+                    foreach (var item in Items)
+                    {
+                        ProgressMessage = item.FileName;
+                        var fpath = item.DestinationPath + @"\" + item.FileName + ".zip";
+                        if (!File.Exists(fpath) || !IsValidZip(fpath))
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Message1 = "Backup Failed";
+                                ProgressMessage = item.FileName + " is not valid!";
+                                InProgress = false;
+                                InvalidateCommands();
+                            });
+                            return;
+                        }
                     }
 
                     stopwatch.Stop();
@@ -349,7 +393,7 @@ namespace BackupNow
                         InvalidateCommands();
                     });
 
-                    if (settings.ShutdownWhenFinished)
+                    if (_mainViewModel.Settings.ShutdownWhenFinished)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                         {
@@ -386,7 +430,6 @@ namespace BackupNow
                     _fileCount++;
                     size += fi.Length;
                 }
-                //Thread.Sleep(1);
             }
 
             DirectoryInfo[] dis = d.GetDirectories();

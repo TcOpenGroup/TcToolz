@@ -28,7 +28,7 @@ namespace BackupNow.Model
     {
         public AppTheme Theme { get; set; } = AppTheme.System;
         public IEnumerable<BackupItem> BackupItems { get; set; } = new List<BackupItem>();
-        public bool AutoScan { get; set; } = true;
         public bool ShutdownWhenFinished { get; set; }
+        public bool RunOnStartup { get; set; } = true;
     }
 }

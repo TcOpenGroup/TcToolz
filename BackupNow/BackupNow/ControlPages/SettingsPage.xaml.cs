@@ -23,11 +23,6 @@ namespace BackupNow
             _mainViewModel.SetApplicationTheme(s.Theme);
         }
 
-        private void SaveSettingsButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            SaveSettings();
-        }
-
         private void OpenSettings_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             Utils.RunWithErrorHandling(() =>
@@ -36,7 +31,12 @@ namespace BackupNow
             });
         }
 
-        private void SaveSettings()
+        private void DataGrid_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            _mainViewModel.SaveSettings();
+        }
+
+        private void DataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
             _mainViewModel.SaveSettings();
         }

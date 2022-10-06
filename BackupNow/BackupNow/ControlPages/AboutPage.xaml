@@ -13,7 +13,7 @@
             <ui:SimpleStackPanel Margin="20,0,0,0">
                 <Label Content="Backup Now" FontSize="25"  FontWeight="SemiBold" Margin="0,0,0,3"/>
                 <Label Name="VersionLabel" Content="Version 1.0"/>
-                <Label Name="CopyrightLabel" Content="© 2022 MTS. spol.s.r.o."/>
+                <Label Name="CopyrightLabel" Content="© 2022 MTS spol.s.r.o."/>
             </ui:SimpleStackPanel>
 
         </ui:SimpleStackPanel>

@@ -38,6 +38,7 @@ namespace BackupNow
             UpdaterInterface.Instance.Run(new UpdaterData
             {
                 VersionFileUrl = "http://192.168.0.14:5551/BackupNow/version.txt",
+                ReleaseNotesUrl = "http://192.168.0.14:5551/BackupNow/release_notes.txt",
                 SourceFileUrl = "http://192.168.0.14:5551/BackupNow/BackupNow_SETUP.exe",
                 TmpFilePath = Path.GetTempPath() + @"BackupNow\BackupNow_SETUP.exe",
                 CurrentVersion = Utils.GetVersion(),

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using BackupNow.DataAccess;
+using Microsoft.Win32;
 using ModernWpf;
 using Prism.Events;
 using System;
@@ -23,7 +24,16 @@ namespace BackupNow
                 Settings = new AppSettingsWrapper(_dataService.GetAppSettings());
 
                 SetApplicationTheme(Settings.Theme);
+
+                SetStartup();
+
+                Settings.PropertyChanged += Settings_PropertyChanged;
             });
+        }
+
+        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            SaveSettings();
         }
 
         public void SaveSettings()
@@ -32,7 +42,21 @@ namespace BackupNow
             {
                 _dataService.SaveAppSettings(Settings.Model);
                 SetApplicationTheme(Settings.Theme);
+
+                SetStartup();
             });
+        }
+
+        private void SetStartup()
+        {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey
+                ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (Settings.RunOnStartup)
+                rk.SetValue("BackupNow", "\"" + System.Reflection.Assembly.GetExecutingAssembly().Location + "\"");
+            else
+                rk.DeleteValue("BackupNow", false);
+
         }
 
         public void SetApplicationTheme(Model.AppTheme theme)

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Updater
 {
@@ -15,38 +16,69 @@ namespace Updater
     {
         public UpdaterData _data { get; set; }
 
-        public MainViewModel(UpdaterData data)
+        public ICommand InstallCommand { get; private set; }
+
+
+        private bool _loading;
+        public bool Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                OnPropertyChanged(nameof(Loading));
+                InvalidateCommands();
+
+            }
+        }
+
+        public void InvalidateCommands()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                ((DelegateCommand)InstallCommand).RaiseCanExecuteChanged();
+            });
+        }
+
+
+        public MainViewModel(UpdaterData data, string relnotes)
         {
             _data = data;
 
-            Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    if (!Directory.Exists(_data.TmpFilePath))
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(_data.TmpFilePath));
-                    }
+            ReleaseNotes = relnotes;
 
-                    using (System.Net.WebClient wc = new System.Net.WebClient())
+            InstallCommand = new DelegateCommand((obj) =>
+            {
+                Loading = true;
+                Task.Factory.StartNew(() =>
+                {
+                    try
                     {
-                        try
+                        if (!Directory.Exists(_data.TmpFilePath))
                         {
-                            wc.DownloadProgressChanged += wc_DownloadProgressChanged;
-                            wc.DownloadFileCompleted += wc_DownloadFileCompleted;
-                            wc.DownloadFileAsync(new Uri(_data.SourceFileUrl), _data.TmpFilePath);
+                            Directory.CreateDirectory(Path.GetDirectoryName(_data.TmpFilePath));
                         }
-                        catch (Exception ex)
+
+                        using (System.Net.WebClient wc = new System.Net.WebClient())
                         {
-                            ProgressMessage = ex.Message;
+                            try
+                            {
+                                wc.DownloadProgressChanged += wc_DownloadProgressChanged;
+                                wc.DownloadFileCompleted += wc_DownloadFileCompleted;
+                                wc.DownloadFileAsync(new Uri(_data.SourceFileUrl), _data.TmpFilePath);
+                            }
+                            catch (Exception ex)
+                            {
+                                ProgressMessage = ex.Message;
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    ProgressMessage = ex.Message;
-                }
-            });
+                    catch (Exception ex)
+                    {
+                        ProgressMessage = ex.Message;
+                    }
+                });
+            }, (enable) => !Loading);
         }
 
         private void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -88,6 +120,17 @@ namespace Updater
 
         }
 
+        private string _releaseNotes;
+        public string ReleaseNotes
+        {
+            get { return _releaseNotes; }
+            set
+            {
+                _releaseNotes = value;
+                OnPropertyChanged(nameof(ReleaseNotes));
+            }
+        }
+
         private int _progressPercentage;
         public int ProgressPercentage
         {
@@ -98,7 +141,7 @@ namespace Updater
                 OnPropertyChanged(nameof(ProgressPercentage));
             }
         }
-        private string _percentageMessage;
+        private string _percentageMessage = "";
         public string PercentageMessage
         {
             get { return _percentageMessage; }
@@ -108,7 +151,7 @@ namespace Updater
                 OnPropertyChanged(nameof(PercentageMessage));
             }
         }
-        private string _progressMessage;
+        private string _progressMessage = "";
         public string ProgressMessage
         {
 

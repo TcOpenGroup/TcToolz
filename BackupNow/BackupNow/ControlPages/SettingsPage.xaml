@@ -21,8 +21,10 @@
         </ObjectDataProvider>
     </Page.Resources>
 
-    <ui:SimpleStackPanel Margin="12" Spacing="4">
+    <ui:SimpleStackPanel Margin="12" Spacing="5">
         <DataGrid 
+            SizeChanged="DataGrid_SizeChanged"
+            CurrentCellChanged="DataGrid_CurrentCellChanged"
                   x:Name="DataGrid"
                   HeadersVisibility="Column"
                   GridLinesVisibility="All"
@@ -30,6 +32,7 @@
                   CanUserDeleteRows="True"
                   CanUserAddRows="True"
                 MaxHeight="200"
+            Padding="0,0,0,10"
                   RowDetailsVisibilityMode="Collapsed"
                   AutoGenerateColumns="False" 
                   CanUserReorderColumns="False">
@@ -52,10 +55,11 @@
         </ComboBox>
 
         <CheckBox Content="Shutdown computer when finished" IsChecked="{Binding ShutdownWhenFinished}" />
+        <CheckBox Content="Run on startup" IsChecked="{Binding RunOnStartup}" />
 
-        <ui:SimpleStackPanel Orientation="Horizontal" Spacing="5" Margin="0,10,0,0">
+        <!--<ui:SimpleStackPanel Orientation="Horizontal" Spacing="5" Margin="0,10,0,0">
             <Button Content="Save settings" Click="SaveSettingsButton_Click" Style="{DynamicResource AccentButtonStyle}"/>
             <Button Content="Open settings" Click="OpenSettings_Click"/>
-        </ui:SimpleStackPanel>
+        </ui:SimpleStackPanel>-->
     </ui:SimpleStackPanel>
 </ui:Page>

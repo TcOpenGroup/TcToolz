@@ -23,13 +23,14 @@ namespace BackupNow
             set => SetValue(value);
         }
 
-        public bool AutoScan
+
+        public bool ShutdownWhenFinished
         {
             get => GetValue<bool>();
             set => SetValue(value);
         }
 
-        public bool ShutdownWhenFinished
+        public bool RunOnStartup
         {
             get => GetValue<bool>();
             set => SetValue(value);
