@@ -368,7 +368,10 @@ namespace BackupNow
                     });
                     foreach (var item in Items)
                     {
-                        ProgressMessage = item.FileName;
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            ProgressMessage = item.FileName;
+                        });
                         var fpath = item.DestinationPath + @"\" + item.FileName + ".zip";
                         if (!File.Exists(fpath) || !IsValidZip(fpath))
                         {
