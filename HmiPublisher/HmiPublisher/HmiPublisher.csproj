@@ -25,7 +25,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="ModernWpfUI" Version="0.9.5" />
+		<PackageReference Include="ModernWpfUI" Version="0.9.7-preview.2" />
 	</ItemGroup>
 	
 	<ItemGroup>

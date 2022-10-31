@@ -22,13 +22,11 @@
     </Window.Resources>
 
     <ui:SimpleStackPanel Margin="12">
-        <Label Content="TeamViewer FilePath"/>
-        <TextBox Text="{Binding TeamViewerPath,UpdateSourceTrigger=PropertyChanged}" Name="PathTextBox"/>
+        <TextBox ui:ControlHelper.Header="TeamViewer FilePath" Text="{Binding TeamViewerPath,UpdateSourceTrigger=PropertyChanged}" Name="PathTextBox"/>
 
         <Grid Height="5"/>
 
-        <Label Content="Theme"/>
-        <ComboBox SelectionChanged="ComboBox_SelectionChanged" HorizontalAlignment="Stretch" MinWidth="100" Grid.Column="1" ItemsSource="{Binding Source={StaticResource themeEnumProvider}}" 
+        <ComboBox ui:ControlHelper.Header="Theme" SelectionChanged="ComboBox_SelectionChanged" HorizontalAlignment="Stretch" MinWidth="100" Grid.Column="1" ItemsSource="{Binding Source={StaticResource themeEnumProvider}}" 
                     SelectedItem="{Binding Theme,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

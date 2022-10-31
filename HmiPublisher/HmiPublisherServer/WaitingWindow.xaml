@@ -41,7 +41,7 @@
             <TextBlock FontSize="40"
                                 Foreground="White"
                                 HorizontalAlignment="Center"
-                                Text="Updating visualization ..." 
+                                Text="Updating HMI ..." 
                        FontFamily="Segoe UI"/>
             <TextBlock FontSize="33"
                                 Foreground="White"

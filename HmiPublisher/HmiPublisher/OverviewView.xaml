@@ -34,7 +34,7 @@
                         <StackPanel Opacity="{Binding Path=Include, Converter={StaticResource IncludeToOpacityConverter}}">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="{Binding Name}" FontSize="16" FontWeight="Bold" />
-                                <Label Content="{Binding IpAddress}" FontSize="11" Foreground="Gray" Margin="5,0,0,2" VerticalAlignment="Bottom" FontWeight="SemiBold"/>
+                                <Label Content="{Binding IpAddress}" FontSize="10" Margin="5,0,0,2" VerticalAlignment="Bottom" FontWeight="SemiBold"/>
                             </StackPanel>
 
                         <Label Content="{Binding ProgressMessage,UpdateSourceTrigger=PropertyChanged}" FontWeight="SemiBold" Padding="0,0,0,5" FontSize="14" 

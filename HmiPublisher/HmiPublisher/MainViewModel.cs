@@ -200,7 +200,7 @@ namespace HmiPublisher
             {
                 SwitchCurrentPage(Views.Edit);
 
-                var item = new RemoteWrapper(new Remote() { Name = "---------" });
+                var item = new RemoteWrapper(new Remote());
                 Items.Add(item);
                 SelectedItem = item;
             });
