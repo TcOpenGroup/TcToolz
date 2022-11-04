@@ -103,7 +103,6 @@ namespace Updater
             }
             ProgressPercentage = 100;
             ProgressMessage = "Complete";
-            Thread.Sleep(500);
             try
             {
                 Process.Start(_data.TmpFilePath);

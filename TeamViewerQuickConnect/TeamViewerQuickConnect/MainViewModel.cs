@@ -193,7 +193,7 @@ namespace QuickConnect
 
                 try
                 {
-                    if (!Utils.PingHost("192.168.0.14"))
+                    if (!Utils.PingHost("192.168.0.171"))
                     {
                         return;
                     }
@@ -217,7 +217,7 @@ namespace QuickConnect
                         return;
                     }
 
-                    var dir = $@"\\MTSSRV14\vsextensions2\TeamViewerQuickConnect\backups\{username}\{machine}";
+                    var dir = $@"\\192.168.0.171\PrgData\QuickConnect\{username}\{machine}";
                     if (!Directory.Exists(dir))
                     {
                         Directory.CreateDirectory(dir);
