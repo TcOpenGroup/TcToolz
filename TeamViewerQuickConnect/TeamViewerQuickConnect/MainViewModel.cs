@@ -92,6 +92,7 @@ namespace QuickConnect
         public ICommand DeleteCommand { get; private set; }
         public ICommand DeleteAllCommand { get; private set; }
         public ICommand DuplicateCommand { get; private set; }
+        public ICommand OpenCommand { get; private set; }
         public ICommand EditCommand { get; private set; }
         public ICommand ExportCommand { get; private set; }
         public ICommand ImportCommand { get; private set; }
@@ -189,6 +190,43 @@ namespace QuickConnect
                         MainWindow.Instance.TextSearch1.SelectAll();
                     }
                 });
+
+                try
+                {
+                    if (!Utils.PingHost("192.168.0.14"))
+                    {
+                        return;
+                    }
+
+                    var username = Environment.UserName;
+                    var machine = Environment.MachineName;
+
+                    if (Items.Count == 0)
+                    {
+                        //var d = $@"\\192.168.0.171\PrgData\QuickConnect\{username}";
+                        //string[] files = System.IO.Directory.GetFiles(d, "*.db", SearchOption.AllDirectories);
+                        //if (files.Length == 0)
+                        //{
+                        //    return;
+                        //}
+                        //if (files.Length > 1)
+                        //{
+
+                        //}
+                        //File.Copy(files[0], Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\QuickConnect.db");
+                        return;
+                    }
+
+                    var dir = $@"\\MTSSRV14\vsextensions2\TeamViewerQuickConnect\backups\{username}\{machine}";
+                    if (!Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    File.Copy(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\TeamViewerQuickConnect\QuickConnect.db", dir + @"\QuickConnect.db");
+                }
+                catch (Exception)
+                {
+                }
             });
         }
 
@@ -318,6 +356,21 @@ namespace QuickConnect
                      }
                  });
              });
+
+            OpenCommand = new DelegateCommand((obj) =>
+            {
+                Utils.RunWithErrorHandling(() =>
+                {
+                    if (obj == null)
+                    {
+                        return;
+                    }
+
+                    SelectedItem = obj as ItemWrapper;
+
+                    Run();
+                });
+            });
 
             ExportCommand = new DelegateCommand((obj) =>
             {

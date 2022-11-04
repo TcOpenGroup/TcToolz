@@ -101,9 +101,16 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <Viewbox Grid.Column="1" Width="60">
+                        <!--<Viewbox Grid.Column="1" Width="60">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Center">
                                 <ui:AppBarButton LabelPosition="Collapsed" Icon="Edit" ToolTip="Edit (F2)" Command="{Binding ElementName=ListBox1, Path=DataContext.EditCommand}" CommandParameter="{Binding}" />
+                            </StackPanel>
+                        </Viewbox>-->
+
+                        <Viewbox Grid.Column="1" Width="62">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <ui:AppBarButton Width="35" LabelPosition="Collapsed" Icon="Play" ToolTip="Open" Command="{Binding ElementName=ListBox1, Path=DataContext.OpenCommand}" CommandParameter="{Binding}" />
+                                <ui:AppBarButton Width="35" LabelPosition="Collapsed" Icon="Edit" ToolTip="Edit (F2)" Command="{Binding ElementName=ListBox1, Path=DataContext.EditCommand}" CommandParameter="{Binding}" />
                             </StackPanel>
                         </Viewbox>
                     </Grid>
