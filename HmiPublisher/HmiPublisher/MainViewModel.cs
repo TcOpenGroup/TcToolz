@@ -320,7 +320,7 @@ namespace HmiPublisher
 
                 foreach (var item in x)
                 {
-                    if (item.ProgressPercentage < 100)
+                    if (item.ProgressPercentage < 100 && item.Include)
                     {
                         failed = true;
                     }
