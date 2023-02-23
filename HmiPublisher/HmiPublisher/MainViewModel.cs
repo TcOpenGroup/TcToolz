@@ -23,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Updater;
+using static System.Net.WebRequestMethods;
 
 namespace HmiPublisher
 {
@@ -269,7 +270,17 @@ namespace HmiPublisher
                 InProgress = true;
                 InvalidateCommands();
 
+                var failed = false;
                 await _publisher.PublishAsync(SelectedItem);
+                if (SelectedItem.ProgressPercentage < 100)
+                {
+                    failed = true;
+                }
+                if (!failed)
+                {
+                    Thread.Sleep(500);
+                    Application.Current.Shutdown();
+                }
 
                 InProgress = false;
                 InvalidateCommands();
@@ -303,8 +314,22 @@ namespace HmiPublisher
                 InProgress = true;
                 InvalidateCommands();
 
+                var failed = false;
                 var x = Items.Where(o => o.Include);
                 await _publisher.PublishAllAync(x);
+
+                foreach (var item in x)
+                {
+                    if (item.ProgressPercentage < 100)
+                    {
+                        failed = true;
+                    }
+                }
+                if (!failed)
+                {
+                    Thread.Sleep(500);
+                    Application.Current.Shutdown();
+                }
 
                 InProgress = false;
                 InvalidateCommands();
