@@ -276,7 +276,7 @@ namespace HmiPublisher
                 {
                     failed = true;
                 }
-                if (!failed)
+                if (!failed && Settings.ShutdownWhenFinished)
                 {
                     Thread.Sleep(500);
                     Application.Current.Shutdown();
@@ -325,7 +325,7 @@ namespace HmiPublisher
                         failed = true;
                     }
                 }
-                if (!failed)
+                if (!failed && Settings.ShutdownWhenFinished)
                 {
                     Thread.Sleep(500);
                     Application.Current.Shutdown();

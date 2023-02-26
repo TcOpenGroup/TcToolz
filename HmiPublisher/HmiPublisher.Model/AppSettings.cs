@@ -32,5 +32,6 @@ namespace HmiPublisher.Model
         public Compression Compression { get; set; } = Compression.Default;
         public BuildConfiguration BuildConfiguration { get; set; } = BuildConfiguration.Release;
         public AppTheme Theme { get; set; } = AppTheme.System;
+        public bool ShutdownWhenFinished { get; set; } = true;
     }
 }

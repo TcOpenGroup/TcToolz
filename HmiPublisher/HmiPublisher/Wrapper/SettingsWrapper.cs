@@ -31,5 +31,11 @@ namespace HmiPublisher
             get => GetValue<AppTheme>();
             set => SetValue(value);
         }
+
+        public bool ShutdownWhenFinished
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
     }
 }
