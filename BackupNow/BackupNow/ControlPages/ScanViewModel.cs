@@ -198,7 +198,7 @@ namespace BackupNow
                     });
 
                     var a = new List<ItemToDelete>();
-                    var b = new List<string>();
+                    //var b = new List<string>();
 
                     foreach (var backupitem in settings.BackupItems)
                     {
@@ -231,13 +231,13 @@ namespace BackupNow
                             }
 
                             var zipFileName = Path.GetFileNameWithoutExtension(f);
-                            b.Add(zipFileName);
+                            //b.Add(zipFileName);
 
                             var destZipFilePath = backupitem.Destination + @"\" + zipFileName + ".zip";
 
                             string[] lines = File.ReadAllLines(f);
                             var sourcePath = Path.GetDirectoryName(f);
-                            var dirSize = DirSize(new DirectoryInfo(sourcePath));
+                            var dirSize = DirTicks(new DirectoryInfo(sourcePath));
 
                             var lastDirSize = lines.Length > 0 ? lines[0] : "";
                             var lastZipSize = lines.Length > 1 ? lines[1] : "";
@@ -441,6 +441,20 @@ namespace BackupNow
                 size += DirSize(di);
             }
             return size;
+        }
+
+        public long DirTicks(DirectoryInfo directory)
+        {
+            //ROOT
+            DateTime latestDirChange = directory.LastWriteTimeUtc;
+
+            //FILE SYSTEM ENTRIES
+            string[] fileSystemEntries = Directory.GetFileSystemEntries(directory.FullName, "*", SearchOption.AllDirectories);
+            DateTime latestFileSystemChange = fileSystemEntries.Select(f => File.GetLastWriteTimeUtc(f)).OrderByDescending(t => t).FirstOrDefault();
+
+            //COMPARE
+            DateTime maxDt = (DateTime.Compare(latestDirChange, latestFileSystemChange) > 0) ? latestDirChange : latestFileSystemChange;
+            return maxDt.Ticks;
         }
 
         bool IsValidZip(string file)
