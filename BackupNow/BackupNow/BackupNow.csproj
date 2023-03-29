@@ -25,11 +25,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Autofac" Version="6.4.0" />
+	  <PackageReference Include="Autofac" Version="7.0.0" />
 	  <PackageReference Include="DotNetZip" Version="1.16.0" />
-	  <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
-	  <PackageReference Include="ModernWpfUI" Version="0.9.5" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
+	  <PackageReference Include="ModernWpfUI" Version="0.9.6" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="Prism.Core" Version="8.1.97" />
 	</ItemGroup>
 
