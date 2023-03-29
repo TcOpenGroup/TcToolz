@@ -12,7 +12,7 @@ namespace BackupNow.Model
         public string SourcePath { get; set; }
         public string SourceFilePath { get; set; }
         public string DestinationPath { get; set; }
-        public long NewSize { get; set; }
+        public long NewChange { get; set; }
         public int Progress { get; set; }
     }
 }

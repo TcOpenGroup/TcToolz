@@ -33,7 +33,7 @@ namespace BackupNow
             set => SetValue(value);
         }
 
-        public long NewSize
+        public long NewChange
         {
             get => GetValue<long>();
             set => SetValue(value);

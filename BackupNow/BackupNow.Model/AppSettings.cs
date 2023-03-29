@@ -22,6 +22,7 @@ namespace BackupNow.Model
         public string Source { get; set; }
         public string Destination { get; set; }
         public bool Enabled { get; set; } = true;
+        public bool IsYearFolder { get; set; }
     }
 
     public class AppSettings

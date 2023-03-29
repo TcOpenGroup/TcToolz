@@ -40,7 +40,7 @@
                 <DataGridTextColumn Header="Source (Your projects)" Width="auto" Binding="{Binding Source}" />
                 <DataGridTextColumn Header="Destination (Where to backup)" Width="*" Binding="{Binding Destination}" />
                 <DataGridCheckBoxColumn Header="Enabled" MinWidth="75" Binding="{Binding Enabled}" />
-
+                <DataGridCheckBoxColumn Header="By Years" MinWidth="75" Binding="{Binding IsYearFolder}" />
             </DataGrid.Columns>
         </DataGrid>
 
