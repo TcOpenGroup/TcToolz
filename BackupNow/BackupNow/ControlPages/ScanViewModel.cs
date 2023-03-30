@@ -67,6 +67,8 @@ namespace BackupNow
         private MainViewModel _mainViewModel;
 
         public ObservableCollection<ItemWrapper> Items { get; set; }
+        private Collection<Item> SavedItems = new Collection<Item>();
+        private Collection<Item> ProjectItems = new Collection<Item>();
 
         public ICommand RefreshCommand { get; private set; }
         public ICommand OpenFolderCommand { get; private set; }
@@ -147,11 +149,10 @@ namespace BackupNow
 
             _fileCount = 0;
 
-
-            Collection<Item> SavedItems = null;
-            Collection<Item> ProjectItems = new Collection<Item>(); ;
-
             Items.Clear();
+            SavedItems.Clear();
+            ProjectItems.Clear();
+
             InProgress = true;
             InvalidateCommands();
 
@@ -186,6 +187,7 @@ namespace BackupNow
                     {
                         Message1 = "Cleaning tmp files ...";
                     });
+
                     foreach (var backupitem in settings.BackupItems)
                     {
                         if (!backupitem.Enabled)
@@ -206,7 +208,7 @@ namespace BackupNow
                     var a = new List<ItemToDelete>();
                     //var b = new List<string>();
 
-                    //check file exists
+                    //check ProjectItems.json file exists
                     var savedItemsFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\ProjectItems.json";
                     if (File.Exists(savedItemsFile))
                     {
@@ -236,82 +238,33 @@ namespace BackupNow
                         {
                             foreach (string yearFolder in Directory.GetDirectories(backupitem.Source, "20*")) //TODO: yearPattern as parameter
                             {
-                                if (_cancelSource.IsCancellationRequested)
-                                {
-                                    Application.Current.Dispatcher.Invoke(() =>
-                                    {
-                                        Message1 = "Cancelled";
-                                        InProgress = false;
-                                        InvalidateCommands();
-                                    });
-                                    return;
-                                }
+                                ProgressMessage = yearFolder;
 
                                 var year = Path.GetFileName(yearFolder);
 
-                                Directory.CreateDirectory(backupitem.Destination + year);
+                                var destinationYearFolder = Path.Combine(backupitem.Destination, year);
+                                Directory.CreateDirectory(destinationYearFolder);
+
+                                //delete *.tmp file in year folder
+                                foreach (string sFile in Directory.GetFiles(destinationYearFolder, "*.tmp"))
+                                {
+                                    File.Delete(sFile);
+                                }
 
                                 foreach (string project in Directory.GetDirectories(yearFolder))
                                 {
-                                    //var f = project + @"\info.backupnow";
-                                    var zipFileName = Path.GetFileName(project);  //Path.GetFileNameWithoutExtension(f);
-                                                                                  //b.Add(zipFileName);
-
-                                    var destZipFilePath = backupitem.Destination + year + @"\" + zipFileName +".zip";
-
-                                    //string[] lines = File.ReadAllLines(f);
-                                    //var sourcePath = Path.GetDirectoryName(f);
-                                    var dirChange = DirTicks(new DirectoryInfo(project));
-
-                                    //var lastDirChange = lines.Length > 0 ? lines[0] : "";
-                                    //var lastZipSize = lines.Length > 1 ? lines[1] : "";
-                                    var existingZipSize = "";
-                                    var isValidExistingZipFile = false;
-                                    if (File.Exists(destZipFilePath))
+                                    if (_cancelSource.IsCancellationRequested)
                                     {
-                                        existingZipSize = new FileInfo(destZipFilePath).Length.ToString();
-                                        isValidExistingZipFile = IsValidZip(destZipFilePath);
+                                        Application.Current.Dispatcher.Invoke(() =>
+                                        {
+                                            Message1 = "Cancelled";
+                                            InProgress = false;
+                                            InvalidateCommands();
+                                        });
+                                        return;
                                     }
 
-                                    //add actual project to ProjectItems collection
-                                    ProjectItems.Add(new Item()
-                                    {
-                                        FileName = Path.GetFileName(project),
-                                        SourcePath = project,
-                                        DestinationPath = destZipFilePath, //backupitem.Destination,
-                                        NewChange = dirChange
-                                    });
-
-
-                                    //if (lastDirChange == dirChange.ToString() && existingZipFiles.Any(x => x == zipFileName) && lastZipSize == existingZipSize && isValidExistingZipFile)
-                                    //{
-                                    //    continue;
-                                    //}
-
-                                    //check if file exists in saved items
-                                    if (SavedItems != null)
-                                    {
-                                        var savedItem = SavedItems.FirstOrDefault(x => x.FileName == zipFileName);
-                                        if (savedItem != null)
-                                        {
-                                            if (savedItem.NewChange == dirChange)
-                                            {
-                                                continue;
-                                            }
-                                        }
-                                    }
-
-                                    Application.Current.Dispatcher.Invoke(() =>
-                                    {
-                                        Items.Add(new ItemWrapper(new Item()
-                                        {
-                                            FileName = Path.GetFileName(project),
-                                            SourcePath = project,
-                                            //SourceFilePath = project + @"\info.backupnow",
-                                            DestinationPath = destZipFilePath, //backupitem.Destination,
-                                            NewChange = dirChange
-                                        }));
-                                    });
+                                    ProcessBackup(project, Path.GetFileName(project), backupitem, year);
                                 }
                             }
                         }
@@ -319,6 +272,8 @@ namespace BackupNow
                         {
                             foreach (string f in Directory.EnumerateFiles(backupitem.Source, "*.backupnow", SearchOption.AllDirectories))
                             {
+                                ProgressMessage = Path.GetDirectoryName(f);
+
                                 if (_cancelSource.IsCancellationRequested)
                                 {
                                     Application.Current.Dispatcher.Invoke(() =>
@@ -330,63 +285,69 @@ namespace BackupNow
                                     return;
                                 }
 
-                                var zipFileName = Path.GetFileNameWithoutExtension(f);
-                                var destZipFilePath = Path.Combine(backupitem.Destination, zipFileName + ".zip"); 
-                                //destZipFilePath = backupitem.Destination + @"\" + zipFileName + ".zip";
+                                ProcessBackup(Path.GetDirectoryName(f), Path.GetFileNameWithoutExtension(f), backupitem, "");
 
-                                //string[] lines = File.ReadAllLines(f);
-                                var sourcePath = Path.GetDirectoryName(f);
-                                var dirChange = DirTicks(new DirectoryInfo(sourcePath));
+                                
 
-                                //var lastDirChange = lines.Length > 0 ? lines[0] : "";
-                                //var lastZipSize = lines.Length > 1 ? lines[1] : "";
-                                var existingZipSize = "";
-                                var isValidExistingZipFile = false;
-                                if (File.Exists(destZipFilePath))
-                                {
-                                    existingZipSize = new FileInfo(destZipFilePath).Length.ToString();
-                                    isValidExistingZipFile = IsValidZip(destZipFilePath);
-                                }
+                                //var zipFileName = Path.GetFileNameWithoutExtension(f);
+                                //var destZipFilePath = Path.Combine(backupitem.Destination, zipFileName + ".zip");
+                                ////destZipFilePath = backupitem.Destination + @"\" + zipFileName + ".zip";
 
-                                //add actual project to ProjectItems collection
-                                ProjectItems.Add(new Item()
-                                {
-                                    FileName = zipFileName,
-                                    SourcePath = sourcePath,
-                                    DestinationPath = destZipFilePath, //backupitem.Destination,
-                                    NewChange = dirChange
-                                });
+                                ////string[] lines = File.ReadAllLines(f);
+                                //var sourcePath = Path.GetDirectoryName(f);
+                                //var dirChange = DirTicks(new DirectoryInfo(sourcePath));
 
-
-                                //if (lastDirChange == dirChange.ToString() && existingZipFiles.Any(x => x == zipFileName) && lastZipSize == existingZipSize && isValidExistingZipFile)
+                                ////var lastDirChange = lines.Length > 0 ? lines[0] : "";
+                                ////var lastZipSize = lines.Length > 1 ? lines[1] : "";
+                                //var existingZipSize = "";
+                                //var isValidExistingZipFile = false;
+                                //if (File.Exists(destZipFilePath))
                                 //{
-                                //    continue;
+                                //    existingZipSize = new FileInfo(destZipFilePath).Length.ToString();
+                                //    isValidExistingZipFile = IsValidZip(destZipFilePath);
                                 //}
 
-                                //check if file exists in saved items
-                                if (SavedItems != null)
-                                {
-                                    var savedItem = SavedItems.FirstOrDefault(x => x.FileName == zipFileName);
-                                    if (savedItem != null)
-                                    {
-                                        if (savedItem.NewChange == dirChange)
-                                        {
-                                            continue;
-                                        }
-                                    }
-                                }
+                                ////add actual project to ProjectItems collection
+                                //ProjectItems.Add(new Item()
+                                //{
+                                //    FileName = zipFileName,
+                                //    SourcePath = sourcePath,
+                                //    DestinationPath = destZipFilePath, //backupitem.Destination,
+                                //    NewChange = dirChange
+                                //});
 
-                                Application.Current.Dispatcher.Invoke(() =>
-                                {
-                                    Items.Add(new ItemWrapper(new Item()
-                                    {
-                                        FileName = zipFileName,
-                                        SourcePath = sourcePath,
-                                        //SourceFilePath = f + @"\info.backupnow",
-                                        DestinationPath = destZipFilePath, //backupitem.Destination,
-                                        NewChange = dirChange
-                                    }));
-                                });
+                                ////get actual date time
+                                
+
+                                ////if (lastDirChange == dirChange.ToString() && existingZipFiles.Any(x => x == zipFileName) && lastZipSize == existingZipSize && isValidExistingZipFile)
+                                ////{
+                                ////    continue;
+                                ////}
+
+                                ////check if file exists in saved items
+                                //if (SavedItems != null)
+                                //{
+                                //    var savedItem = SavedItems.FirstOrDefault(x => x.SourcePath == sourcePath);
+                                //    if (savedItem != null)
+                                //    {
+                                //        if ((savedItem.NewChange == dirChange) && isValidExistingZipFile)
+                                //        {
+                                //            continue;
+                                //        }
+                                //    }
+                                //}
+
+                                //Application.Current.Dispatcher.Invoke(() =>
+                                //{
+                                //    Items.Add(new ItemWrapper(new Item()
+                                //    {
+                                //        FileName = zipFileName,
+                                //        SourcePath = sourcePath,
+                                //        //SourceFilePath = f + @"\info.backupnow",
+                                //        DestinationPath = destZipFilePath, //backupitem.Destination,
+                                //        NewChange = dirChange
+                                //    }));
+                                //});
                             }
                             
                         }
@@ -511,6 +472,10 @@ namespace BackupNow
                     }
 
                     //Save Items to json file
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Message1 = "Saving project infos ...";
+                    });
                     var json = JsonConvert.SerializeObject(ProjectItems);
                     File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\ProjectItems.json", json);
 
@@ -544,6 +509,69 @@ namespace BackupNow
                     });
                 }
             }, _cancelSource.Token);
+        }
+
+        private void ProcessBackup(string projectFolder, string zipName, BackupItem backupitem, string year)
+        {
+            //var f = project + @"\info.backupnow";
+            //var zipFileName = Path.GetFileName(project);  //Path.GetFileNameWithoutExtension(f);
+                                                            //b.Add(zipFileName);
+
+            var destZipFilePath = Path.Combine(backupitem.Destination, year, zipName + ".zip");
+            //var destZipFilePath = backupitem.Destination + year + @"\" + zipFileName + ".zip";
+            //string[] lines = File.ReadAllLines(f);
+            //var sourcePath = Path.GetDirectoryName(f);
+            var dirChange = DirTicks(new DirectoryInfo(projectFolder));
+
+            //var lastDirChange = lines.Length > 0 ? lines[0] : "";
+            //var lastZipSize = lines.Length > 1 ? lines[1] : "";
+            var existingZipSize = "";
+            var isValidExistingZipFile = false;
+            if (File.Exists(destZipFilePath))
+            {
+                existingZipSize = new FileInfo(destZipFilePath).Length.ToString();
+                isValidExistingZipFile = IsValidZip(destZipFilePath);
+            }
+
+            //add actual project to ProjectItems collection
+            ProjectItems.Add(new Item()
+            {
+                FileName = zipName,
+                SourcePath = projectFolder,
+                DestinationPath = destZipFilePath, //backupitem.Destination,
+                NewChange = dirChange
+            });
+
+            //if (lastDirChange == dirChange.ToString() && existingZipFiles.Any(x => x == zipFileName) && lastZipSize == existingZipSize && isValidExistingZipFile)
+            //{
+            //    continue;
+            //}
+
+            //check if file exists in saved items
+            if (SavedItems != null)
+            {
+                var savedItem = SavedItems.FirstOrDefault(x => x.SourcePath == projectFolder);
+                if (savedItem != null)
+                {
+                    if ((savedItem.NewChange == dirChange) && isValidExistingZipFile)
+                    {
+                        //continue
+                        return;
+                    }
+                }
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Items.Add(new ItemWrapper(new Item()
+                {
+                    FileName = zipName,
+                    SourcePath = projectFolder,
+                    //SourceFilePath = project + @"\info.backupnow",
+                    DestinationPath = destZipFilePath, //backupitem.Destination,
+                    NewChange = dirChange
+                }));
+            });
         }
 
         int _fileCount = 0;
