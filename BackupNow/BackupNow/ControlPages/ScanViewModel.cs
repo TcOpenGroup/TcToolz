@@ -444,11 +444,11 @@ namespace BackupNow
             var destZipFilePath = Path.Combine(backupitem.Destination, year, zipName + ".zip");
             var dirChange = DirTicks(new DirectoryInfo(projectFolder));
 
-            var existingZipSize = "";
+            long existingZipLastChange = 0;
             var isValidExistingZipFile = false;
             if (File.Exists(destZipFilePath))
             {
-                existingZipSize = new FileInfo(destZipFilePath).Length.ToString();
+                existingZipLastChange = new FileInfo(destZipFilePath).LastWriteTimeUtc.Ticks;
                 isValidExistingZipFile = IsValidZip(destZipFilePath);
             }
 

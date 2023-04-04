@@ -82,18 +82,21 @@
                     <DataGridTemplateColumn IsReadOnly="True" Header="Name">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=FileName}" ToolTip="{Binding Path=SourcePath}" VerticalAlignment="Center"/>
+                                <Border Padding="0,10" VerticalAlignment="Center" ToolTip="{Binding Path=SourcePath}" Background="Transparent">
+                                    <TextBlock Text="{Binding Path=FileName}" VerticalAlignment="Center" Margin="10,0"/>
+                                </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Progress" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ProgressBar Value="{Binding Progress}" Minimum="0" Maximum="100" Margin="10,0" ToolTip="{Binding Path=DestinationPath}" />
+                                <Border Padding="0,15" ToolTip="{Binding Path=DestinationPath}" Background="Transparent">
+                                    <ProgressBar Value="{Binding Progress}" Margin="10,0" Minimum="0" Maximum="100" VerticalAlignment="Center"/>
+                                </Border>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header="%" Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
