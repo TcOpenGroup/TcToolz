@@ -30,6 +30,7 @@
 	  <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
 	  <PackageReference Include="ModernWpfUI" Version="0.9.6" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	  <PackageReference Include="Pri.LongPath" Version="2.0.53" />
 	  <PackageReference Include="Prism.Core" Version="8.1.97" />
 	</ItemGroup>
 
