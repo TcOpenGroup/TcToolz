@@ -138,6 +138,7 @@ namespace HmiPublisher
         public ICommand SettingsCommand { get; private set; }
         public ICommand OpenSourceCommand { get; private set; }
         public ICommand OpenDestinationCommand { get; private set; }
+        public ICommand DownloadServerCommand { get; private set; }
 
         public ModernWpf.ApplicationTheme? SystemTheme = ModernWpf.ApplicationTheme.Dark;
 
@@ -479,6 +480,19 @@ namespace HmiPublisher
                         return;
                     }
                     Process.Start("explorer.exe", SelectedItem.DestinationPath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Application.ResourceAssembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            });
+
+
+            DownloadServerCommand = new DelegateCommand((obj) =>
+            {
+                try
+                {
+                    Process.Start("explorer.exe", "\\\\192.168.0.171\\PrgData\\Instal MTS\\MTS");
                 }
                 catch (Exception ex)
                 {
