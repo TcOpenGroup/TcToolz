@@ -83,6 +83,7 @@
             <ui:AppBarButton Icon="Setting" Label="Settings" InputGestureText="Ctrl+Alt+S" Command="{Binding SettingsCommand}" />
             <ui:AppBarButton Icon="OpenFile" Label="Open Folder in File Explorer" Command="{Binding OpenFolderCommand}" />
             <ui:AppBarButton Icon="Switch" Label="Edit / Overview" Command="{Binding ShowProgressCommand}" InputGestureText="F2" />
+            <ui:AppBarButton Icon="Download" Label="HmiPublisherServer_SETUP.exe" Command="{Binding DownloadServerCommand}" />
             <ui:AppBarSeparator />
             <ui:AppBarButton Icon="Help" Label="About" Click="About_Click" />
             <!--</ui:CommandBar.SecondaryCommands>-->
