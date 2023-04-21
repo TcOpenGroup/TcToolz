@@ -170,6 +170,14 @@ namespace BackupNow
                     Stopwatch stopwatch = new Stopwatch();
                     stopwatch.Start();
 
+                    //check ProjectItems.json file exists
+                    var projectItemsFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\ProjectItems.json";
+                    if (File.Exists(projectItemsFile))
+                    {
+                        var jsonItems = File.ReadAllText(projectItemsFile);
+                        SavedItems = JsonConvert.DeserializeObject<Collection<Item>>(jsonItems);
+                    }
+
                     foreach (var backupitem in settings.BackupItems)
                     {
                         Application.Current.Dispatcher.Invoke(() =>
@@ -177,13 +185,18 @@ namespace BackupNow
                             Message1 = "Checking destinations ...";
                             ProgressMessage = backupitem.Destination;
                         });
-                        if (!backupitem.Enabled)
+
+                        //if (!backupitem.Enabled)
+                        //{
+                        //    continue;
+                        //}
+
+                        if (backupitem.Enabled)
                         {
-                            continue;
-                        }
-                        if (!Directory.Exists(backupitem.Destination))
-                        {
-                            Directory.CreateDirectory(backupitem.Destination);
+                            if (!Directory.Exists(backupitem.Destination))
+                            {
+                                Directory.CreateDirectory(backupitem.Destination);
+                            }
                         }
                     }
 
@@ -213,20 +226,12 @@ namespace BackupNow
                     var a = new List<ItemToDelete>();
                     //var b = new List<string>();
 
-                    //check ProjectItems.json file exists
-                    var savedItemsFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\ProjectItems.json";
-                    if (File.Exists(savedItemsFile))
-                    {
-                        var jsonItems = File.ReadAllText(savedItemsFile);
-                        SavedItems = JsonConvert.DeserializeObject<Collection<Item>>(jsonItems);
-                    }
-
                     foreach (var backupitem in settings.BackupItems)
                     {
-                        if (!backupitem.Enabled)
-                        {
-                            continue;
-                        }
+                        //if (!backupitem.Enabled)
+                        //{
+                        //    continue;
+                        //}
 
                         //TODO: to delete?
                         var existingZipFiles = new List<string>();
@@ -269,9 +274,7 @@ namespace BackupNow
                                 ProgressMessage = Path.GetDirectoryName(f);
 
                                 ProcessBackup(Path.GetDirectoryName(f), Path.GetFileNameWithoutExtension(f), backupitem, "");
-
                             }
-                            
                         }
                     }
 
@@ -357,10 +360,21 @@ namespace BackupNow
                             zip.Save(zipFilePath);
                         }
 
-
-                        var newZipFileLength = new FileInfo(zipFilePath).Length;
-
+                        //var newZipFileLength = new FileInfo(zipFilePath).Length;
                         //File.WriteAllLines(item.SourceFilePath, new string[] { item.NewChange.ToString(), newZipFileLength.ToString() });
+
+                        //add actual project to ProjectItems collection
+                        ProjectItems.Add(new Item()
+                        {
+                            FileName = item.FileName,
+                            SourcePath = item.SourcePath,
+                            DestinationPath = item.DestinationPath,
+                            NewChange = item.NewChange
+                        });
+
+                        //Save Items to json file
+                        var json = JsonConvert.SerializeObject(ProjectItems);
+                        File.WriteAllText(projectItemsFile, json);
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
@@ -392,14 +406,6 @@ namespace BackupNow
                             return;
                         }
                     }
-
-                    //Save Items to json file
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        Message1 = "Saving project infos ...";
-                    });
-                    var json = JsonConvert.SerializeObject(ProjectItems);
-                    File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\BackupNow\ProjectItems.json", json);
 
                     stopwatch.Stop();
 
@@ -447,7 +453,13 @@ namespace BackupNow
             }
 
             var destZipFilePath = Path.Combine(backupitem.Destination, year, zipName + ".zip");
-            var dirChange = DirTicks(new DirectoryInfo(projectFolder));
+            long dirChange = 0;
+            
+            if (backupitem.Enabled)
+            {
+                dirChange = DirTicks(new DirectoryInfo(projectFolder));
+            }
+            
 
             long existingZipLastChange = 0;
             var isValidExistingZipFile = false;
@@ -456,15 +468,7 @@ namespace BackupNow
                 existingZipLastChange = new FileInfo(destZipFilePath).LastWriteTimeUtc.Ticks;
                 isValidExistingZipFile = IsValidZip(destZipFilePath);
             }
-
-            //add actual project to ProjectItems collection
-            ProjectItems.Add(new Item()
-            {
-                FileName = zipName,
-                SourcePath = projectFolder,
-                DestinationPath = destZipFilePath,
-                NewChange = dirChange
-            });
+            
 
             //if (lastDirChange == dirChange.ToString() && existingZipFiles.Any(x => x == zipFileName) && lastZipSize == existingZipSize && isValidExistingZipFile)
             //{
@@ -477,23 +481,38 @@ namespace BackupNow
                 var savedItem = SavedItems.FirstOrDefault(x => x.SourcePath == projectFolder);
                 if (savedItem != null)
                 {
-                    if ((savedItem.NewChange == dirChange) && isValidExistingZipFile)
+                    if (!backupitem.Enabled)
                     {
+                        ProjectItems.Add(savedItem);
+                    }
+                    else if ((savedItem.NewChange == dirChange) && isValidExistingZipFile)
+                    {
+                        ProjectItems.Add(new Item()
+                        {
+                            FileName = zipName,
+                            SourcePath = projectFolder,
+                            DestinationPath = destZipFilePath,
+                            NewChange = dirChange
+                        });
+
                         return;
                     }
                 }
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
+            if (backupitem.Enabled)
             {
-                Items.Add(new ItemWrapper(new Item()
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    FileName = zipName,
-                    SourcePath = projectFolder,
-                    DestinationPath = destZipFilePath,
-                    NewChange = dirChange
-                }));
-            });
+                    Items.Add(new ItemWrapper(new Item()
+                    {
+                        FileName = zipName,
+                        SourcePath = projectFolder,
+                        DestinationPath = destZipFilePath,
+                        NewChange = dirChange
+                    }));
+                });
+            }
         }
 
         int _fileCount = 0;
