@@ -4,8 +4,10 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HmiPublisherServer
 {
@@ -90,7 +92,10 @@ namespace HmiPublisherServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show("1" + "   " + ex.Message);
+                var st = new StackTrace(ex, true);
+                var frame = st.GetFrame(0);
+                var line = frame.GetFileLineNumber();
+                MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().Name + " - " + line);
             }
         }
         async void ShowProgressAsync()
@@ -156,7 +161,10 @@ namespace HmiPublisherServer
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    var st = new StackTrace(ex, true);
+                    var frame = st.GetFrame(0);
+                    var line = frame.GetFileLineNumber();
+                    MessageBox.Show(ex.Message, MethodBase.GetCurrentMethod().Name + " - " + line);
                     break;
                 }
             }
