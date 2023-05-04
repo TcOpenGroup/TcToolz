@@ -10,5 +10,10 @@ namespace BackupNow
             InitializeComponent();
             DataContext = Bootstrapper.Container.Resolve<ScanViewModel>();
         }
+
+        private void DataGridTextColumn_Opened(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }
