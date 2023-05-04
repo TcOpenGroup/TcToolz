@@ -278,6 +278,7 @@ namespace BackupNow
 
                                 foreach (string project in Directory.GetDirectories(yearFolder))
                                 {
+                                    ProgressMessage = project;
                                     ProcessBackup(project, Path.GetFileName(project), backupitem, year);
                                 }
                             }
