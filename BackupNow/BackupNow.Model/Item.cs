@@ -14,5 +14,10 @@ namespace BackupNow.Model
         public string DestinationPath { get; set; }
         public long NewChange { get; set; }
         public int Progress { get; set; }
+
+        public override string ToString()
+        {
+            return "Source: " + SourcePath + " Destination: " + DestinationPath;
+        }
     }
 }

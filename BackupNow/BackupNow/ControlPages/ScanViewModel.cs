@@ -19,6 +19,9 @@ using Directory = Pri.LongPath.Directory;
 using DirectoryInfo = Pri.LongPath.DirectoryInfo;
 using File = Pri.LongPath.File;
 using FileInfo = Pri.LongPath.FileInfo;
+using Windows.Media.Protection.PlayReady;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights;
 
 namespace BackupNow
 {
@@ -79,6 +82,12 @@ namespace BackupNow
         public ICommand OpenFolderCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
 
+        private readonly TelemetryClient _client;
+        public TelemetryClient GetClient()
+        {
+            return _client;
+        }
+
         public ScanViewModel()
         {
             _mainViewModel = Bootstrapper.Container.Resolve<MainViewModel>();
@@ -137,6 +146,12 @@ namespace BackupNow
                     }
                 }
             });
+
+            //telemetry
+            TelemetryConfiguration config = TelemetryConfiguration.CreateDefault();
+            //config.InstrumentationKey="be89ed1e-dc15-4b6e-a5c3-4fa1d35be616";
+            config.ConnectionString = "InstrumentationKey=be89ed1e-dc15-4b6e-a5c3-4fa1d35be616;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/";
+            _client = new TelemetryClient(config);
         }
 
 
@@ -435,7 +450,15 @@ namespace BackupNow
                         ProgressMessage = ex.Message;
                         InvalidateCommands();
                     });
+
+                    _client.TrackException(ex);
                 }
+                finally
+                {
+                    _client.Flush();
+                    //Task.Delay(5000).Wait();
+                }
+
             }, _cancelSource.Token);
         }
 
@@ -504,13 +527,24 @@ namespace BackupNow
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Items.Add(new ItemWrapper(new Item()
+                    var item = new Item()
                     {
                         FileName = zipName,
                         SourcePath = projectFolder,
                         DestinationPath = destZipFilePath,
                         NewChange = dirChange
-                    }));
+                    };
+
+                    Items.Add(new ItemWrapper(item));
+
+                    //telemetry
+                    IDictionary<string, string> properties = new Dictionary<string, string>();
+                    properties.Add("FileName", item.FileName);
+                    properties.Add("SourcePath", item.SourcePath);
+                    properties.Add("DestinationPath", item.DestinationPath);
+                    properties.Add("NewChange", item.NewChange.ToString());
+                    //_client.TrackEvent("BackupItem", properties);
+                    _client.TrackTrace(item.ToString(), properties);
                 });
             }
         }

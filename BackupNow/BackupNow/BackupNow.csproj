@@ -28,6 +28,7 @@
 	  <PackageReference Include="Autofac" Version="7.0.0" />
 	  <PackageReference Include="DotNetZip" Version="1.16.0" />
 	  <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
+	  <PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
 	  <PackageReference Include="ModernWpfUI" Version="0.9.6" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="Pri.LongPath" Version="2.0.53" />
